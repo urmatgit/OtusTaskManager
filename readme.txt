@@ -1,1 +1,1 @@
-New Project
+New .NET Project
