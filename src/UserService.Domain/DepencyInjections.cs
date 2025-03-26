@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UserService.Domain.Entities
+namespace UserService.DataAccess
 {
-    public abstract class BaseEntity
+    public static class DepencyInjections
     {
-        public Guid Guid { get; set; }
     }
 }
