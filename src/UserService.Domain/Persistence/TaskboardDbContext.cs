@@ -9,16 +9,18 @@ using UserService.DataAccess.Entities.Identity;
 
 namespace UserService.DataAccess.Persistence
 {
-    public class UserServiceDbContext: DbContext
+    public class TaskboardDbContext: DbContext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Project> Projects { get; set; }
-        public UserServiceDbContext(DbContextOptions<UserServiceDbContext> dbContextOptions): base(dbContextOptions)
+        public TaskboardDbContext(DbContextOptions<TaskboardDbContext> dbContextOptions): base(dbContextOptions)
         {
             
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //добавляем конфиграции 
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(TaskboardDbContext).Assembly);
             base.OnModelCreating(modelBuilder);
         }
     }
