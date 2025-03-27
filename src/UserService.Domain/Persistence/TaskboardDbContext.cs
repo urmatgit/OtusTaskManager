@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UserService.DataAccess.Entities;
-using UserService.DataAccess.Entities.Identity;
 
 namespace UserService.DataAccess.Persistence
 {

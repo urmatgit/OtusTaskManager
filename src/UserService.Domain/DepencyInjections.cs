@@ -7,12 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using UserService.DataAccess.Persistence;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 
 namespace UserService.DataAccess
 {
     public static class DepencyInjections
     {
-        public static IServiceCollection AddPersistance(this IServiceCollection services, ConfigurationManager configuration)
+        public static IServiceCollection AddPersistance(this IServiceCollection services, Microsoft.Extensions.Configuration.ConfigurationManager configuration)
         {
             services.AddDbContext<TaskboardDbContext>(options =>
             {

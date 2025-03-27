@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UserService.DataAccess.Enums;
-using UserService.DataAccess.Entities;
 
-namespace UserService.DataAccess.Entities.Identity
+namespace UserService.DataAccess.Entities
 {
     public class User : BaseEntity
     {
@@ -30,7 +29,10 @@ namespace UserService.DataAccess.Entities.Identity
         public string Phone { get; set; }
 
         public byte[] Avator { get; set; }
-        public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<UserProject> UserProjects { get; set; }
+
+        public string RefreshToken { get; set; }
+        public DateTime? RefreshTokenExpiry { get; set; }
 
     }
 

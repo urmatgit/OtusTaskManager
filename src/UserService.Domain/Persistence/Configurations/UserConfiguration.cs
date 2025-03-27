@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UserService.DataAccess.Entities.Identity;
+using UserService.DataAccess.Entities;
 
 namespace UserService.DataAccess.Persistence.Configurations
 {
@@ -16,12 +16,16 @@ namespace UserService.DataAccess.Persistence.Configurations
             builder.Property(x => x.FirstName).IsRequired().HasMaxLength(50);
             builder.Property(x => x.LastName).IsRequired().HasMaxLength(50);
             builder.Property(x => x.Patronymic).HasMaxLength(50);
-            builder.Property(x => x.Role).IsRequired();
-            builder.Property(x=>x.Status).IsRequired();
+            builder.Property(x => x.Role)
+                .HasConversion<string>()
+                .IsRequired();
+            builder.Property(x=>x.Status)
+                .HasConversion<string>()
+                .IsRequired();
             builder.Property(x => x.Email).IsRequired().HasMaxLength(100);
             builder.Property(x => x.Phone).IsRequired().HasMaxLength(20);
-            //One-To-Many
-            builder.HasMany(p=>p.Projects).WithOne(u=>u.User).HasForeignKey(u=>u.UserId);
+            
+            
         }
     }
 }
