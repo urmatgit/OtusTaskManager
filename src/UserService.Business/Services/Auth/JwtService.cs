@@ -3,18 +3,30 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Runtime;
 using System.Security.Claims;
 using System.Text;
+using UserService.DataAccess.DTOs.Auth;
 using UserService.DataAccess.Entities;
 
-namespace UserService.Api.Authentication
+namespace UserService.Business.Services.Auth
 {
-    public class JwtTokenGeneratorService : IJwtTokenGeneratorService
+    public class JwtService : IJwtService
     {
         private readonly JwtSettings _settings;
-        public JwtTokenGeneratorService(JwtSettings jwtSettings)
+        public JwtService(JwtSettings jwtSettings)
         {
             _settings = jwtSettings;
         }
-        public string GeneratorToken(User user)
+
+        public AuthResponse GenerateAuthResponse(User user)
+        {
+            var token = GeneratorToken(user);
+            return new AuthResponse(
+                token,
+                DateTime.UtcNow.AddMinutes(_settings.ExpiryMinutes),
+                user.UserName,
+                user.Role.ToString());
+        }
+
+        private string GeneratorToken(User user)
         {
             var claims = new[]
         {

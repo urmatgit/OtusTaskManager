@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using UserService.DataAccess.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
+using UserService.DataAccess.Persistence.Repositories;
 
 namespace UserService.DataAccess
 {
@@ -20,6 +21,8 @@ namespace UserService.DataAccess
                 options.UseNpgsql(configuration.GetConnectionString("TaskboardDb"));
 
             });
+
+            services.AddScoped<IUserRepository, UserRepository>();
             return services;
         }
     }

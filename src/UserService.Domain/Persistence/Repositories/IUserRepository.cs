@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UserService.DataAccess.Common;
+using UserService.DataAccess.Entities;
+
+namespace UserService.DataAccess.Persistence.Repositories
+{
+    public interface IUserRepository: IRepository<User>
+    {
+        Task<User?> FindByUserEmailAsync(string email);
+        Task<User?> FindByUserNameAsync(string userName);
+        Task<User?> FindByUserUserAndEmailAsync(string email,string userName);
+        Task<Result<User>> AddAsync(User user);
+        Task<bool> ExistsAsync(string email);
+    }
+}

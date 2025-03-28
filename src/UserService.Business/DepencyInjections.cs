@@ -1,0 +1,60 @@
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+
+using System.Configuration;
+using UserService.Business.Services.Auth;
+using UserService.DataAccess.Entities;
+using UserService.DataAccess.Persistence.Repositories;
+using Microsoft.Extensions.Options;
+
+
+namespace UserService.Business
+{
+    public static class DepencyInjections
+    {
+        public static IServiceCollection AddBusiness(this IServiceCollection services, Microsoft.Extensions.Configuration.ConfigurationManager configuration)
+        {
+            //
+            
+            return services;
+        }
+        /// <summary>
+        /// все зависимости связанные с авторизацией
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddAuth(this IServiceCollection services, Microsoft.Extensions.Configuration.ConfigurationManager configuration)
+        {
+            var jwtSettings = new JwtSettings();
+            configuration.Bind(JwtSettings.SectionName, jwtSettings);
+            services.AddSingleton(Options.Create(jwtSettings));
+            services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
+
+            services.AddScoped<IUserAuthService, UserAuthService>();
+            services.AddSingleton<IPasswordHasher, PasswordHasher>();
+            services.AddSingleton<IJwtService, JwtService>();
+            services.AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options => options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = jwtSettings.Issuer,
+                    ValidAudience = jwtSettings.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret))
+                });
+
+            return services;
+        }
+    }
+}
