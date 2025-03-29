@@ -19,7 +19,7 @@ namespace UserService.DataAccess.Entities
         /// <summary>
         /// владелец проекта, администратор проекта, пользователь проекта, редактор проекта
         /// </summary>
-        public ProjectRole Role { get; set; }
+        public ProjectRole Role { get; set; } = ProjectRole.User;
         /// <summary>
         /// активен, отключён
         /// </summary>

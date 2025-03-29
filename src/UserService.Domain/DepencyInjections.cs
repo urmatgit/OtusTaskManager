@@ -9,6 +9,7 @@ using UserService.DataAccess.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 using UserService.DataAccess.Persistence.Repositories;
+using UserService.DataAccess.Persistence.Data;
 
 namespace UserService.DataAccess
 {
@@ -16,6 +17,8 @@ namespace UserService.DataAccess
     {
         public static IServiceCollection AddPersistance(this IServiceCollection services, Microsoft.Extensions.Configuration.ConfigurationManager configuration)
         {
+            // если установлен локальный postgrsql server
+
             //services.AddDbContext<TaskboardDbContext>(options =>
             //{
             //    options.UseNpgsql(configuration.GetConnectionString("TaskboardDb"));
@@ -23,6 +26,8 @@ namespace UserService.DataAccess
             //});
 
             //services.AddScoped<IUserRepository, UserRepository>();
+            //services.AddScoped<IDbInitializer, TaskboardDbInitializer>();
+            //для теста 
             services.AddSingleton<IUserRepository, UserMemRepository>();
 
             return services;

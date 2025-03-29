@@ -14,6 +14,8 @@ using UserService.Business.Services.Auth;
 using UserService.DataAccess.Entities;
 using UserService.DataAccess.Persistence.Repositories;
 using Microsoft.Extensions.Options;
+using UserService.DataAccess.Enums;
+using UserService.DataAccess.Common;
 
 
 namespace UserService.Business
@@ -50,16 +52,28 @@ namespace UserService.Business
         //}
         services.AddAuthorization(options =>
             {
-                options.AddPolicy("RequireAdminRole", policy =>
-                    policy.RequireRole("Admin"));
+                foreach(var role in  Enum.GetNames(typeof(ProjectRole)))
+                {
+                    if (role == GlobalConstantes .AdminName)
+                    {
+                        options.AddPolicy($"Require{role}Role", policy =>
+                            policy.RequireRole($"{role}"));
+                    }else
+                    {
+                        options.AddPolicy($"Require{role}Role", policy =>
+                        policy.RequireRole($"{role}", GlobalConstantes.AdminName));
+                    }
+                }
+                //options.AddPolicy("RequireAdminRole", policy =>
+                //    policy.RequireRole("Admin"));
 
-                options.AddPolicy("RequireUserRole", policy =>
-                    policy.RequireRole("User", "Admin"));
+                //options.AddPolicy("RequireUserRole", policy =>
+                //    policy.RequireRole("User", "Admin"));
 
-                options.AddPolicy("RequireOwnerRole", policy =>
-                    policy.RequireRole("Owner", "Admin"));
-                options.AddPolicy("RequireEditorRole", policy =>
-                    policy.RequireRole("Editor", "Admin"));
+                //options.AddPolicy("RequireOwnerRole", policy =>
+                //    policy.RequireRole("Owner", "Admin"));
+                //options.AddPolicy("RequireEditorRole", policy =>
+                //    policy.RequireRole("Editor", "Admin"));
             });
 
             services.AddScoped<IUserAuthService, UserAuthService>();
