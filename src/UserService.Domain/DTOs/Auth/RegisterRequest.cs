@@ -11,6 +11,7 @@ namespace UserService.DataAccess.DTOs.Auth
     public record RegisterRequest(
     [Required] string Username,
     [Required, EmailAddress] string Email,
+    [Required, MinLength(10)] string Phone,
     [Required, MinLength(6)] string Password,
     ProjectRole Role = ProjectRole.User);
 }

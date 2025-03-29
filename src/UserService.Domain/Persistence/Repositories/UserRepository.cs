@@ -33,6 +33,8 @@ namespace UserService.DataAccess.Persistence.Repositories
         {
             try
             {
+                if (user.Id==Guid.Empty)
+                    user.Id = Guid.NewGuid();   
                 await _context.Users.AddAsync(user);
             }
             catch (Exception ex)

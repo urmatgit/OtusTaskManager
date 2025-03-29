@@ -16,13 +16,15 @@ namespace UserService.DataAccess
     {
         public static IServiceCollection AddPersistance(this IServiceCollection services, Microsoft.Extensions.Configuration.ConfigurationManager configuration)
         {
-            services.AddDbContext<TaskboardDbContext>(options =>
-            {
-                options.UseNpgsql(configuration.GetConnectionString("TaskboardDb"));
+            //services.AddDbContext<TaskboardDbContext>(options =>
+            //{
+            //    options.UseNpgsql(configuration.GetConnectionString("TaskboardDb"));
 
-            });
+            //});
 
-            services.AddScoped<IUserRepository, UserRepository>();
+            //services.AddScoped<IUserRepository, UserRepository>();
+            services.AddSingleton<IUserRepository, UserMemRepository>();
+
             return services;
         }
     }

@@ -39,6 +39,29 @@ namespace UserService.Business
             services.AddSingleton(Options.Create(jwtSettings));
             services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
 
+
+            // Configure Authorization
+        //    public enum ProjectRole
+        //{
+        //    Owner,
+        //    Admin,
+        //    User,
+        //    Editor
+        //}
+        services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdminRole", policy =>
+                    policy.RequireRole("Admin"));
+
+                options.AddPolicy("RequireUserRole", policy =>
+                    policy.RequireRole("User", "Admin"));
+
+                options.AddPolicy("RequireOwnerRole", policy =>
+                    policy.RequireRole("Owner", "Admin"));
+                options.AddPolicy("RequireEditorRole", policy =>
+                    policy.RequireRole("Editor", "Admin"));
+            });
+
             services.AddScoped<IUserAuthService, UserAuthService>();
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
             services.AddSingleton<IJwtService, JwtService>();

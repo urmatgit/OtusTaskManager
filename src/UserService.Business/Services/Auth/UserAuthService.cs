@@ -43,7 +43,8 @@ namespace UserService.Business.Services.Auth
             {
                 UserName = request.Username,
                 Email = request.Email,
-                Role = request.Role
+                Role = request.Role,
+                Phone=request.Phone
             };
 
             user.PasswordHash = _passwordHasher.Hash(request.Password);
@@ -56,7 +57,7 @@ namespace UserService.Business.Services.Auth
         {
             var user = await _userRepository.FindByUserNameAsync(request.Username);
              if(user is null)
-                 Result<AuthResponse>.Failure("Invalid credentials");
+               return  Result<AuthResponse>.Failure("Invalid credentials");
 
             if (!_passwordHasher.Verify( request.Password,user.PasswordHash))
                 return Result<AuthResponse>.Failure("Invalid credentials");

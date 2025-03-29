@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Runtime;
 using System.Security.Claims;
@@ -11,9 +12,9 @@ namespace UserService.Business.Services.Auth
     public class JwtService : IJwtService
     {
         private readonly JwtSettings _settings;
-        public JwtService(JwtSettings jwtSettings)
+        public JwtService(IOptions<JwtSettings> jwtOptions)
         {
-            _settings = jwtSettings;
+            _settings = jwtOptions.Value;
         }
 
         public AuthResponse GenerateAuthResponse(User user)
@@ -31,7 +32,7 @@ namespace UserService.Business.Services.Auth
             var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-            new Claim(JwtRegisteredClaimNames.UniqueName, user.FirstName),
+            new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
             new Claim(JwtRegisteredClaimNames.Email, user.Email),
             new Claim(JwtRegisteredClaimNames.PhoneNumber, user.Phone),
             new Claim(ClaimTypes.Role, user.Role.ToString())
