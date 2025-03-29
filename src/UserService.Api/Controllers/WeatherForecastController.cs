@@ -20,6 +20,7 @@ namespace UserService.Api.Controllers
             _logger = logger;
         }
 
+       // [Authorize(Policy = "AdminRole")]
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
