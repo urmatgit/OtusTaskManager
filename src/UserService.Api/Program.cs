@@ -49,7 +49,8 @@ namespace UserService.Api
                     app.UseSwagger();
                     app.UseSwaggerUI();
                 }
-                await app.Services.InitializeDatabasesAsync();
+                //Только при работы с базой 
+                //await app.Services.InitializeDatabasesAsync();
                 app.UseHttpsRedirection();
 
 
