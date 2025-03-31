@@ -21,19 +21,19 @@ namespace UserService.DataAccess
         {
             // если установлен локальный postgrsql server
 
-            services.AddDbContext<TaskboardDbContext>(options =>
-            {
-                options.UseNpgsql(configuration.GetConnectionString("TaskboardDb"));
+            //services.AddDbContext<TaskboardDbContext>(options =>
+            //{
+            //    options.UseNpgsql(configuration.GetConnectionString("TaskboardDb"));
 
-            });
+            //});
 
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IProjectRepsitory, ProjectRepository>();
-            services.AddScoped<IDbInitializer, TaskboardDbInitializer>();
+            //services.AddScoped<IUserRepository, UserRepository>();
+            //services.AddScoped<IProjectRepsitory, ProjectRepository>();
+            //services.AddScoped<IDbInitializer, TaskboardDbInitializer>();
             
             //для теста 
 
-            //            services.AddSingleton<IUserRepository, UserMemRepository>();
+                        services.AddSingleton<IUserRepository, UserMemRepository>();
 
             return services;
         }
