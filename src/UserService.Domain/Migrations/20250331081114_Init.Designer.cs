@@ -12,7 +12,7 @@ using UserService.DataAccess.Persistence;
 namespace UserService.DataAccess.Migrations
 {
     [DbContext(typeof(TaskboardDbContext))]
-    [Migration("20250329200917_Init")]
+    [Migration("20250331081114_Init")]
     partial class Init
     {
         /// <inheritdoc />

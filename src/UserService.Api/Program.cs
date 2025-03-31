@@ -7,7 +7,7 @@ namespace UserService.Api
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var configuration = new ConfigurationBuilder()
 
@@ -49,7 +49,7 @@ namespace UserService.Api
                     app.UseSwagger();
                     app.UseSwaggerUI();
                 }
-
+                await app.Services.InitializeDatabasesAsync();
                 app.UseHttpsRedirection();
 
 
