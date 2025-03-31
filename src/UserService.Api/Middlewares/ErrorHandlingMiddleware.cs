@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Text.Json;
 
 namespace UserService.Api.Middlewares
@@ -6,9 +7,11 @@ namespace UserService.Api.Middlewares
     public class ErrorHandlingMiddleware
     {
         private readonly RequestDelegate _next;
-        public ErrorHandlingMiddleware(RequestDelegate next)
+        private readonly ILogger<ErrorHandlingMiddleware> _logger;
+        public ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger)
         {
             _next = next;
+            _logger = logger;
         }
         public async Task Invoke(HttpContext context)
         {
@@ -18,6 +21,7 @@ namespace UserService.Api.Middlewares
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"{ex}. Request failed with Status Code {(int)HttpStatusCode.InternalServerError}");
                 await HandleExceptionAsync(context, ex);
             }
         }
@@ -28,6 +32,8 @@ namespace UserService.Api.Middlewares
             var result = JsonSerializer.Serialize(new { error = $"An error occured while processing your request.\n{ex.Message}" });
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)code;
+            
+            
             return context.Response.WriteAsync(result);
         }
     }

@@ -15,14 +15,16 @@ namespace UserService.Api.Controllers
         private readonly IUserAuthService _userService;
         private readonly IValidator<RegisterRequest> _registerValidator;
         private readonly IValidator<LoginRequest> _loginValidator;
-
+        private readonly ILogger<AuthController> _logger;
         public AuthController(IUserAuthService userService,
             IValidator<RegisterRequest> registerValidator,
-        IValidator<LoginRequest> loginValidator)
+        IValidator<LoginRequest> loginValidator
+            ,ILogger<AuthController> logger)
         {
             _userService = userService;
             _registerValidator = registerValidator;
             _loginValidator = loginValidator;
+            _logger = logger;
         }
 
         [HttpPost("register")]
@@ -32,6 +34,7 @@ namespace UserService.Api.Controllers
             if (!validationResult.IsValid)
                 return BadRequest(validationResult.ToDictionary());
             var response = await _userService.RegisterAsync(request);
+            _logger.LogInformation($"Register new user {response.Value.Username}");
             return Ok(response);
         }
 
