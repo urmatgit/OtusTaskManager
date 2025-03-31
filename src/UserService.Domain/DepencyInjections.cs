@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 using UserService.DataAccess.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
-using UserService.DataAccess.Persistence.Repositories;
 using UserService.DataAccess.Persistence.Data;
+using UserService.DataAccess.Persistence.Repositories.Auth;
+using UserService.DataAccess.Persistence.Repositories;
+using UserService.DataAccess.Entities;
 
 namespace UserService.DataAccess
 {
@@ -26,6 +28,7 @@ namespace UserService.DataAccess
             //});
 
             //services.AddScoped<IUserRepository, UserRepository>();
+            //services.AddScoped<IProjectRepsitory, ProjectRepository>();
             //services.AddScoped<IDbInitializer, TaskboardDbInitializer>();
             //для теста 
             services.AddSingleton<IUserRepository, UserMemRepository>();

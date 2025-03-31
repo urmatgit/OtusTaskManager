@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using UserService.DataAccess.Common;
 using UserService.DataAccess.DTOs.Auth;
 using UserService.DataAccess.Entities;
-using UserService.DataAccess.Persistence.Repositories;
+using UserService.DataAccess.Persistence.Repositories.Auth;
 
 namespace UserService.Business.Services.Auth
 {
