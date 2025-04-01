@@ -17,5 +17,6 @@ namespace UserService.DataAccess.Persistence
         Task UpdateAsync(T entity);
 
         Task DeleteAsync(T entity);
+        Task SaveChangesAsync();
     }
 }

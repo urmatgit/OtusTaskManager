@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using UserService.DataAccess.Entities;
 
-namespace UserService.DataAccess.Persistence.Repositories
+namespace UserService.DataAccess.Persistence.Repositories.Entities
+
 {
-    public class ProjectRepository : BaseRepository<Project>,IProjectRepsitory
+    public class ProjectRepository : BaseRepository<Project>, IProjectRepsitory
     {
         public ProjectRepository(TaskboardDbContext dataContext) : base(dataContext)
         {

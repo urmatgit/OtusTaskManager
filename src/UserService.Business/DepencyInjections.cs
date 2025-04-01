@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-
+using FluentValidation;
 using System.Configuration;
 using UserService.Business.Services.Auth;
 using UserService.DataAccess.Entities;
@@ -16,6 +16,9 @@ using UserService.DataAccess.Persistence.Repositories;
 using Microsoft.Extensions.Options;
 using UserService.DataAccess.Enums;
 using UserService.DataAccess.Common;
+using System.Reflection;
+using MediatR;
+using UserService.Business.Application.Common;
 
 
 namespace UserService.Business
@@ -24,8 +27,12 @@ namespace UserService.Business
     {
         public static IServiceCollection AddBusiness(this IServiceCollection services, Microsoft.Extensions.Configuration.ConfigurationManager configuration)
         {
+            //посредник
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
             //
-            
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             return services;
         }
         /// <summary>

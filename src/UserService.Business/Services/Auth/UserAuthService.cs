@@ -5,6 +5,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using UserService.DataAccess.Common;
+using UserService.DataAccess.Common.Errors;
 using UserService.DataAccess.DTOs.Auth;
 using UserService.DataAccess.Entities;
 using UserService.DataAccess.Persistence.Repositories.Auth;
@@ -30,13 +31,13 @@ namespace UserService.Business.Services.Auth
         public async Task<Result<AuthResponse>> RegisterAsync(RegisterRequest request)
         {
             if (await _userRepository.ExistsAsync(request.Email))
-                return Result<AuthResponse>.Failure("Email already exists");
+                return Result<AuthResponse>.Failure(Errors.Authentication.EmailAlreadyExists);
             
 
             var userExist = await _userRepository.FindByUserNameAsync(request.Username);
                 if (userExist != null)
             {
-                return Result<AuthResponse>.Failure("Username already exists");
+                return Result<AuthResponse>.Failure(Errors.Authentication.UsernameAlreadyExists);
                 
             }
             var user = new User
@@ -57,10 +58,10 @@ namespace UserService.Business.Services.Auth
         {
             var user = await _userRepository.FindByUserNameAsync(request.Username);
              if(user is null)
-               return  Result<AuthResponse>.Failure("Invalid credentials");
+               return  Result<AuthResponse>.Failure(Errors.Authentication.InvalidCredentials);
 
             if (!_passwordHasher.Verify( request.Password,user.PasswordHash))
-                return Result<AuthResponse>.Failure("Invalid credentials");
+                return Result<AuthResponse>.Failure(Errors.Authentication.InvalidCredentials);
             
 
             return Result<AuthResponse>.Success(_jwtService.GenerateAuthResponse(user));

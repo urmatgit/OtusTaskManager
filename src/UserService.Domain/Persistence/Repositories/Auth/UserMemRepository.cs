@@ -73,5 +73,10 @@ namespace UserService.DataAccess.Persistence.Repositories.Auth
                 user = entity;
             }
         }
+
+        public async Task SaveChangesAsync()
+        {
+             await Task.FromResult(0);
+        }
     }
 }

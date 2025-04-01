@@ -23,10 +23,14 @@ namespace UserService.Api
                 var builder = WebApplication.CreateBuilder(args);
                 //logger
 
-
+                
 
                 builder.Logging.AddSerilog();
+               
                 Log.Information("Starting up");
+                //Handling Validation Exceptions in Pipeline
+                builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+                builder.Services.AddProblemDetails();
                 // Add services to the container.
 
                 builder.Services.AddControllers();
@@ -42,7 +46,8 @@ namespace UserService.Api
                 builder.Services.AddBusiness(builder.Configuration);
 
                 var app = builder.Build();
-                app.UseMiddleware<ErrorHandlingMiddleware>();
+                app.UseExceptionHandler();
+                // app.UseMiddleware<ErrorHandlingMiddleware>();
                 // Configure the HTTP request pipeline.
                 if (app.Environment.IsDevelopment())
                 {

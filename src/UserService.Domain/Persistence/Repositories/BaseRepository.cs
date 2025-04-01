@@ -19,14 +19,14 @@ namespace UserService.DataAccess.Persistence.Repositories
         {
             await _dataContext.Set<T>()
                 .AddAsync(entity);
-            await _dataContext.SaveChangesAsync();
+            
         }
 
         public async Task DeleteAsync(T entity)
         {
             _dataContext.Set<T>()
                 .Remove(entity);
-            await _dataContext.SaveChangesAsync();
+            
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
@@ -46,9 +46,14 @@ namespace UserService.DataAccess.Persistence.Repositories
             return entity;
         }
 
-        public async Task UpdateAsync(T entity)
+        public async Task SaveChangesAsync()
         {
             await _dataContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(T entity)
+        {
+              await Task.FromResult(_dataContext.Set<T>().Update(entity));
         }
     }
 }

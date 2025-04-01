@@ -7,7 +7,7 @@ using UserService.DataAccess.Entities;
 
 namespace UserService.DataAccess.Persistence.Repositories
 {
-    public interface IProjectRepsitory:IRepository<Project>
+    public interface IProjectRepsitory : IRepository<Project>
     {
     }
 }

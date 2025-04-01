@@ -15,6 +15,7 @@ namespace UserService.DataAccess.Persistence.Configurations
         {
             builder.Property(x => x.Name).IsRequired().HasMaxLength(100);
             builder.Property(x => x.Created).IsRequired();
+            builder.Property(x=>x.UserId).IsRequired();
             
         }
     }
