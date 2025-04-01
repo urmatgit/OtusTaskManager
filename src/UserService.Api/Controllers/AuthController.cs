@@ -33,6 +33,9 @@ namespace UserService.Api.Controllers
             if (!validationResult.IsValid)
                 return BadRequest(validationResult.ToDictionary());
             var response = await _userService.RegisterAsync(request);
+            if (response.IsFailure) {
+                return BadRequest(response.Error);
+            }
             _logger.LogInformation($"Register new user {response.Value.Username}");
             return Ok(response);
         }
@@ -44,6 +47,10 @@ namespace UserService.Api.Controllers
             if (!validationResult.IsValid)
                 return BadRequest(validationResult.ToDictionary());
             var response = await _userService.LoginAsync(request);
+            if (response.IsFailure)
+            {
+                return BadRequest(response.Error);
+            }
             return Ok(response);
         }
     }

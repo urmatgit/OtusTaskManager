@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserService.Business.Services.Auth;
 using UserService.DataAccess.Entities;
 using UserService.DataAccess.Persistence.Repositories;
 
@@ -12,9 +13,11 @@ namespace UserService.Business.Application.Projects.Commands.CreateProject
     public class CreateProjectHandler : IRequestHandler<CreateProjectCommand, ProjectResponse>
     {
         private readonly IProjectRepsitory _projectRepository;
-        public CreateProjectHandler(IProjectRepsitory projectRepsitory)
+        private readonly ICurrentUser _curentUser;
+        public CreateProjectHandler(IProjectRepsitory projectRepsitory,ICurrentUser curentUser)
         {
             _projectRepository = projectRepsitory;
+            _curentUser = curentUser;
         }
         public async Task<ProjectResponse> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
         {
@@ -22,8 +25,8 @@ namespace UserService.Business.Application.Projects.Commands.CreateProject
             {
                 Id=Guid.NewGuid(),
                 Name=request.name,
-                UserId=request.UserId,
-                Created=DateTime.Now,
+                UserId=_curentUser.GetUserId(),
+                Created=DateTime.UtcNow,
             };
             await _projectRepository.AddAsync(project);
             await _projectRepository.SaveChangesAsync();

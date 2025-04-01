@@ -2,7 +2,7 @@
 using UserService.DataAccess.DTOs.Auth;
 
 
-namespace UserService.Api.Validators.Auth
+namespace UserService.Business.Application.Auth.Validators
 {
     public class LoginRequestValidator : AbstractValidator<LoginRequest>
     {
@@ -12,5 +12,5 @@ namespace UserService.Api.Validators.Auth
             RuleFor(x => x.Password).NotEmpty();
         }
     }
-    
+
 }

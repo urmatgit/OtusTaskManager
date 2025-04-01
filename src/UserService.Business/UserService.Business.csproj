@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Application\Projects\Queries\" />
-    <Folder Include="Features\Auth\" />
   </ItemGroup>
 
   <ItemGroup>

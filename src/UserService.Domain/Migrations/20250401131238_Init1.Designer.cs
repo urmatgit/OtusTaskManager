@@ -12,8 +12,8 @@ using UserService.DataAccess.Persistence;
 namespace UserService.DataAccess.Migrations
 {
     [DbContext(typeof(TaskboardDbContext))]
-    [Migration("20250331081114_Init")]
-    partial class Init
+    [Migration("20250401131238_Init1")]
+    partial class Init1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,7 +32,7 @@ namespace UserService.DataAccess.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -47,6 +47,8 @@ namespace UserService.DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Projects");
                 });
 
@@ -57,11 +59,10 @@ namespace UserService.DataAccess.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<byte[]>("Avator")
-                        .IsRequired()
                         .HasColumnType("bytea");
 
-                    b.Property<DateTime>("DateRegistration")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("DateReg")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -83,7 +84,6 @@ namespace UserService.DataAccess.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Patronymic")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
@@ -93,11 +93,10 @@ namespace UserService.DataAccess.Migrations
                         .HasColumnType("character varying(20)");
 
                     b.Property<string>("RefreshToken")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("RefreshTokenExpiry")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Role")
                         .IsRequired()
@@ -132,6 +131,17 @@ namespace UserService.DataAccess.Migrations
                     b.HasIndex("ProjectId");
 
                     b.ToTable("UserProject");
+                });
+
+            modelBuilder.Entity("UserService.DataAccess.Entities.Project", b =>
+                {
+                    b.HasOne("UserService.DataAccess.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("UserService.DataAccess.Entities.UserProject", b =>

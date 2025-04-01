@@ -8,5 +8,6 @@ using UserService.DataAccess.Entities;
 
 namespace UserService.Business.Application.Projects.Commands.CreateProject
 {
-    public record CreateProjectCommand(  string name, Guid UserId): IRequest<ProjectResponse>;
+    public record CreateProjectCommand(  string name): IRequest<ProjectResponse>;
+ 
 }

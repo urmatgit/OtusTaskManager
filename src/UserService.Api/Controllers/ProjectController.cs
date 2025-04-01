@@ -1,12 +1,14 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using UserService.Business.Application.Projects.Commands.CreateProject;
 
 namespace UserService.Api.Controllers
 {
     [Route("api/[controller]")]
-    
+    [Authorize]
     public class ProjectController : ApiController
     {
         private readonly ISender _sender;
@@ -17,6 +19,7 @@ namespace UserService.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProject(CreateProjectCommand command)
         {
+            
             var createResponse=await _sender.Send(command);
             return Ok(createResponse);
         }

@@ -29,7 +29,7 @@ namespace UserService.DataAccess.Persistence.Repositories.Auth
         public async Task AddAsync(User user)
         {
 
-            user.Id = Guid.NewGuid();
+            
             _users.Add(user);
 
         }

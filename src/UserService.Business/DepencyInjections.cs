@@ -86,6 +86,7 @@ namespace UserService.Business
             services.AddScoped<IUserAuthService, UserAuthService>();
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
             services.AddSingleton<IJwtService, JwtService>();
+            services.AddTransient<ICurrentUser, CurrentUser>();
             services.AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                 {

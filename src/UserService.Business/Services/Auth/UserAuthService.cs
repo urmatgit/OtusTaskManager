@@ -42,16 +42,23 @@ namespace UserService.Business.Services.Auth
             }
             var user = new User
             {
+                Id=Guid.NewGuid(),
                 UserName = request.Username,
+                FirstName=request.FirstNama,
+                LastName=request.LastNama,
                 Email = request.Email,
                 Role = request.Role,
-                Phone=request.Phone
+                Phone=request.Phone,
+                DateReg=DateTime.UtcNow
             };
 
             user.PasswordHash = _passwordHasher.Hash(request.Password);
+            var token = _jwtService.GenerateAuthResponse(user);
+            user.RefreshToken = token.Token;
+            user.RefreshTokenExpiry = token.Expiration;
             await _userRepository.AddAsync(user);
-
-            return Result<AuthResponse> .Success( _jwtService.GenerateAuthResponse(user));
+            await _userRepository.SaveChangesAsync();
+            return Result<AuthResponse> .Success(token);
         }
 
         public async Task<Result<AuthResponse>> LoginAsync(LoginRequest request)

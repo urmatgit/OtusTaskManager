@@ -11,7 +11,7 @@ namespace UserService.Business.Application.Projects.Commands.CreateProject
     {
         public CreateMenuCommandValidator() { 
             RuleFor(x=>x.name).NotEmpty().MaximumLength(100);
-            RuleFor(x => x.UserId).NotNull().NotEmpty();
+            //RuleFor(x => x.UserId).NotNull().NotEmpty();
             
         }
     }

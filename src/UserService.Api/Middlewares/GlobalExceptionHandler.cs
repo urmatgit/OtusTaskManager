@@ -11,6 +11,7 @@ namespace UserService.Api.Middlewares
             {
                 Instance = httpContext.Request.Path
             };
+           
             if (exception is FluentValidation.ValidationException fluentException)
             {
                 problemDetails.Title = "one or more validation errors occurred.";
@@ -26,8 +27,10 @@ namespace UserService.Api.Middlewares
             else
             {
                 problemDetails.Title = exception.Message;
+                problemDetails.Detail = exception.InnerException?.Message;
             }
             logger.LogError("{ProblemDetailsTitle}", problemDetails.Title);
+            logger.LogError("{ProblemDetails}", problemDetails.Detail);
 
             problemDetails.Status = httpContext.Response.StatusCode;
             await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken).ConfigureAwait(false);

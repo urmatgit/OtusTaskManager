@@ -8,6 +8,6 @@ using System.Threading.Tasks;
 namespace UserService.DataAccess.DTOs.Auth
 {
     public record LoginRequest(
-    [Required] string Username,
-    [Required] string Password);
+    string Username,
+     string Password);
 }

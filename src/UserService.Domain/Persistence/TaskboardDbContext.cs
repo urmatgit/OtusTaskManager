@@ -16,6 +16,10 @@ namespace UserService.DataAccess.Persistence
         {
             
         }
+        static TaskboardDbContext()
+        {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //добавляем конфиграции 

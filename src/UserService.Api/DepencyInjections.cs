@@ -22,7 +22,7 @@ namespace UserService.Api
             public static IServiceCollection AddApi(this IServiceCollection services, Microsoft.Extensions.Configuration.ConfigurationManager configuration)
         {
             //
-               services.AddValidatorsFromAssemblyContaining<Program>();
+               //services.AddValidatorsFromAssemblyContaining<Program>();
             return services;
         }
     }
