@@ -10,7 +10,7 @@ using UserService.DataAccess.Persistence.Repositories;
 
 namespace UserService.Business.Application.Projects.Commands.CreateProject
 {
-    public class CreateProjectHandler : IRequestHandler<CreateProjectCommand, ProjectResponse>
+    public class CreateProjectHandler : IRequestHandler<CreateProjectRequest, ProjectResponse>
     {
         private readonly IProjectRepsitory _projectRepository;
         private readonly ICurrentUser _curentUser;
@@ -19,7 +19,7 @@ namespace UserService.Business.Application.Projects.Commands.CreateProject
             _projectRepository = projectRepsitory;
             _curentUser = curentUser;
         }
-        public async Task<ProjectResponse> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
+        public async Task<ProjectResponse> Handle(CreateProjectRequest request, CancellationToken cancellationToken)
         {
             var project=new Project()
             {

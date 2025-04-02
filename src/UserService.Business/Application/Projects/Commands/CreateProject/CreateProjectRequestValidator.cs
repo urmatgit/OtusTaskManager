@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace UserService.Business.Application.Projects.Commands.CreateProject
 {
-    public class CreateMenuCommandValidator: AbstractValidator<CreateProjectCommand>
+    public class CreateProjectRequestValidator: AbstractValidator<CreateProjectRequest>
     {
-        public CreateMenuCommandValidator() { 
+        public CreateProjectRequestValidator() { 
             RuleFor(x=>x.name).NotEmpty().MaximumLength(100);
             //RuleFor(x => x.UserId).NotNull().NotEmpty();
             

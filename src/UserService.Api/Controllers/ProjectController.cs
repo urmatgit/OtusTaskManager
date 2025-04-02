@@ -17,7 +17,7 @@ namespace UserService.Api.Controllers
             _sender = sender;    
         }
         [HttpPost]
-        public async Task<IActionResult> CreateProject(CreateProjectCommand command)
+        public async Task<IActionResult> CreateProject(CreateProjectRequest command)
         {
             
             var createResponse=await _sender.Send(command);

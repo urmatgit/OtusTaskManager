@@ -18,12 +18,12 @@ COPY ["UserService.Api/UserService.Api.csproj", "UserService.Api/"]
 RUN dotnet restore "./UserService.Api/UserService.Api.csproj"
 COPY . .
 WORKDIR "/src/UserService.Api"
-RUN dotnet build "./UserService.Api.csproj" -c %BUILD_CONFIGURATION% -o /app/build
+RUN dotnet build "./UserService.Api.csproj" -c %BUILD_CONFIGURATION% -o /app/build --no-restore
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./UserService.Api.csproj" -c %BUILD_CONFIGURATION% -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./UserService.Api.csproj" -c %BUILD_CONFIGURATION% -o /app/publish /p:UseAppHost=false --no-restore --no-build
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
