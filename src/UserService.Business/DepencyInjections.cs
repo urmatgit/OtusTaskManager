@@ -18,7 +18,9 @@ using UserService.DataAccess.Enums;
 using UserService.DataAccess.Common;
 using System.Reflection;
 using MediatR;
-using UserService.Business.Application.Common;
+using MapsterMapper;
+using Mapster;
+using UserService.Business.Common;
 
 
 namespace UserService.Business
@@ -33,6 +35,7 @@ namespace UserService.Business
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            services.AddMapping();
             return services;
         }
         /// <summary>
@@ -99,6 +102,16 @@ namespace UserService.Business
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret))
                 });
 
+            return services;
+        }
+        //Mapper  MapsterMapper
+        public static IServiceCollection AddMapping(this IServiceCollection services)
+
+        {
+            var config = TypeAdapterConfig.GlobalSettings;
+            config.Scan(Assembly.GetExecutingAssembly());
+            services.AddSingleton(config);
+            services.AddScoped<IMapper, ServiceMapper>();
             return services;
         }
     }

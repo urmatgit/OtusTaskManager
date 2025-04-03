@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UserService.Business.Application.Common
+namespace UserService.Business.Common
 {
     //Pipline 
     public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
@@ -37,7 +37,7 @@ namespace UserService.Business.Application.Common
                     .ToList();
 
                 if (failures.Count > 0)
-                    throw new FluentValidation.ValidationException(failures);
+                    throw new ValidationException(failures);
             }
             return await next().ConfigureAwait(false);
 

@@ -29,7 +29,7 @@ namespace UserService.DataAccess.Persistence.Repositories
             
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
             var entities = await _dataContext.Set<T>()
                 .AsNoTracking()

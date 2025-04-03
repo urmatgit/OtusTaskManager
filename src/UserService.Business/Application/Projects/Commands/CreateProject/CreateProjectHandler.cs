@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using MapsterMapper;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +13,14 @@ namespace UserService.Business.Application.Projects.Commands.CreateProject
 {
     public class CreateProjectHandler : IRequestHandler<CreateProjectRequest, ProjectResponse>
     {
-        private readonly IProjectRepsitory _projectRepository;
+        private readonly IProjectRepository _projectRepository;
         private readonly ICurrentUser _curentUser;
-        public CreateProjectHandler(IProjectRepsitory projectRepsitory,ICurrentUser curentUser)
+        private readonly IMapper _mapper;
+        public CreateProjectHandler(IProjectRepository projectRepsitory,ICurrentUser curentUser,IMapper mapper)
         {
             _projectRepository = projectRepsitory;
             _curentUser = curentUser;
+            _mapper = mapper;
         }
         public async Task<ProjectResponse> Handle(CreateProjectRequest request, CancellationToken cancellationToken)
         {
@@ -31,7 +34,7 @@ namespace UserService.Business.Application.Projects.Commands.CreateProject
             await _projectRepository.AddAsync(project);
             await _projectRepository.SaveChangesAsync();
 
-            return  new ProjectResponse(project.Id,project.Name,project.Created,project.UserId);
+            return  _mapper.Map<ProjectResponse>(project);  // new ProjectResponse(project.Id,project.Name,project.Created,project.UserId);
         }
     }
 }

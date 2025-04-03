@@ -29,7 +29,7 @@ namespace UserService.DataAccess
             });
 
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IProjectRepsitory, ProjectRepository>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IDbInitializer, TaskboardDbInitializer>();
 
             //для теста 
