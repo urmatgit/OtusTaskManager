@@ -31,6 +31,7 @@ namespace UserService.Business.Application.Projects.Commands.DeleteProject
                 return false;
             }
              await _projectRepository.DeleteAsync(projectExist);
+            await _projectRepository.SaveChangesAsync();
             return true;
                  
         }

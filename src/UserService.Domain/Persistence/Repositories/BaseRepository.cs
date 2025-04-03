@@ -22,7 +22,7 @@ namespace UserService.DataAccess.Persistence.Repositories
             
         }
 
-        public async Task DeleteAsync(T entity)
+        public virtual async Task DeleteAsync(T entity)
         {
             _dataContext.Set<T>()
                 .Remove(entity);

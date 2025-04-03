@@ -13,7 +13,15 @@ namespace UserService.DataAccess.Persistence.Repositories.Entities
     {
         public ProjectRepository(TaskboardDbContext dataContext) : base(dataContext)
         { }
-            public override async Task<IEnumerable<Project>> GetAllAsync()
+
+
+        public override async Task DeleteAsync(Project entity)
+        {
+            entity.IsDeleted = true;
+             await Task.FromResult(_dataContext.Set<Project>().Update(entity));
+            //return base.DeleteAsync(entity);
+        }
+        public override async Task<IEnumerable<Project>> GetAllAsync()
         {
             var entities = await _dataContext.Set<Project>()
                 .AsNoTracking()
