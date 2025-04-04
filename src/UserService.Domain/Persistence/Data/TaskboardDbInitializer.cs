@@ -20,7 +20,7 @@ namespace UserService.DataAccess.Persistence.Data
         public async Task InitializeDb()
         {
             //_dataContext.Database.EnsureDeleted();
-            //_dataContext.Database.EnsureCreated();
+            //await _dataContext.Database.EnsureCreatedAsync();
             // если есть миграция 
             if (_dataContext.Database.GetPendingMigrations().Any())
             {
