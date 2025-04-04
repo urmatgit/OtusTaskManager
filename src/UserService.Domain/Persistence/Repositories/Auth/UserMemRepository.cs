@@ -78,5 +78,10 @@ namespace UserService.DataAccess.Persistence.Repositories.Auth
         {
              await Task.FromResult(0);
         }
+
+        public Task<PaginationResponse<User>> GetAllAsync(int pageIndex, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

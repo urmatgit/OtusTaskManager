@@ -7,9 +7,10 @@ using UserService.DataAccess.DTOs.Auth;
 
 namespace UserService.Api.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
     [AllowAnonymous]
-    public class AuthController : ApiController
+    public class AuthController : ControllerBase
     {
         private readonly IUserAuthService _userService;
         private readonly IValidator<RegisterRequest> _registerValidator;

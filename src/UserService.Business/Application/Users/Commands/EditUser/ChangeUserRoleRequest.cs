@@ -6,9 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using UserService.DataAccess.Common;
 using UserService.DataAccess.Entities;
+using UserService.DataAccess.Enums;
 
-namespace UserService.Business.Application.Projects.Commands.CreateProject
+namespace UserService.Business.Application.Users.Commands.EditUser
 {
-    public record CreateProjectRequest(  string name): IRequest<Result<ProjectResponse>>;
- 
+    public record ChangeUserRoleRequest(Guid userid,ProjectRole Role):IRequest<Result<UserResponse>>;
+    
 }

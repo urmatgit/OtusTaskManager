@@ -15,19 +15,27 @@ namespace UserService.Api.Controllers
     [Authorize]
     public class ProjectController : ApiController
     {
-        private readonly ISender _sender;
-        public ProjectController(ISender sender)
-        {
-            _sender = sender;    
-        }
+
         /// <summary>
         /// Получаем все проектек, кроме удаленных
         /// </summary>
+        /// <param name="request"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetProjects()
+        public async Task<IActionResult> GetProjectsAsync(GetProjectsRequest request)
         {
-            var result = await _sender.Send(new GetProjectsRequest());
+            var result = await Mediator.Send(request);
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Получаем все проектек, кроме удаленных, через номера старицы и userid
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("bypage")]
+        public async Task<IActionResult> GetProjectsAsync(GetProjectsRequestByPage request)
+        {
+            var result = await Mediator.Send(request);
             return Ok(result);
         }
         /// <summary>
@@ -36,13 +44,13 @@ namespace UserService.Api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetProjects(Guid id)
+        public async Task<IActionResult> GetProjectsAsync(Guid id)
         {
-            var result = await _sender.Send(new GetProjectByIdRequest(id)) ;
-            if (result == null) { 
+            var result = await Mediator.Send(new GetProjectByIdRequest(id)) ;
+            if (result.IsFailure) { 
                 return NotFound();
             }
-            return Ok(result);
+            return Ok(result.Value);
         }
         /// <summary>
         /// создание проекта
@@ -50,11 +58,15 @@ namespace UserService.Api.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> CreateProject(CreateProjectRequest request)
+        public async Task<IActionResult> CreateProjectAsync(CreateProjectRequest request)
         {
             
-            var createResponse=await _sender.Send(request);
-            return Ok(createResponse);
+            var createResponse=await Mediator.Send(request);
+            if (createResponse.IsFailure)
+            {
+                return BadRequest(createResponse.Error);
+            }
+            return Ok(createResponse.Value);
         }
         /// <summary>
         /// Изменить
@@ -62,10 +74,14 @@ namespace UserService.Api.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<IActionResult> UpdateProject(UpdateProjectRequest request)
+        public async Task<IActionResult> UpdateProjectAsync(UpdateProjectRequest request)
         {
-            var response = await _sender.Send(request);
-            return Ok(response);
+            var response = await Mediator.Send(request);
+            if (response.IsFailure)
+            {
+                return NotFound(response.Error);
+            }
+            return Ok(response.Value);
         }
         /// <summary>
         /// Удалить
@@ -73,10 +89,14 @@ namespace UserService.Api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteProject(Guid id)
+        public async Task<IActionResult> DeleteProjectAsync(Guid id)
         {
-            var response = await _sender.Send(new DeleteProjectRequest(id));
-            return Ok(response);
+            var response = await Mediator.Send(new DeleteProjectRequest(id));
+            if (response.IsFailure)
+            {
+                return NotFound(response.Error);
+            }
+            return Ok(response.Value);
         }
     }
 }

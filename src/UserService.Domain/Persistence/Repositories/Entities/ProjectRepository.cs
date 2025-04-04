@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserService.DataAccess.Common;
 using UserService.DataAccess.Entities;
 
 namespace UserService.DataAccess.Persistence.Repositories.Entities
@@ -14,21 +15,23 @@ namespace UserService.DataAccess.Persistence.Repositories.Entities
         public ProjectRepository(TaskboardDbContext dataContext) : base(dataContext)
         { }
 
-
-        public override async Task DeleteAsync(Project entity)
+        public async Task<PaginationResponse<Project>> GetAllAsync(int pageIndex, int pageSize, Guid? userId)
         {
-            entity.IsDeleted = true;
-             await Task.FromResult(_dataContext.Set<Project>().Update(entity));
-            //return base.DeleteAsync(entity);
-        }
-        public override async Task<IEnumerable<Project>> GetAllAsync()
-        {
-            var entities = await _dataContext.Set<Project>()
+            var dbSet = _dataContext.Set<Project>();
+            var count = await dbSet.Where(x => !x.IsDeleted).CountAsync();
+            var quary =  dbSet
                 .AsNoTracking()
-                .Where(x=>!x.IsDeleted)
+                .Include(x => x.UserProjects)
+                //если берем все проекты которые участвует заданный юзер
+                .Where(x => !x.IsDeleted );
+            //если userid задан тогда еще 1 условия добавляем
+            if (userId is not null){
+                quary = quary.Where(x=> x.UserId == userId || x.UserProjects.Any(y => y.UserId == userId));
+            }
+            var data = await quary
+                .PaginateBy<Project>(pageIndex, pageSize)
                 .ToListAsync();
-
-            return entities;
+            return new PaginationResponse<Project>(data, count, pageIndex, pageSize);
         }
     }
     

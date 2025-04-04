@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserService.Business.Common.Interfaces;
 
 namespace UserService.Business.Application.Projects
 {
-    public record ProjectResponse(Guid id,string name,DateTime create,Guid owner);
+    public record ProjectResponse(Guid id,string name,DateTime create,Guid owner): IDto;
     
 }

@@ -1,14 +1,16 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserService.DataAccess.Common;
 using UserService.DataAccess.Persistence.Repositories;
 
 namespace UserService.Business.Application.Projects.Queries.GetById
 {
-    public class GetProjectByIdRequestHandler : IRequestHandler<GetProjectByIdRequest, ProjectResponse>
+    public class GetProjectByIdRequestHandler : IRequestHandler<GetProjectByIdRequest, Result< ProjectResponse>>
     {
         private readonly IProjectRepository _projectRepository;
 
@@ -18,13 +20,13 @@ namespace UserService.Business.Application.Projects.Queries.GetById
         {
              _projectRepository = projectRepsitory;
         }
-        public async Task<ProjectResponse> Handle(GetProjectByIdRequest request, CancellationToken cancellationToken)
+        public async Task<Result<ProjectResponse>> Handle(GetProjectByIdRequest request, CancellationToken cancellationToken)
         {
             var project = await _projectRepository.GetByIdAsync(request.id);
             if (project == null) {
-                return default(ProjectResponse);
+                return Result<ProjectResponse>.Failure($"Project Not found. ({request.id}) ");
             }
-            return new ProjectResponse(project.Id, project.Name, project.Created, project.UserId);
+            return Result < ProjectResponse >.Success( new ProjectResponse(project.Id, project.Name, project.Created, project.UserId));
         }
     }
 }

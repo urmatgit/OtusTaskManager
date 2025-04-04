@@ -9,6 +9,6 @@ using UserService.DataAccess.Common;
 
 namespace UserService.Business.Application.Projects.Queries.GetAll
 {
-    public record GetProjectsRequest(): IRequest<List<ProjectResponse>>;
+    public record GetProjectsRequestByPage(int pageIndex ,int pageSize, Guid? userid=null): IRequest<PaginationResponse<ProjectResponse>>;
     
 }

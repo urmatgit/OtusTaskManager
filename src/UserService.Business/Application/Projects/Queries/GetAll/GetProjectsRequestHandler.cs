@@ -9,21 +9,23 @@ using UserService.DataAccess.Persistence.Repositories;
 
 namespace UserService.Business.Application.Projects.Queries.GetAll
 {
+    //все проекты
     public class GetProjectsRequestHandler : IRequestHandler<GetProjectsRequest, List<ProjectResponse>>
     {
         private readonly IProjectRepository _projectRepository;
         private readonly IMapper _mapper;
-        public GetProjectsRequestHandler(IProjectRepository projectRepsitory,IMapper mapper) { 
+        public GetProjectsRequestHandler(IProjectRepository projectRepsitory, IMapper mapper)
+        {
             _projectRepository = projectRepsitory;
             _mapper = mapper;
         }
         public async Task<List<ProjectResponse>> Handle(GetProjectsRequest request, CancellationToken cancellationToken)
         {
+
             var result = await _projectRepository.GetAllAsync();
-            if (result == null) { 
-                return  new List<ProjectResponse>();
-            }
-            var projects=_mapper.Map<List<ProjectResponse>>(result);
+
+            var projects = _mapper.Map<List<ProjectResponse>>(result);
+
             return projects;
         }
     }

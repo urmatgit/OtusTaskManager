@@ -1,17 +1,19 @@
 ﻿using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UserService.Business.Services.Auth;
+using UserService.DataAccess.Common;
 using UserService.DataAccess.Entities;
 using UserService.DataAccess.Persistence.Repositories;
 
 namespace UserService.Business.Application.Projects.Commands.CreateProject
 {
-    public class CreateProjectHandler : IRequestHandler<CreateProjectRequest, ProjectResponse>
+    public class CreateProjectHandler : IRequestHandler<CreateProjectRequest, Result<ProjectResponse>>
     {
         private readonly IProjectRepository _projectRepository;
         private readonly ICurrentUser _curentUser;
@@ -22,7 +24,7 @@ namespace UserService.Business.Application.Projects.Commands.CreateProject
             _curentUser = curentUser;
             _mapper = mapper;
         }
-        public async Task<ProjectResponse> Handle(CreateProjectRequest request, CancellationToken cancellationToken)
+        public async Task<Result<ProjectResponse>> Handle(CreateProjectRequest request, CancellationToken cancellationToken)
         {
             var project=new Project()
             {
@@ -34,7 +36,7 @@ namespace UserService.Business.Application.Projects.Commands.CreateProject
             await _projectRepository.AddAsync(project);
             await _projectRepository.SaveChangesAsync();
 
-            return  _mapper.Map<ProjectResponse>(project);  // new ProjectResponse(project.Id,project.Name,project.Created,project.UserId);
-        }
+            return  Result<ProjectResponse>.Success(_mapper.Map<ProjectResponse>(project));  // new ProjectResponse(project.Id,project.Name,project.Created,project.UserId);
+        } 
     }
 }
