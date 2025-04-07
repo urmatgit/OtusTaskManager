@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Formatters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserService.Business.Application.Projects;
 using UserService.Business.Common.Interfaces;
 using UserService.DataAccess.Entities;
 using UserService.DataAccess.Enums;
@@ -34,7 +36,7 @@ namespace UserService.Business.Application.Users
         public string Phone { get; set; }
 
         public byte[]? Avator { get; set; }
-        
+        public List<ProjectResponse> Projects { get; set; } = new List<ProjectResponse>();
     }
     
 }

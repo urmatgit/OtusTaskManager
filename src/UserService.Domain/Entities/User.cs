@@ -32,7 +32,7 @@ namespace UserService.DataAccess.Entities
         public string Phone { get; set; }
 
         public byte[]? Avator { get; set; }
-        public virtual ICollection<UserProject> UserProjects { get; set; }
+        public virtual ICollection<UserProject> UserProjects { get; set; } = new List<UserProject>();
 
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiry { get; set; }

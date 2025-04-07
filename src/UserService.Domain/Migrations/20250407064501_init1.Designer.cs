@@ -12,8 +12,8 @@ using UserService.DataAccess.Persistence;
 namespace UserService.DataAccess.Migrations
 {
     [DbContext(typeof(TaskboardDbContext))]
-    [Migration("20250401131238_Init1")]
-    partial class Init1
+    [Migration("20250407064501_init1")]
+    partial class init1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -74,6 +74,9 @@ namespace UserService.DataAccess.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -125,6 +128,9 @@ namespace UserService.DataAccess.Migrations
 
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.HasKey("UserId", "ProjectId");
 

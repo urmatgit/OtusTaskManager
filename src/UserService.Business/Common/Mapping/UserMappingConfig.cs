@@ -15,7 +15,9 @@ namespace UserService.Business.Common.Mapping
     {
         public void Register(TypeAdapterConfig config)
         {
-            config.NewConfig<User, UserResponse>();
+            config.NewConfig<User, UserResponse>()
+                .Map(dest=>dest.Projects,src=> src.UserProjects?.Select(x=>x.Project).ToList());
+
                 
             
 
