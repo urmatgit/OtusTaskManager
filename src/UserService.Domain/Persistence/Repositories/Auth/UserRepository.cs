@@ -39,5 +39,31 @@ namespace UserService.DataAccess.Persistence.Repositories.Auth
             return await _dataContext.Users
                 .FirstOrDefaultAsync(u => u.Email == email && u.UserName == userName);
         }
+
+        public async Task<User> AddProjectToUser(User user, Guid projectId)
+        {
+
+            user.UserProjects.Add(new UserProject()
+            {
+                ProjectId = projectId,
+                UserId = user.Id
+            });
+            await UpdateAsync(user);
+            await SaveChangesAsync();
+            return await GetUserWithProjects(user.Id);
+            
+        }
+
+        public async Task<User> GetUserWithProjects(Guid userId)
+        {
+            var user = await _dataContext.Users
+                        .AsNoTracking()
+                        .Include(u => u.UserProjects)
+                        .ThenInclude(p => p.Project)
+                        .SingleOrDefaultAsync(u => !u.IsDeleted && u.Id == userId && u.UserProjects.Any(p => !p.IsDeleted));
+
+
+            return user;
+        }
     }
 }

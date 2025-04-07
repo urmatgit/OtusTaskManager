@@ -15,5 +15,7 @@ namespace UserService.DataAccess.Persistence.Repositories.Auth
         Task<User?> FindByUserUserAndEmailAsync(string email, string userName);
 
         Task<bool> ExistsAsync(string email);
+        Task<User> AddProjectToUser(User user, Guid projectId);
+        Task<User> GetUserWithProjects(Guid userId);
     }
 }

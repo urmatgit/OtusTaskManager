@@ -83,5 +83,15 @@ namespace UserService.DataAccess.Persistence.Repositories.Auth
         {
             throw new NotImplementedException();
         }
+
+        public Task<User> AddProjectToUser(User user, Guid projectId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<User> GetUserWithProjects(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
