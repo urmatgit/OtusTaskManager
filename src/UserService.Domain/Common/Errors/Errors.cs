@@ -26,12 +26,15 @@ namespace UserService.DataAccess.Common.Errors
                 _errorsTextBase.Add("EmailAlreadyExists", "Email already exists");
                 _errorsTextBase.Add("EntityNoFound", "{0} not found. (id={1})");
 
+                _errorsTextBase.Add("UsernameIsRequired", "Username us required.");
             }
             public  static string InvalidCredentials=> _errorsTextBase["InvalidCredentials"];
                 
             public static string UsernameAlreadyExists=>_errorsTextBase["UsernameAlreadyExists"];
             public static string EmailAlreadyExists => _errorsTextBase["UsernameAlreadyExists"];
-            
+            public static string UsernameIsRequired = _errorsTextBase["UsernameIsRequired"];
+
+
 
 
         }

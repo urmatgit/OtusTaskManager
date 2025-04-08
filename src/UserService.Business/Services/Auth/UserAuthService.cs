@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
@@ -72,6 +73,18 @@ namespace UserService.Business.Services.Auth
             
 
             return Result<AuthResponse>.Success(_jwtService.GenerateAuthResponse(user));
+        }
+
+        public async Task LogoutAsync(string username)
+        {
+            var user = await _userRepository.FindByUserNameAsync(username);
+            if (user is not null)
+            {
+                user.RefreshToken = "";
+                user.RefreshTokenExpiry = null;
+                await _userRepository.UpdateAsync(user);
+                await _userRepository.SaveChangesAsync();
+            }
         }
     }
 }

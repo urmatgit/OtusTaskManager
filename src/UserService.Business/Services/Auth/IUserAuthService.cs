@@ -12,5 +12,6 @@ namespace UserService.Business.Services.Auth
     {
         Task<Result<AuthResponse>> RegisterAsync(RegisterRequest request);
         Task<Result<AuthResponse>> LoginAsync(LoginRequest request);
+        Task LogoutAsync(string username);
     }
 }

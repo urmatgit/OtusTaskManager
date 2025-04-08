@@ -20,7 +20,7 @@ namespace UserService.Business.Application.Users.Queries.GetById
         
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        public GetUserWithProjectsRequestHander(IUserRepository userRepository, TaskboardDbContext taskboardDbContext,IMapper mapper)
+        public GetUserWithProjectsRequestHander(IUserRepository userRepository,  IMapper mapper)
         {
            
             _userRepository = userRepository;

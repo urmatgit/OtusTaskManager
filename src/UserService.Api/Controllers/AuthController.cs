@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Business.Services.Auth;
+using UserService.DataAccess.Common.Errors;
 using UserService.DataAccess.DTOs.Auth;
 
 namespace UserService.Api.Controllers
@@ -54,5 +55,21 @@ namespace UserService.Api.Controllers
             }
             return Ok(response);
         }
+        /// <summary>
+        /// очищает поля   user.RefreshToken = ""; user.RefreshTokenExpiry = null;
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout(string username)
+        {
+            
+            if (string.IsNullOrEmpty(username))
+                return BadRequest(Errors.Authentication.UsernameIsRequired);
+            await _userService.LogoutAsync(username);
+            
+            return Ok();
+        }
+
     }
 }
