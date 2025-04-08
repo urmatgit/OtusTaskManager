@@ -8,6 +8,11 @@ using UserService.DataAccess.Common;
 
 namespace UserService.Business.Application.Users.Commands.ManageUserProjects
 {
+    /// <summary>
+    /// Добавляем проект в заданный user, если user не задан тогда в текущий юзер
+    /// </summary>
+    /// <param name="userid"></param>
+    /// <param name="projectId"></param>
     public record AddPpojectToUserReques(Guid? userid, Guid projectId):IRequest<Result<UserResponse>>;
     
 }

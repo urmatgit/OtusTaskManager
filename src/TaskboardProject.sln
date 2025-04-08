@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Business", "Use
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Api", "UserService.Api\UserService.Api.csproj", "{5A56A9CB-FDD0-4675-9121-A244C4845289}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.DataAccess.xUnitTests", "UserService.DataAccess.xUnitTests\UserService.DataAccess.xUnitTests.csproj", "{FA65210B-BF0E-4658-B94F-455F6ABAA359}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Business.xUnitTests", "UserService.Business.xUnitTests\UserService.Business.xUnitTests.csproj", "{6091F4E1-1FA2-4512-857C-867605548D6F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{5A56A9CB-FDD0-4675-9121-A244C4845289}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A56A9CB-FDD0-4675-9121-A244C4845289}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A56A9CB-FDD0-4675-9121-A244C4845289}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA65210B-BF0E-4658-B94F-455F6ABAA359}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA65210B-BF0E-4658-B94F-455F6ABAA359}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA65210B-BF0E-4658-B94F-455F6ABAA359}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA65210B-BF0E-4658-B94F-455F6ABAA359}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6091F4E1-1FA2-4512-857C-867605548D6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6091F4E1-1FA2-4512-857C-867605548D6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6091F4E1-1FA2-4512-857C-867605548D6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6091F4E1-1FA2-4512-857C-867605548D6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
