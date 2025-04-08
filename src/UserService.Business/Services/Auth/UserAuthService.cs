@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using UserService.Business.Application.Events;
 using UserService.DataAccess.Common;
 using UserService.DataAccess.Common.Errors;
 using UserService.DataAccess.DTOs.Auth;
@@ -18,15 +19,17 @@ namespace UserService.Business.Services.Auth
         private readonly IUserRepository _userRepository;
         private readonly IJwtService _jwtService;
         private readonly IPasswordHasher _passwordHasher;
-
+        private readonly IPublisher _publisher;
         public UserAuthService(
             IUserRepository userRepository,
             IJwtService jwtService,
-            IPasswordHasher passwordHasher)
+            IPasswordHasher passwordHasher,
+            IPublisher publisher)
         {
             _userRepository = userRepository;
             _jwtService = jwtService;
             _passwordHasher = passwordHasher;
+            _publisher = publisher;
         }
 
         public async Task<Result<AuthResponse>> RegisterAsync(RegisterRequest request)
@@ -59,6 +62,7 @@ namespace UserService.Business.Services.Auth
             user.RefreshTokenExpiry = token.Expiration;
             await _userRepository.AddAsync(user);
             await _userRepository.SaveChangesAsync();
+            await _publisher.Publish(new EntityEvent(user, $"User {user.UserName} is registered"));
             return Result<AuthResponse> .Success(token);
         }
 
@@ -70,8 +74,8 @@ namespace UserService.Business.Services.Auth
 
             if (!_passwordHasher.Verify( request.Password,user.PasswordHash))
                 return Result<AuthResponse>.Failure(Errors.Authentication.InvalidCredentials);
-            
 
+            await _publisher.Publish(new EntityEvent(user, $"User {user.UserName},{user.Email} is login"));
             return Result<AuthResponse>.Success(_jwtService.GenerateAuthResponse(user));
         }
 
@@ -85,6 +89,7 @@ namespace UserService.Business.Services.Auth
                 await _userRepository.UpdateAsync(user);
                 await _userRepository.SaveChangesAsync();
             }
+            await _publisher.Publish(new EntityEvent(user, $"User {user.UserName},{user.Email} is logout"));
         }
     }
 }

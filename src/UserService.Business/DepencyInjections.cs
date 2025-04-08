@@ -21,6 +21,7 @@ using MediatR;
 using MapsterMapper;
 using Mapster;
 using UserService.Business.Common;
+using MediatR.NotificationPublishers;
 
 
 namespace UserService.Business
@@ -30,7 +31,11 @@ namespace UserService.Business
         public static IServiceCollection AddBusiness(this IServiceCollection services, Microsoft.Extensions.Configuration.ConfigurationManager configuration)
         {
             //посредник
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+            services.AddMediatR(cfg =>
+                {
+                    cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
+                    cfg.NotificationPublisher = new TaskWhenAllPublisher();
+                });
             //
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 

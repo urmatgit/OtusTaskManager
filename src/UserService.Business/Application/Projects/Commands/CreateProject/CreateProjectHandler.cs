@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserService.Business.Application.Events;
 using UserService.Business.Services.Auth;
 using UserService.DataAccess.Common;
 using UserService.DataAccess.Entities;
@@ -18,11 +19,13 @@ namespace UserService.Business.Application.Projects.Commands.CreateProject
         private readonly IProjectRepository _projectRepository;
         private readonly ICurrentUser _curentUser;
         private readonly IMapper _mapper;
-        public CreateProjectHandler(IProjectRepository projectRepsitory,ICurrentUser curentUser,IMapper mapper)
+        private readonly IPublisher _publisher;
+        public CreateProjectHandler(IProjectRepository projectRepsitory,ICurrentUser curentUser,IMapper mapper,IPublisher publisher)
         {
             _projectRepository = projectRepsitory;
             _curentUser = curentUser;
             _mapper = mapper;
+            _publisher = publisher;
         }
         public async Task<Result<ProjectResponse>> Handle(CreateProjectRequest request, CancellationToken cancellationToken)
         {
@@ -35,7 +38,7 @@ namespace UserService.Business.Application.Projects.Commands.CreateProject
             };
             await _projectRepository.AddAsync(project);
             await _projectRepository.SaveChangesAsync();
-
+            await _publisher.Publish(new EntityEvent(project, $"Create project"));
             return  Result<ProjectResponse>.Success(_mapper.Map<ProjectResponse>(project));  // new ProjectResponse(project.Id,project.Name,project.Created,project.UserId);
         } 
     }
