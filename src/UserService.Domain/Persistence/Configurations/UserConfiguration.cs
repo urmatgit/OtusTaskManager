@@ -15,6 +15,7 @@ namespace UserService.DataAccess.Persistence.Configurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.Property(x => x.Id).IsRequired();
+            builder.Property(x=>x.UserName).IsRequired();
             builder.Property(x => x.FirstName).IsRequired().HasMaxLength(50);
             builder.Property(x => x.LastName).IsRequired().HasMaxLength(50);
             builder.Property(x => x.Patronymic).HasMaxLength(50);
