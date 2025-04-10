@@ -13,7 +13,7 @@ namespace UserService.DataAccess.Persistence
         Task<IEnumerable<T>> GetAllAsync();
         Task<PaginationResponse<T>> GetAllAsync(int pageIndex,int pageSize);
         Task<T> GetByIdAsync(Guid id);
-        Task AddAsync(T entity);
+        Task<T> AddAsync(T entity);
 
         Task UpdateAsync(T entity);
 

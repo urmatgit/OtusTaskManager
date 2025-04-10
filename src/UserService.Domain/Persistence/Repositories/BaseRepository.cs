@@ -16,11 +16,11 @@ namespace UserService.DataAccess.Persistence.Repositories
         {
             _dataContext = dataContext;   
         }
-        public async Task AddAsync(T entity)
+        public async Task<T> AddAsync(T entity)
         {
             await _dataContext.Set<T>()
                 .AddAsync(entity);
-            
+            return entity;
         }
 
         public virtual async Task DeleteAsync(T entity)

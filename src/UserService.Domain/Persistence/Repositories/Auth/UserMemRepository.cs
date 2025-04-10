@@ -26,11 +26,12 @@ namespace UserService.DataAccess.Persistence.Repositories.Auth
                 .FirstOrDefault(u => u.Email == email));
         }
 
-        public async Task AddAsync(User user)
+        public async Task<User> AddAsync(User user)
         {
 
             
             _users.Add(user);
+            return user;
 
         }
 

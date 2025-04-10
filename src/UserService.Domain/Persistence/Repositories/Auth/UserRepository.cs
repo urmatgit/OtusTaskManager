@@ -45,6 +45,7 @@ namespace UserService.DataAccess.Persistence.Repositories.Auth
 
             user.UserProjects.Add(new UserProject()
             {
+                Id=Guid.NewGuid(),
                 ProjectId = projectId,
                 UserId = user.Id
             });
@@ -65,5 +66,6 @@ namespace UserService.DataAccess.Persistence.Repositories.Auth
 
             return user;
         }
+
     }
 }

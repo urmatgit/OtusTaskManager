@@ -12,14 +12,18 @@ using UserService.DataAccess.Persistence.Repositories.Auth;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Shouldly;
 using Xunit;
+using UserService.DataAccess.Persistence.Repositories;
 namespace UserService.DataAccess.xUnitTests
 {
+    //Запускать тест полностью!
     public class UserRepositoryTests: IClassFixture<TestFixtureUserRepository>
     {
         IUserRepository _userRepository;
+        IProjectRepository _projectRepository;
         public UserRepositoryTests(TestFixtureUserRepository testFixtureUserRepository)
         {
             _userRepository = testFixtureUserRepository._userRepository;
+            _projectRepository = testFixtureUserRepository._projectRepository;
         }
         /// <summary>
         /// Test username is not set
@@ -132,6 +136,43 @@ namespace UserService.DataAccess.xUnitTests
             //Assert
             users.ShouldNotBeNull();
             users.TotalPages.ShouldBeGreaterThan(0);
+            users.CurrentPage.ShouldBe(1);
+            users.HasPreviousPage.ShouldBeFalse();
+            users.HasNextPage.ShouldBeTrue();
+        }
+        [Fact]
+        public async Task Add_ProjectToUser_ProjectInUserList()
+        {
+
+            var newUser = new User()
+            {
+                Id = Guid.NewGuid(),
+                UserName = $"UserWithProject",
+                FirstName = $"UserWithProject",
+                LastName = $"UserWithProjectov",
+                Email = $"UserWithProject@gmail.com",
+                DateReg = DateTime.Now,
+                Phone = $"777 7777779",
+                PasswordHash = $"dafadfadfaUserWithProject"
+
+
+            };
+            var project = new Project()
+            {
+                Id = Guid.NewGuid(),
+                Name="project for add to user"
+
+            };
+            //Act
+            await _userRepository.AddAsync(newUser);
+            await _userRepository.SaveChangesAsync();
+            await _projectRepository.AddAsync(project);
+            await _projectRepository.SaveChangesAsync();
+           var user= await _userRepository.AddProjectToUser(newUser, project.Id);
+            //Assert
+            user.ShouldNotBeNull();
+            user.UserProjects.Count.ShouldBeGreaterThan(0);
+
 
         }
 

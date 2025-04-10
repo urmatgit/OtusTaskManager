@@ -10,7 +10,7 @@ namespace UserService.DataAccess.Entities
     {
         public string Name {  get; set; }
         public DateTime Created { get; set; }
-        public bool IsDeleted { get; set; }
+        
         public Guid UserId { get; set; }
         //Owner or creator
         public virtual User User { get; set; }
