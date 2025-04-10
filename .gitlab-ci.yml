@@ -15,45 +15,95 @@
 # https://docs.gitlab.com/development/cicd/templates/
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
-  policy: pull-push
-  PROJECT_NAME: "UserService.Api"
-  TEST_NAME: "UserService.DataAccess.xUnitTests"
-  BUILD_IMAGE: "mcr.microsoft.com/dotnet/sdk:8.0"
-  RUNTIME_IMAGE: "mcr.microsoft.com/dotnet/core/aspnet:8.0"
+ stages:
+  - build
+  - test
+  - deploy
 
-stages:          # List of stages for jobs, and their order of execution
-    build
-    test
-    deploy
+  variables:
+    DOTNET_VERSION: "8.0.x"
+    PROJECT_NAME: "UserService.Api"
+    PROJECT_PATH: "src/UserService.Api"
+    POSTGRES_VERSION: "15-alpine"
+    POSTGRES_DB: "taskboardDb"
+    POSTGRES_USER: "postgres"
+    POSTGRES_PASSWORD: "postgres"
 
-build-job:       # This job runs in the build stage, which runs first.
+  # Cache NuGet packages and build outputs
+cache:
+  key: "$CI_COMMIT_REF_SLUG"
+  paths:
+    - .nuget/
+    - **/bin/
+    - **/obj/
+
+services:
+  - name: postgres:$POSTGRES_VERSION
+    alias: postgres
+    variables:
+      POSTGRES_DB: $POSTGRES_DB
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+
+before_script:
+  - export DATABASE_URL="Host=postgres;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}"
+  - dotnet --version
+  - dotnet restore
+
+build:
   stage: build
-  image: $BUILD_IMAGE
+  image: mcr.microsoft.com/dotnet/sdk:$DOTNET_VERSION
+  script:
+    - dotnet build "$PROJECT_PATH" --configuration Release --no-restore
+  artifacts:
+    paths:
+      - "$PROJECT_PATH/bin/Release/**/*"
+
+
+unit_tests:
+  stage: test
+  image: mcr.microsoft.com/dotnet/sdk:$DOTNET_VERSION
+  script:
+    - dotnet test "src/UserService.Business.xUnitTests" --configuration Release --no-build --verbosity normal
+
+migrate_database:
+  stage: test
+  image: mcr.microsoft.com/dotnet/sdk:$DOTNET_VERSION
+  script:
+    - echo "Waiting for PostgreSQL to be ready..."
+    - timeout 30s bash -c 'until pg_isready -h postgres -U $POSTGRES_USER -d $POSTGRES_DB; do sleep 1; done'
+    - dotnet ef database update --project "$PROJECT_PATH" --connection "$DATABASE_URL"
+  needs: ["build"]
+
+deploy_to_staging:
+  stage: deploy
+  image: mcr.microsoft.com/dotnet/sdk:$DOTNET_VERSION
+  script:
+    - dotnet publish "$PROJECT_PATH" --configuration Release --output ./publish
+    - echo "Deploying to staging environment..."
+    # Add your actual deployment commands here (e.g., kubectl, docker push, etc.)
+  environment:
+    name: staging
+    url: https://staging.yourproject.com
   only:
-      UserService
+    - main
+  variables:
+    ASPNETCORE_ENVIRONMENT: "Staging"
+    ConnectionStrings__TaskboardDb: $STAGING_DB_CONNECTION_STRING # Defined in GitLab CI/CD variables
+
+deploy_to_production:
+  stage: deploy
+  image: mcr.microsoft.com/dotnet/sdk:$DOTNET_VERSION
   script:
-       'dotnet build --no-restore'
-      cd $PROJECT_NAME
-      dotnet restore --interactive
-      dotnet build --configuration Release
-     dotnet publish --configuration Release --output ../publish/
-
-
-unit-test-job:   # This job runs in the test stage.
-  stage: test    # It only starts when the job in the build stage completes successfully.
-  image: $BUILD_IMAGE
+    - dotnet publish "$PROJECT_PATH" --configuration Release --output ./publish
+    - echo "Deploying to production environment..."
+    # Add your actual deployment commands here
+  environment:
+    name: production
+    url: https://yourproject.com
+  when: manual
   only:
-      UserService
-  script:
-     'dotnet test --no-restore'
-     cd $TEST_NAME
-     dotnet test --logger html
-
-
-
-deploy-job:      # This job runs in the deploy stage.
-  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
-  environment: production
-  script:
-    - echo "Deploying application..."
-    - echo "Application successfully deployed."
+    - tags
+  variables:
+    ASPNETCORE_ENVIRONMENT: "Production"
+    ConnectionStrings__TaskboardDb: $PRODUCTION_DB_CONNECTION_STRING # Defined in GitLab CI/CD variables

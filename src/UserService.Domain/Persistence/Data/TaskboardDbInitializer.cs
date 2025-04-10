@@ -22,10 +22,10 @@ namespace UserService.DataAccess.Persistence.Data
             //_dataContext.Database.EnsureDeleted();
             //await _dataContext.Database.EnsureCreatedAsync();
             // если есть миграция 
-            //if (_dataContext.Database.GetPendingMigrations().Any())
-            //{
-            //    await _dataContext.Database.MigrateAsync();
-            //}
+            if (_dataContext.Database.GetPendingMigrations().Any())
+            {
+                await _dataContext.Database.MigrateAsync();
+            }
         
         }
     }

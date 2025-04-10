@@ -24,7 +24,8 @@ namespace UserService.DataAccess
 
             services.AddDbContext<TaskboardDbContext>(options =>
             {
-                options.UseNpgsql(configuration.GetConnectionString("TaskboardDb"));
+                options.UseNpgsql(configuration.GetConnectionString("TaskboardDb"), 
+                    npgsqlOptions => npgsqlOptions.EnableRetryOnFailure());
 
             });
 
