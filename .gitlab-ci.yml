@@ -15,12 +15,12 @@
 # https://docs.gitlab.com/development/cicd/templates/
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
- stages:
+stages:
   - build
   - test
   - deploy
 
-  variables:
+variables:
     DOTNET_VERSION: "8.0.x"
     PROJECT_NAME: "UserService.Api"
     PROJECT_PATH: "src/UserService.Api"
@@ -34,8 +34,8 @@ cache:
   key: "$CI_COMMIT_REF_SLUG"
   paths:
     - .nuget/
-    - **/bin/
-    - **/obj/
+    - "**/bin/"
+    - "**/obj/"
 
 services:
   - name: postgres:$POSTGRES_VERSION

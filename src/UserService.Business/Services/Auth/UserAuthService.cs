@@ -35,13 +35,13 @@ namespace UserService.Business.Services.Auth
         public async Task<Result<AuthResponse>> RegisterAsync(RegisterRequest request)
         {
             if (await _userRepository.ExistsAsync(request.Email))
-                return Result<AuthResponse>.Failure(Errors.Authentication.EmailAlreadyExists);
+                return Result<AuthResponse>.Failure(Errors.EmailAlreadyExists);
             
 
             var userExist = await _userRepository.FindByUserNameAsync(request.Username);
                 if (userExist != null)
             {
-                return Result<AuthResponse>.Failure(Errors.Authentication.UsernameAlreadyExists);
+                return Result<AuthResponse>.Failure(Errors.UsernameAlreadyExists);
                 
             }
             var user = new User
@@ -70,10 +70,10 @@ namespace UserService.Business.Services.Auth
         {
             var user = await _userRepository.FindByUserNameAsync(request.Username);
              if(user is null)
-               return  Result<AuthResponse>.Failure(Errors.Authentication.InvalidCredentials);
+               return  Result<AuthResponse>.Failure(Errors.InvalidCredentials);
 
             if (!_passwordHasher.Verify( request.Password,user.PasswordHash))
-                return Result<AuthResponse>.Failure(Errors.Authentication.InvalidCredentials);
+                return Result<AuthResponse>.Failure(Errors.InvalidCredentials);
 
             await _publisher.Publish(new EntityEvent(user, $"User {user.UserName},{user.Email} is login"));
             return Result<AuthResponse>.Success(_jwtService.GenerateAuthResponse(user));

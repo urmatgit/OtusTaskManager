@@ -65,7 +65,7 @@ namespace UserService.Api.Controllers
         {
             
             if (string.IsNullOrEmpty(username))
-                return BadRequest(Errors.Authentication.UsernameIsRequired);
+                return BadRequest(Errors.UsernameIsRequired);
             await _userService.LogoutAsync(username);
             
             return Ok();
