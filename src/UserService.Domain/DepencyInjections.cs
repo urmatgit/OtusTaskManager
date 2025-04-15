@@ -21,7 +21,7 @@ namespace UserService.DataAccess
         public static   IServiceCollection AddPersistance(this IServiceCollection services, Microsoft.Extensions.Configuration.ConfigurationManager configuration)
         {
             // если установлен локальный postgrsql server
-
+            
             services.AddDbContext<TaskboardDbContext>(options =>
             {
                 options.UseNpgsql(configuration.GetConnectionString("TaskboardDb"), 

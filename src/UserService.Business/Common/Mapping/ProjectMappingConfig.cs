@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using UserService.Business.Application.Projects;
 using UserService.Business.Application.Projects.Commands.UpdateProject;
 using UserService.DataAccess.Entities;
@@ -16,8 +17,13 @@ namespace UserService.Business.Common.Mapping
         {
             config.NewConfig<Project,ProjectResponse>()
                 .Map(dest=>dest.owner,src=>src.UserId);
-            config.NewConfig<UpdateProjectRequest, Project>();
-            
+            config.NewConfig<UpdateProjectRequest, Project>()
+                .Map(dest => dest.Name, src => src.name)
+                .Map(dest => dest.UserId, src => src.userid)
+                .Map(dest => dest.Id, src => src.id);
+
+
+
 
         }
     }
