@@ -9,13 +9,20 @@ using UserService.DataAccess.Entities;
 
 namespace UserService.DataAccess.Persistence.Configurations
 {
-    public class ProjectConfiguration : IEntityTypeConfiguration<Project>
+    public class ProjectConfiguration : BaseEntityConfig<Project>
     {
-        public void Configure(EntityTypeBuilder<Project> builder)
+        public override void Configure(EntityTypeBuilder<Project> builder)
         {
+            base.Configure(builder);
             builder.Property(x => x.Name).IsRequired().HasMaxLength(100);
             builder.Property(x => x.Created).IsRequired();
             builder.Property(x=>x.UserId).IsRequired();
+            builder.HasMany(p => p.Users)
+                .WithMany(up => up.Projects).UsingEntity<UserProject>(
+                    left => left.HasOne<User>().WithMany().HasForeignKey(up => up.UserId).IsRequired(),
+                    right => right.HasOne<Project>().WithMany().HasForeignKey(up => up.ProjectId).IsRequired()
+                );
+
             
         }
     }

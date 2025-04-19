@@ -9,17 +9,20 @@ using UserService.DataAccess.Entities;
 
 namespace UserService.DataAccess.Persistence.Configurations
 {
-    public class UserProjectConfiguration : IEntityTypeConfiguration<UserProject>
+    public class UserProjectConfiguration : BaseEntityConfig<UserProject>
     {
-        public void Configure(EntityTypeBuilder<UserProject> builder)
+        public override void Configure(EntityTypeBuilder<UserProject> builder)
         {
+            base.Configure(builder);
+            builder.Property(up => up.UserId).IsRequired();
+            builder.Property(up=>up.ProjectId).IsRequired();
             builder.HasKey(up => new { up.UserId, up.ProjectId });
-            builder.HasOne(up => up.User)
-                .WithMany(u => u.UserProjects)
-                .HasForeignKey(u => u.UserId);
-            builder.HasOne(up=>up.Project)
-                .WithMany(p=>p.UserProjects)
-                .HasForeignKey(p => p.ProjectId);
+            //builder.HasOne(up => up.User)
+            //    .WithMany(u => u.UserProjects)
+            //    .HasForeignKey(u => u.UserId);
+            //builder.HasOne(up=>up.Project)
+            //    .WithMany(p=>p.UserProjects)
+            //    .HasForeignKey(p => p.ProjectId);
         }
     }
 }

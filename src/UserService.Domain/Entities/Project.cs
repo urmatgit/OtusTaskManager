@@ -14,7 +14,7 @@ namespace UserService.DataAccess.Entities
         public Guid UserId { get; set; }
         //Owner or creator
         public virtual User User { get; set; }
-        public virtual ICollection<UserProject> UserProjects { get; set; }
+        public virtual ICollection<User> Users { get; set; }
         public void Update(string name,Guid userid)
         {
             if (!this.Name.Equals(name))

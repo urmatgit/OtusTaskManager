@@ -10,10 +10,12 @@ using UserService.DataAccess.Enums;
 
 namespace UserService.DataAccess.Persistence.Configurations
 {
-    public class UserConfiguration : IEntityTypeConfiguration<User>
+    public class UserConfiguration : BaseEntityConfig<User>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        
+        public override void Configure(EntityTypeBuilder<User> builder)
         {
+            base.Configure(builder);
             builder.Property(x => x.Id).IsRequired();
             builder.Property(x=>x.UserName).IsRequired();
             builder.Property(x => x.FirstName).IsRequired().HasMaxLength(50);
