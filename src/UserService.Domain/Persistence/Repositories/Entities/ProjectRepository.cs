@@ -21,12 +21,12 @@ namespace UserService.DataAccess.Persistence.Repositories.Entities
             var count = await dbSet.Where(x => !x.IsDeleted).CountAsync();
             var quary =  dbSet
                 .AsNoTracking()
-                .Include(x => x.UserProjects)
+                .Include(x => x.Users)
                 //если берем все проекты которые участвует заданный юзер
                 .Where(x => !x.IsDeleted );
             //если userid задан тогда еще 1 условия добавляем
             if (userId is not null){
-                quary = quary.Where(x=> x.UserId == userId || x.UserProjects.Any(y => y.UserId == userId));
+                quary = quary.Where(x=> x.UserId == userId || x.Users.Any(y => y.Id == userId));
             }
             var data = await quary
                 .PaginateBy<Project>(pageIndex, pageSize)
