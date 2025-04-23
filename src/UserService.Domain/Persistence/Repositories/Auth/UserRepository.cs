@@ -6,6 +6,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using UserService.DataAccess.Common;
+using UserService.DataAccess.Common.Errors;
 using UserService.DataAccess.Entities;
 
 namespace UserService.DataAccess.Persistence.Repositories.Auth
@@ -51,7 +52,15 @@ namespace UserService.DataAccess.Persistence.Repositories.Auth
             //    ProjectId = projectId,
             //    UserId = user.Id
             //});
-            await UpdateAsync(user);
+            var project=await _dataContext.Projects.FindAsync(projectId);
+            if (project != null)
+            {
+                user.Projects.Add(project);
+            }
+            else
+                throw new Exception(string.Format(Errors.EntityNotFound, "Project", project.Id));
+
+             await UpdateAsync(user);
             await SaveChangesAsync();
             return await GetUserWithProjects(user.Id);
             

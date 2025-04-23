@@ -18,6 +18,7 @@ namespace UserService.DataAccess.Common.Errors
             _errorsTextBase.Add("EntityNoFound", "{0} not found. (id={1})");
 
             _errorsTextBase.Add("UsernameIsRequired", "Username us required.");
+            
         }
         /// <summary>
         /// "{0} not found. (id={1})"
@@ -48,3 +49,4 @@ namespace UserService.DataAccess.Common.Errors
 
     }
 }
+
