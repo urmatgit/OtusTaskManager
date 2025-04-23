@@ -8,7 +8,7 @@ using UserService.DataAccess.Entities;
 
 namespace UserService.DataAccess.Persistence
 {
-    public interface IRepository<T> where T : BaseEntity
+    public interface IRepository<T> where T : BaseEntity<Guid>
     {
         Task<IEnumerable<T>> GetAllAsync();
         Task<PaginationResponse<T>> GetAllAsync(int pageIndex,int pageSize);

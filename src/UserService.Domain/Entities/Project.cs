@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UserService.DataAccess.Entities
 {
-    public class Project: BaseEntity
+    public class Project: BaseEntity<Guid>
     {
         public string Name {  get; set; }
         public DateTime Created { get; set; }

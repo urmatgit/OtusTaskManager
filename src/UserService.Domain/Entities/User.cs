@@ -7,7 +7,7 @@ using UserService.DataAccess.Enums;
 
 namespace UserService.DataAccess.Entities
 {
-    public class User : BaseEntity
+    public class User : BaseEntity<Guid>
     {
         public string UserName { get; set; }
         public string PasswordHash { get;  set; }

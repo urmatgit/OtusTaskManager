@@ -8,5 +8,5 @@ using UserService.DataAccess.Entities;
 
 namespace UserService.Business.Application.Events
 {
-    public record EntityEvent(BaseEntity baseEntity, string message) : INotification;
+    public record EntityEvent<T>(BaseEntity<T> baseEntity, string message) : INotification;
     }

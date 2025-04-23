@@ -9,7 +9,7 @@ using UserService.DataAccess.Entities;
 
 namespace UserService.DataAccess.Persistence.Repositories
 {
-    public abstract class BaseRepository<T> : IRepository<T> where T : BaseEntity
+    public abstract class BaseRepository<T> : IRepository<T> where T : BaseEntity<Guid>
     {
         protected readonly TaskboardDbContext _dataContext;
         public BaseRepository(TaskboardDbContext dataContext)

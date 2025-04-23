@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UserService.DataAccess.Entities
 {
-    public class UserProject: BaseEntity
+    public class UserProject: BaseEntity<Guid>
     {
         public Guid UserId { get;  set; }
         public virtual User User { get; set; }

@@ -17,6 +17,7 @@ namespace UserService.DataAccess.Persistence.Configurations
             builder.Property(x => x.Name).IsRequired().HasMaxLength(100);
             builder.Property(x => x.Created).IsRequired();
             builder.Property(x=>x.UserId).IsRequired();
+            //many-to-many
             builder.HasMany(p => p.Users)
                 .WithMany(up => up.Projects).UsingEntity<UserProject>(
                     left => left.HasOne<User>().WithMany().HasForeignKey(up => up.UserId).IsRequired(),

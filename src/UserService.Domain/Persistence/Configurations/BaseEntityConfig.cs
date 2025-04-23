@@ -9,7 +9,7 @@ using UserService.DataAccess.Entities;
 
 namespace UserService.DataAccess.Persistence.Configurations
 {
-    public abstract class BaseEntityConfig<T> : IEntityTypeConfiguration<T> where T : BaseEntity
+    public abstract class BaseEntityConfig<T> : IEntityTypeConfiguration<T> where T : BaseEntity<Guid>
     {
         public virtual void Configure(EntityTypeBuilder<T> builder)
         {

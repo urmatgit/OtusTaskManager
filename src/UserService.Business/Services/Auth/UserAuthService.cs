@@ -62,7 +62,7 @@ namespace UserService.Business.Services.Auth
             user.RefreshTokenExpiry = token.Expiration;
             await _userRepository.AddAsync(user);
             await _userRepository.SaveChangesAsync();
-            await _publisher.Publish(new EntityEvent(user, $"User {user.UserName} is registered"));
+            await _publisher.Publish(new EntityEvent<Guid>(user, $"User {user.UserName} is registered"));
             return Result<AuthResponse> .Success(token);
         }
 
@@ -75,7 +75,7 @@ namespace UserService.Business.Services.Auth
             if (!_passwordHasher.Verify( request.Password,user.PasswordHash))
                 return Result<AuthResponse>.Failure(Errors.InvalidCredentials);
 
-            await _publisher.Publish(new EntityEvent(user, $"User {user.UserName},{user.Email} is login"));
+            await _publisher.Publish(new EntityEvent<Guid>(user, $"User {user.UserName},{user.Email} is login"));
             return Result<AuthResponse>.Success(_jwtService.GenerateAuthResponse(user));
         }
 
@@ -89,7 +89,7 @@ namespace UserService.Business.Services.Auth
                 await _userRepository.UpdateAsync(user);
                 await _userRepository.SaveChangesAsync();
             }
-            await _publisher.Publish(new EntityEvent(user, $"User {user.UserName},{user.Email} is logout"));
+            await _publisher.Publish(new EntityEvent<Guid>(user, $"User {user.UserName},{user.Email} is logout"));
         }
     }
 }
