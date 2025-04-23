@@ -31,6 +31,9 @@ namespace UserService.DataAccess.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -39,12 +42,7 @@ namespace UserService.DataAccess.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Projects");
                 });
@@ -136,44 +134,19 @@ namespace UserService.DataAccess.Migrations
                     b.ToTable("UserProject");
                 });
 
-            modelBuilder.Entity("UserService.DataAccess.Entities.Project", b =>
-                {
-                    b.HasOne("UserService.DataAccess.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("UserService.DataAccess.Entities.UserProject", b =>
                 {
-                    b.HasOne("UserService.DataAccess.Entities.Project", "Project")
-                        .WithMany("UserProjects")
+                    b.HasOne("UserService.DataAccess.Entities.Project", null)
+                        .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("UserService.DataAccess.Entities.User", "User")
-                        .WithMany("UserProjects")
+                    b.HasOne("UserService.DataAccess.Entities.User", null)
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Project");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("UserService.DataAccess.Entities.Project", b =>
-                {
-                    b.Navigation("UserProjects");
-                });
-
-            modelBuilder.Entity("UserService.DataAccess.Entities.User", b =>
-                {
-                    b.Navigation("UserProjects");
                 });
 #pragma warning restore 612, 618
         }

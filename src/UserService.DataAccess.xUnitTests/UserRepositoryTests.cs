@@ -171,7 +171,7 @@ namespace UserService.DataAccess.xUnitTests
            var user= await _userRepository.AddProjectToUser(newUser, project.Id);
             //Assert
             user.ShouldNotBeNull();
-            user.UserProjects.Count.ShouldBeGreaterThan(0);
+            user.Projects.Count.ShouldBeGreaterThan(0);
 
 
         }

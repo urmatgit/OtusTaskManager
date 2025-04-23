@@ -26,7 +26,7 @@ namespace UserService.DataAccess.Persistence.Repositories.Entities
                 .Where(x => !x.IsDeleted );
             //если userid задан тогда еще 1 условия добавляем
             if (userId is not null){
-                quary = quary.Where(x=> x.UserId == userId || x.Users.Any(y => y.Id == userId));
+                quary = quary.Where(x=> x.CreatorId == userId || x.Users.Any(y => y.Id == userId));
             }
             var data = await quary
                 .PaginateBy<Project>(pageIndex, pageSize)

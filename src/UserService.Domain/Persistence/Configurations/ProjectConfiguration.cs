@@ -16,7 +16,7 @@ namespace UserService.DataAccess.Persistence.Configurations
             base.Configure(builder);
             builder.Property(x => x.Name).IsRequired().HasMaxLength(100);
             builder.Property(x => x.Created).IsRequired();
-            builder.Property(x=>x.UserId).IsRequired();
+            builder.Property(x=>x.CreatorId).IsRequired();
             //many-to-many
             builder.HasMany(p => p.Users)
                 .WithMany(up => up.Projects).UsingEntity<UserProject>(
