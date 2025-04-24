@@ -34,6 +34,7 @@ namespace UserService.Business.Services.Auth
 
         public async Task<Result<AuthResponse>> RegisterAsync(RegisterRequest request)
         {
+            
             if (await _userRepository.ExistsAsync(request.Email))
                 return Result<AuthResponse>.Failure(Errors.EmailAlreadyExists);
             

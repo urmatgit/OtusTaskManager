@@ -3,6 +3,8 @@ using UserService.DataAccess;
 using UserService.Business;
 using UserService.Api.Middlewares;
 using Serilog;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 namespace UserService.Api
 {
     public class Program
@@ -36,7 +38,16 @@ namespace UserService.Api
                 builder.Services.AddControllers();
                 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
                 builder.Services.AddEndpointsApiExplorer();
-                builder.Services.AddSwaggerGen();
+                // Configure Swagger/OpenAPI
+                builder.Services.AddSwaggerGen(c =>
+                {
+                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Taskboard API", Version = "v1" });
+
+                    // Optional: Include XML comments
+                    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                    c.IncludeXmlComments(xmlPath);
+                });
                 builder.Services.AddHttpContextAccessor();
                 builder.Services.AddPersistance(builder.Configuration);
 
