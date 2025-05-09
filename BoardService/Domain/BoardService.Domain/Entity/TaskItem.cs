@@ -12,7 +12,7 @@ namespace BoardService.Domain.Entity
     /// <summary>
     /// Задача
     /// </summary>
-    public class Task : IEntity<Guid>
+    public class TaskItem : IEntity<Guid>
     {
         /// <summary>
         /// Идентификатор

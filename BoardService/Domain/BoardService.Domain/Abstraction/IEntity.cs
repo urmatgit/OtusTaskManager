@@ -10,7 +10,7 @@ namespace BoardService.Domain.Abstraction
     /// Интерфейс сущности с идентификатором
     /// </summary>
     /// <typeparam name="T">Тип идентификатора</typeparam>
-    interface IEntity<T>
+    public interface IEntity<T>
     {
         /// <summary>
         /// Идентификатор

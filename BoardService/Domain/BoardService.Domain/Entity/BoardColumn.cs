@@ -39,6 +39,6 @@ namespace BoardService.Domain.Entity
         /// <summary>
         /// Список задач
         /// </summary>
-        public IEnumerable<Task>? Tasks { get; set; }
+        public IEnumerable<TaskItem>? Tasks { get; set; }
     }
 }
