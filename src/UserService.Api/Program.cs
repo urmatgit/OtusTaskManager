@@ -5,6 +5,7 @@ using UserService.Api.Middlewares;
 using Serilog;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+
 namespace UserService.Api
 {
     public class Program
@@ -55,7 +56,10 @@ namespace UserService.Api
                 builder.Services.AddAuth(builder.Configuration);
 
                 builder.Services.AddBusiness(builder.Configuration);
-
+                builder.Services.AddOpenApiDocument(configure =>
+                {
+                    configure.Title = "Service ";
+                });
                 var app = builder.Build();
                 app.UseExceptionHandler();
                 app.UseCors("AllowOrigin");

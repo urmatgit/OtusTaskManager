@@ -11,7 +11,78 @@
 import axios, { AxiosError } from 'axios';
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 
-export class Client {
+export interface IClient {
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    register(body: RegisterRequest | undefined): Promise<void>;
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    login(body: LoginRequest | undefined): Promise<void>;
+    /**
+     * очищает поля   user.RefreshToken = ""; user.RefreshTokenExpiry = null;
+     * @param username (optional) 
+     * @return OK
+     */
+    logout(username: string | undefined): Promise<void>;
+    /**
+     * Получаем все проектек, кроме удаленных
+     * @param body (optional) 
+     * @return OK
+     */
+    projectGET(body: GetProjectsRequest | undefined): Promise<void>;
+    /**
+     * создание проекта
+     * @param body (optional) 
+     * @return OK
+     */
+    projectPOST(body: CreateProjectRequest | undefined): Promise<void>;
+    /**
+     * Изменить
+     * @param body (optional) 
+     * @return OK
+     */
+    projectPUT(body: UpdateProjectRequest | undefined): Promise<void>;
+    /**
+     * Получаем все проектек, кроме удаленных, через номера старицы и userid
+     * @param body (optional) 
+     * @return OK
+     */
+    bypage(body: GetProjectsRequestByPage | undefined): Promise<void>;
+    /**
+     * Получаем проек по ID
+     * @return OK
+     */
+    projectGET2(id: string): Promise<void>;
+    /**
+     * Удалить
+     * @return OK
+     */
+    projectDELETE(id: string): Promise<void>;
+    /**
+     * @return OK
+     */
+    userGET(id: string): Promise<void>;
+    /**
+     * @return OK
+     */
+    userDELETE(id: string): Promise<void>;
+    /**
+     * меняем роль пользователя
+     * @param body (optional) 
+     * @return OK
+     */
+    userPOST(body: ChangeUserRoleRequest | undefined): Promise<void>;
+    /**
+     * @return OK
+     */
+    getWeatherForecast(): Promise<WeatherForecast[]>;
+}
+
+export class Client implements IClient {
     private instance: AxiosInstance;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
