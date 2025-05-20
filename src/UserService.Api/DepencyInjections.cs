@@ -22,7 +22,16 @@ namespace UserService.Api
             public static IServiceCollection AddApi(this IServiceCollection services, Microsoft.Extensions.Configuration.ConfigurationManager configuration)
         {
             //
-               //services.AddValidatorsFromAssemblyContaining<Program>();
+            //services.AddValidatorsFromAssemblyContaining<Program>();
+            services.AddCors(c =>
+            {
+                //c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+                c.AddPolicy("AllowOrigin", options => options.WithOrigins(configuration.GetSection("CORS:Origins").Get<string[]>())
+                    .WithHeaders(configuration.GetSection("CORS:Headers").Get<string[]>())
+                    .WithMethods(configuration.GetSection("CORS:Methods").Get<string[]>()));
+            });
+
+            
             return services;
         }
     }

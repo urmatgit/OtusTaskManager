@@ -58,6 +58,7 @@ namespace UserService.Api
 
                 var app = builder.Build();
                 app.UseExceptionHandler();
+                app.UseCors("AllowOrigin");
                 // app.UseMiddleware<ErrorHandlingMiddleware>();
                 // Configure the HTTP request pipeline.
                 if (app.Environment.IsDevelopment())
@@ -74,7 +75,7 @@ namespace UserService.Api
                 app.UseAuthorization();
 
                 app.MapControllers();
-
+                
                 app.Run();
             }
             catch (Exception ex)
