@@ -34,7 +34,7 @@ namespace UserService.Business.Application.Users.Commands.ManageUserProjects
             if (userId == null) {
                 userId =  _currentUser.GetUserId();
             }
-            var user = await _userRepository.GetByIdAsync (userId);
+            var user = await _userRepository.GetAsync (userId,cancellationToken);
             if (user == null)
                 return Result<UserResponse>.Failure(string.Format(Errors.EntityNotFound, "User", userId));
 

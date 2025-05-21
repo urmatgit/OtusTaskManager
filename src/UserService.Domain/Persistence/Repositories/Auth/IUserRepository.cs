@@ -8,7 +8,7 @@ using UserService.DataAccess.Entities;
 
 namespace UserService.DataAccess.Persistence.Repositories.Auth
 {
-    public interface IUserRepository : IRepository<User>
+    public interface IUserRepository : IRepository<User,Guid>
     {
         Task<User?> FindByUserEmailAsync(string email);
         Task<User?> FindByUserNameAsync(string userName);

@@ -21,12 +21,12 @@ namespace UserService.Business.Application.Users.Commands.EditUser
         }
         public async Task<Result<UserResponse>> Handle(ChangeUserRoleRequest request, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.GetByIdAsync(request.userid);
+            var user = await _userRepository.GetAsync(request.userid,cancellationToken);
             if (user == null) {
                 return Result<UserResponse>.Failure($"User not found. {request.userid}");
             }
             user.Role = request.Role;
-            await _userRepository.UpdateAsync(user);
+             _userRepository.Update(user);
             await _userRepository.SaveChangesAsync();
 
             return Result<UserResponse>.Success(_mapper.Map<UserResponse>(user));

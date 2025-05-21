@@ -8,7 +8,7 @@ using UserService.DataAccess.Entities;
 
 namespace UserService.DataAccess.Persistence.Repositories
 {
-    public interface IProjectRepository : IRepository<Project>
+    public interface IProjectRepository : IRepository<Project,Guid> 
     {
         public Task<PaginationResponse<Project>> GetAllAsync(int pageIndex, int pageSize, Guid? userId);
     }

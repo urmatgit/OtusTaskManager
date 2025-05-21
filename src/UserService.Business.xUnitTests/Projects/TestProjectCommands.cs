@@ -27,7 +27,7 @@ namespace UserService.Business.xUnitTests.Projects
             var project= Mapper.Map<Project>(request);
             CurrentUserServiceMock.Setup(x => x.GetUserId()).Returns(userid);
             ProjectRepositoryMock.Setup(x => x.AddAsync(project));
-            ProjectRepositoryMock.Setup(x => x.SaveChangesAsync());
+            ProjectRepositoryMock.Setup(x => x.SaveChangesAsync(CancellationToken.None));
             //Act
             var response=await Mediator.Send(request);
             //assert
@@ -45,9 +45,9 @@ namespace UserService.Business.xUnitTests.Projects
             var request = new UpdateProjectRequest(projectIid,"test project",userid);
             var project = Mapper.Map<Project>(request);
             CurrentUserServiceMock.Setup(x => x.GetUserId()).Returns(userid);
-            ProjectRepositoryMock.Setup(x => x.GetByIdAsync(projectIid)).Returns(Task.FromResult(project));
-            ProjectRepositoryMock.Setup(x => x.UpdateAsync(project));
-            ProjectRepositoryMock.Setup(x => x.SaveChangesAsync());
+            ProjectRepositoryMock.Setup(x => x.GetAsync(projectIid,CancellationToken.None)).Returns(Task.FromResult(project));
+            ProjectRepositoryMock.Setup(x => x.Update(project));
+            ProjectRepositoryMock.Setup(x => x.SaveChangesAsync(CancellationToken.None));
             
             //Act
 
@@ -67,9 +67,9 @@ namespace UserService.Business.xUnitTests.Projects
             var request = new DeleteProjectRequest(projectIid);
             var project = Mapper.Map<Project>(request);
             
-            ProjectRepositoryMock.Setup(x => x.GetByIdAsync(projectIid)).Returns(Task.FromResult(project));
-            ProjectRepositoryMock.Setup(x => x.DeleteAsync(project));
-            ProjectRepositoryMock.Setup(x => x.SaveChangesAsync());
+            ProjectRepositoryMock.Setup(x => x.GetAsync(projectIid, CancellationToken.None )).Returns(Task.FromResult(project));
+            ProjectRepositoryMock.Setup(x => x.Delete(project));
+            ProjectRepositoryMock.Setup(x => x.SaveChangesAsync(CancellationToken.None));
 
             //Act
 

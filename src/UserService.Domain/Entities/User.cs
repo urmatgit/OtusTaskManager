@@ -34,8 +34,8 @@ namespace UserService.DataAccess.Entities
         public byte[]? Avator { get; set; }
         public virtual ICollection<Project> Projects { get; set; } = new List<Project>();
 
-        public string? RefreshToken { get; set; }
-        public DateTime? RefreshTokenExpiry { get; set; }
+        //public string? RefreshToken { get; set; }
+        //public DateTime? RefreshTokenExpiry { get; set; }
 
     }
 

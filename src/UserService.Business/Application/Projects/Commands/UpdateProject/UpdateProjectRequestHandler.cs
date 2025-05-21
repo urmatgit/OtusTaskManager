@@ -24,7 +24,7 @@ namespace UserService.Business.Application.Projects.Commands.UpdateProject
         public async Task<Result<ProjectResponse>> Handle(UpdateProjectRequest request, CancellationToken cancellationToken)
         {
 
-            var projectExist = await _projectRepository.GetByIdAsync(request.id);
+            var projectExist = await _projectRepository.GetAsync(request.id, cancellationToken);
             if (projectExist == null) {
                 //TODO not found
                 return Result<ProjectResponse>.Failure($"Project not found. ({request.id})");
@@ -32,7 +32,7 @@ namespace UserService.Business.Application.Projects.Commands.UpdateProject
 
             projectExist.Update(request.name, request.userid);
 
-             await _projectRepository.UpdateAsync(projectExist);
+               _projectRepository.Update(projectExist);
             await _projectRepository.SaveChangesAsync();
 
             return Result < ProjectResponse >.Success(_mapper.Map<ProjectResponse>(projectExist));  //new ProjectResponse(projectExist.Id, projectExist.Name, projectExist.Created, projectExist.UserId);

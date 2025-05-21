@@ -47,7 +47,7 @@ namespace UserService.DataAccess.xUnitTests
             await _repository.SaveChangesAsync();
 
             // Act
-            var result = await _repository.GetByIdAsync(Id);
+            var result = await _repository.GetAsync(Id, CancellationToken.None);
 
             // Assert
             result.Should().NotBeNull();
@@ -62,7 +62,7 @@ namespace UserService.DataAccess.xUnitTests
         public async Task GetById_ReturnsNull_WhenEntityDoesNotExist()
         {
             // Act
-            var result = await _repository.GetByIdAsync(Guid.NewGuid());
+            var result = await _repository.GetAsync(Guid.NewGuid(), CancellationToken.None);
 
             // Assert
             result.Should().BeNull();
@@ -82,7 +82,7 @@ namespace UserService.DataAccess.xUnitTests
             await _repository.SaveChangesAsync();
 
             // Assert
-            var entityInDb = await _repository.GetByIdAsync(result.Id);
+            var entityInDb = await _repository.GetAsync(result.Id);
             entityInDb.Should().NotBeNull();
             entityInDb.Name.Should().Be(newEntity.Name);
         }
@@ -102,7 +102,7 @@ namespace UserService.DataAccess.xUnitTests
             var updatedEntity = new Project { Id =id, Name = "Updated" };
             originalEntity.Name = "Updated";
             // Act
-            await _repository.UpdateAsync(originalEntity);
+            _repository.Update(originalEntity);
             await _context.SaveChangesAsync();
 
             // Assert
@@ -123,12 +123,12 @@ namespace UserService.DataAccess.xUnitTests
             await _repository.SaveChangesAsync();
 
             // Act
-            await _repository.DeleteAsync(entityToDelete);
+            _repository.Delete(entityToDelete);
             await _repository.SaveChangesAsync();
 
             // Assert
-            var entityInDb = await _repository.GetByIdAsync(id);
-            entityInDb.IsDeleted.Should().BeTrue();
+            var entityInDb = await _repository.GetAsync(id);
+            entityInDb.Should().BeNull();
         }
         [Fact]
         public async Task GetAll_GetAllProjectByPage_ProjectListWithPage()

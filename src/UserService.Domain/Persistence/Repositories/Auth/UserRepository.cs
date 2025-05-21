@@ -11,33 +11,36 @@ using UserService.DataAccess.Entities;
 
 namespace UserService.DataAccess.Persistence.Repositories.Auth
 {
-    public class UserRepository : BaseRepository<User>, IUserRepository
+    public class UserRepository : BaseRepository<User, Guid>, IUserRepository
     {
+        
+             private readonly DbSet<User> _users;
         public UserRepository(TaskboardDbContext dataContext) : base(dataContext)
         {
+            _users = dataContext.Users;
         }
 
         public async Task<User?> FindByUserNameAsync(string userName)
         {
-            return await _dataContext.Users
+            return await _users
                 .FirstOrDefaultAsync(u => u.UserName == userName);
         }
         public async Task<User?> FindByUserEmailAsync(string email)
         {
-            return await _dataContext.Users
+            return await _users
                 .FirstOrDefaultAsync(u => u.Email == email);
         }
 
 
         public async Task<bool> ExistsAsync(string email)
         {
-            return await _dataContext.Users
+            return await _users
                 .AnyAsync(u => u.Email == email);
         }
 
         public async Task<User?> FindByUserUserAndEmailAsync(string email, string userName)
         {
-            return await _dataContext.Users
+            return await _users
                 .FirstOrDefaultAsync(u => u.Email == email && u.UserName == userName);
         }
 
@@ -52,15 +55,15 @@ namespace UserService.DataAccess.Persistence.Repositories.Auth
             //    ProjectId = projectId,
             //    UserId = user.Id
             //});
-            var project=await _dataContext.Projects.FindAsync(projectId);
+            var project=await Context.Set<Project>().FindAsync(projectId);
             if (project != null)
             {
                 user.Projects.Add(project);
             }
             else
                 throw new Exception(string.Format(Errors.EntityNotFound, "Project", project.Id));
-
-             await UpdateAsync(user);
+            
+             Update(user);
             await SaveChangesAsync();
             return await GetUserWithProjects(user.Id);
             
@@ -68,10 +71,10 @@ namespace UserService.DataAccess.Persistence.Repositories.Auth
 
         public async Task<User> GetUserWithProjects(Guid userId)
         {
-            var user = await _dataContext.Users
+            var user = await _users
                         .AsNoTracking()
                         .Include(u => u.Projects)
-                        .SingleOrDefaultAsync(u => !u.IsDeleted && u.Id == userId && u.Projects.Any(p => !p.IsDeleted));
+                        .SingleOrDefaultAsync(u => u.Id == userId );
 
 
             return user;

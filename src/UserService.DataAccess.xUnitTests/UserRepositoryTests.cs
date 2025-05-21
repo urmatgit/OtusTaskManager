@@ -121,7 +121,7 @@ namespace UserService.DataAccess.xUnitTests
         {
             //Arrange
             //Act
-            var users = await _userRepository.GetAllAsync();
+            var users = await _userRepository.GetAllAsync(CancellationToken.None);
             //Assert
             users.ShouldNotBeNull();
             users.Count().ShouldBeGreaterThan(0);

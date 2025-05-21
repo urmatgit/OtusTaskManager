@@ -59,8 +59,8 @@ namespace UserService.Business.Services.Auth
 
             user.PasswordHash = _passwordHasher.Hash(request.Password);
             var token = _jwtService.GenerateAuthResponse(user);
-            user.RefreshToken = token.Token;
-            user.RefreshTokenExpiry = token.Expiration;
+            //user.RefreshToken = token.Token;
+            //user.RefreshTokenExpiry = token.Expiration;
             await _userRepository.AddAsync(user);
             await _userRepository.SaveChangesAsync();
             await _publisher.Publish(new EntityEvent<Guid>(user, $"User {user.UserName} is registered"));
@@ -85,9 +85,9 @@ namespace UserService.Business.Services.Auth
             var user = await _userRepository.FindByUserNameAsync(username);
             if (user is not null)
             {
-                user.RefreshToken = "";
-                user.RefreshTokenExpiry = null;
-                await _userRepository.UpdateAsync(user);
+                //user.RefreshToken = "";
+                //user.RefreshTokenExpiry = null;
+                _userRepository.Update(user);
                 await _userRepository.SaveChangesAsync();
             }
             await _publisher.Publish(new EntityEvent<Guid>(user, $"User {user.UserName},{user.Email} is logout"));

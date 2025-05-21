@@ -94,5 +94,70 @@ namespace UserService.DataAccess.Persistence.Repositories.Auth
         {
             throw new NotImplementedException();
         }
+
+        public IQueryable<User> GetAll(bool noTracking = false)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<User>> GetAllAsync(CancellationToken cancellationToken, bool asNoTracking = false)
+        {
+            throw new NotImplementedException();
+        }
+
+        public User? Get(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<User?> GetAsync(Guid id, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Delete(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Delete(User entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteRange(ICollection<User> entities)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(User entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public User Add(User entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddRange(List<User> entities)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task AddRangeAsync(ICollection<User> entities)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SaveChanges()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

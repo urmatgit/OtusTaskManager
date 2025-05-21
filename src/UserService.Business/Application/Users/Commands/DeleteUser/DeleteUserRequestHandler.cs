@@ -25,13 +25,13 @@ namespace UserService.Business.Application.Projects.Commands.DeleteProject
 
         public async Task<Result<bool>> Handle(DeleteUserRequest request, CancellationToken cancellationToken)
         {
-            var projectExist = await _projectRepository.GetByIdAsync(request.id);
+            var projectExist = await _projectRepository.GetAsync(request.id, cancellationToken);
             if (projectExist == null)
             {
                 
                 return Result<bool>.Failure($"Project  not found. ({request.id}) ");
             }
-             await _projectRepository.DeleteAsync(projectExist);
+             _projectRepository.Delete(projectExist);
             await _projectRepository.SaveChangesAsync();
             return Result<bool>.Success(true);
 

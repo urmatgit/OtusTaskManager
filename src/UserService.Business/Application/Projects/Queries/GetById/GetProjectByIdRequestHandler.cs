@@ -22,7 +22,7 @@ namespace UserService.Business.Application.Projects.Queries.GetById
         }
         public async Task<Result<ProjectResponse>> Handle(GetProjectByIdRequest request, CancellationToken cancellationToken)
         {
-            var project = await _projectRepository.GetByIdAsync(request.id);
+            var project = await _projectRepository.GetAsync(request.id, cancellationToken);
             if (project == null) {
                 return Result<ProjectResponse>.Failure($"Project Not found. ({request.id}) ");
             }

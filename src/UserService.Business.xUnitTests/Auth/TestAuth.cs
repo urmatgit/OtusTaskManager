@@ -52,7 +52,7 @@ namespace UserService.Business.xUnitTests.Auth
             _userRepositoryMock.Setup(x => x.ExistsAsync(userRequest.Email)).Returns(Task.FromResult(false));
             _userRepositoryMock.Setup(x => x.FindByUserNameAsync(userRequest.Username)).Returns(Task.FromResult(default(User)));
             _userRepositoryMock.Setup(x => x.AddAsync(It.IsAny<User>()));
-            _userRepositoryMock.Setup(x => x.SaveChangesAsync());
+            _userRepositoryMock.Setup(x => x.SaveChangesAsync(CancellationToken.None));
             _passwordHasher.Setup(x => x.Hash(It.IsAny<string>())).Returns(It.IsAny<string>());
             _passwordHasher.Setup(x => x.Verify(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
 
@@ -76,7 +76,7 @@ namespace UserService.Business.xUnitTests.Auth
             _userRepositoryMock.Setup(x => x.ExistsAsync(userRequest.Email)).Returns(Task.FromResult(true));
             _userRepositoryMock.Setup(x => x.FindByUserNameAsync(userRequest.Username)).Returns(Task.FromResult(default(User)));
             _userRepositoryMock.Setup(x => x.AddAsync(It.IsAny<User>()));
-            _userRepositoryMock.Setup(x => x.SaveChangesAsync());
+            _userRepositoryMock.Setup(x => x.SaveChangesAsync(CancellationToken.None));
 
             //Act
             var userresponse = await _userAuthService.RegisterAsync(userRequest);
@@ -97,7 +97,7 @@ namespace UserService.Business.xUnitTests.Auth
             _userRepositoryMock.Setup(x => x.ExistsAsync(userRequest.Email)).Returns(Task.FromResult(false));
             _userRepositoryMock.Setup(x => x.FindByUserNameAsync(userRequest.Username)).Returns(Task.FromResult(new User()));
             _userRepositoryMock.Setup(x => x.AddAsync(It.IsAny<User>()));
-            _userRepositoryMock.Setup(x => x.SaveChangesAsync());
+            _userRepositoryMock.Setup(x => x.SaveChangesAsync(CancellationToken.None));
 
             //Act
             var userresponse = await _userAuthService.RegisterAsync(userRequest);
