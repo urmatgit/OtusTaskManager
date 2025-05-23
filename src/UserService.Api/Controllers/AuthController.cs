@@ -39,7 +39,7 @@ namespace UserService.Api.Controllers
                 return BadRequest(response.Error);
             }
             _logger.LogInformation($"Register new user {response.Value.Username}");
-            return Ok(response);
+            return Ok(response.Value);
         }
 
         [HttpPost("login")]
@@ -53,7 +53,7 @@ namespace UserService.Api.Controllers
             {
                 return BadRequest(response.Error);
             }
-            return Ok(response);
+            return Ok(response.Value);
         }
         /// <summary>
         /// очищает поля   user.RefreshToken = ""; user.RefreshTokenExpiry = null;
