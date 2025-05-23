@@ -1,0 +1,156 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\vvereshchagin\\source\\repos\\taskboardproject\\Fronted\\ClientService\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E9CF2D70-DD1D-5D29-7D17-36852F8B9672}|ClientService\\clientservice.esproj|c:\\users\\vvereshchagin\\source\\repos\\taskboardproject\\fronted\\clientservice\\clientservice\\src\\pages\\home.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{E9CF2D70-DD1D-5D29-7D17-36852F8B9672}|ClientService\\clientservice.esproj|solutionrelative:clientservice\\src\\pages\\home.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E9CF2D70-DD1D-5D29-7D17-36852F8B9672}|ClientService\\clientservice.esproj|c:\\users\\vvereshchagin\\source\\repos\\taskboardproject\\fronted\\clientservice\\clientservice\\src\\pages\\authpage.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{E9CF2D70-DD1D-5D29-7D17-36852F8B9672}|ClientService\\clientservice.esproj|solutionrelative:clientservice\\src\\pages\\authpage.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E9CF2D70-DD1D-5D29-7D17-36852F8B9672}|ClientService\\clientservice.esproj|c:\\users\\vvereshchagin\\source\\repos\\taskboardproject\\fronted\\clientservice\\clientservice\\src\\pages\\dashboard.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{E9CF2D70-DD1D-5D29-7D17-36852F8B9672}|ClientService\\clientservice.esproj|solutionrelative:clientservice\\src\\pages\\dashboard.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E9CF2D70-DD1D-5D29-7D17-36852F8B9672}|ClientService\\clientservice.esproj|c:\\users\\vvereshchagin\\source\\repos\\taskboardproject\\fronted\\clientservice\\clientservice\\src\\styles\\authorize.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{E9CF2D70-DD1D-5D29-7D17-36852F8B9672}|ClientService\\clientservice.esproj|solutionrelative:clientservice\\src\\styles\\authorize.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E9CF2D70-DD1D-5D29-7D17-36852F8B9672}|ClientService\\clientservice.esproj|c:\\users\\vvereshchagin\\source\\repos\\taskboardproject\\fronted\\clientservice\\clientservice\\src\\app.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{E9CF2D70-DD1D-5D29-7D17-36852F8B9672}|ClientService\\clientservice.esproj|solutionrelative:clientservice\\src\\app.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E9CF2D70-DD1D-5D29-7D17-36852F8B9672}|ClientService\\clientservice.esproj|c:\\users\\vvereshchagin\\source\\repos\\taskboardproject\\fronted\\clientservice\\clientservice\\src\\privateroute.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{E9CF2D70-DD1D-5D29-7D17-36852F8B9672}|ClientService\\clientservice.esproj|solutionrelative:clientservice\\src\\privateroute.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E9CF2D70-DD1D-5D29-7D17-36852F8B9672}|ClientService\\clientservice.esproj|c:\\users\\vvereshchagin\\source\\repos\\taskboardproject\\fronted\\clientservice\\clientservice\\src\\main.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{E9CF2D70-DD1D-5D29-7D17-36852F8B9672}|ClientService\\clientservice.esproj|solutionrelative:clientservice\\src\\main.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E9CF2D70-DD1D-5D29-7D17-36852F8B9672}|ClientService\\clientservice.esproj|c:\\users\\vvereshchagin\\source\\repos\\taskboardproject\\fronted\\clientservice\\clientservice\\clientservice.esproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{E9CF2D70-DD1D-5D29-7D17-36852F8B9672}|ClientService\\clientservice.esproj|solutionrelative:clientservice\\clientservice.esproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "PrivateRoute.tsx",
+              "DocumentMoniker": "C:\\Users\\vvereshchagin\\source\\repos\\taskboardproject\\Fronted\\ClientService\\clientservice\\src\\PrivateRoute.tsx",
+              "RelativeDocumentMoniker": "clientservice\\src\\PrivateRoute.tsx",
+              "ToolTip": "C:\\Users\\vvereshchagin\\source\\repos\\taskboardproject\\Fronted\\ClientService\\clientservice\\src\\PrivateRoute.tsx",
+              "RelativeToolTip": "clientservice\\src\\PrivateRoute.tsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-04-26T11:40:23.221Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Dashboard.tsx",
+              "DocumentMoniker": "C:\\Users\\vvereshchagin\\source\\repos\\taskboardproject\\Fronted\\ClientService\\ClientService\\src\\Pages\\Dashboard.tsx",
+              "RelativeDocumentMoniker": "ClientService\\src\\Pages\\Dashboard.tsx",
+              "ToolTip": "C:\\Users\\vvereshchagin\\source\\repos\\taskboardproject\\Fronted\\ClientService\\ClientService\\src\\Pages\\Dashboard.tsx",
+              "RelativeToolTip": "ClientService\\src\\Pages\\Dashboard.tsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-04-26T11:37:19.788Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Home.tsx",
+              "DocumentMoniker": "C:\\Users\\vvereshchagin\\source\\repos\\taskboardproject\\Fronted\\ClientService\\clientservice\\src\\Pages\\Home.tsx",
+              "RelativeDocumentMoniker": "clientservice\\src\\Pages\\Home.tsx",
+              "ToolTip": "C:\\Users\\vvereshchagin\\source\\repos\\taskboardproject\\Fronted\\ClientService\\clientservice\\src\\Pages\\Home.tsx",
+              "RelativeToolTip": "clientservice\\src\\Pages\\Home.tsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-04-26T11:36:30.499Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "authorize.css",
+              "DocumentMoniker": "C:\\Users\\vvereshchagin\\source\\repos\\taskboardproject\\Fronted\\ClientService\\clientservice\\src\\Styles\\authorize.css",
+              "RelativeDocumentMoniker": "clientservice\\src\\Styles\\authorize.css",
+              "ToolTip": "C:\\Users\\vvereshchagin\\source\\repos\\taskboardproject\\Fronted\\ClientService\\clientservice\\src\\Styles\\authorize.css",
+              "RelativeToolTip": "clientservice\\src\\Styles\\authorize.css",
+              "ViewState": "AgIAAHIAAAAAAAAAAAAAAKcAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-04-26T11:18:25.426Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "main.tsx",
+              "DocumentMoniker": "C:\\Users\\vvereshchagin\\source\\repos\\taskboardproject\\Fronted\\ClientService\\clientservice\\src\\main.tsx",
+              "RelativeDocumentMoniker": "clientservice\\src\\main.tsx",
+              "ToolTip": "C:\\Users\\vvereshchagin\\source\\repos\\taskboardproject\\Fronted\\ClientService\\clientservice\\src\\main.tsx",
+              "RelativeToolTip": "clientservice\\src\\main.tsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-04-26T11:15:17.07Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "App.tsx",
+              "DocumentMoniker": "C:\\Users\\vvereshchagin\\source\\repos\\taskboardproject\\Fronted\\ClientService\\clientservice\\src\\App.tsx",
+              "RelativeDocumentMoniker": "clientservice\\src\\App.tsx",
+              "ToolTip": "C:\\Users\\vvereshchagin\\source\\repos\\taskboardproject\\Fronted\\ClientService\\clientservice\\src\\App.tsx",
+              "RelativeToolTip": "clientservice\\src\\App.tsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-04-26T11:14:11.854Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AuthPage.tsx",
+              "DocumentMoniker": "C:\\Users\\vvereshchagin\\source\\repos\\taskboardproject\\Fronted\\ClientService\\ClientService\\src\\Pages\\AuthPage.tsx",
+              "RelativeDocumentMoniker": "ClientService\\src\\Pages\\AuthPage.tsx",
+              "ToolTip": "C:\\Users\\vvereshchagin\\source\\repos\\taskboardproject\\Fronted\\ClientService\\ClientService\\src\\Pages\\AuthPage.tsx",
+              "RelativeToolTip": "ClientService\\src\\Pages\\AuthPage.tsx",
+              "ViewState": "AgIAABcAAAAAAAAAAAAQwDgAAABZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-04-26T11:11:31.026Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "clientservice",
+              "DocumentMoniker": "C:\\Users\\vvereshchagin\\source\\repos\\taskboardproject\\Fronted\\ClientService\\ClientService\\clientservice.esproj",
+              "RelativeDocumentMoniker": "ClientService\\clientservice.esproj",
+              "ToolTip": "C:\\Users\\vvereshchagin\\source\\repos\\taskboardproject\\Fronted\\ClientService\\ClientService\\clientservice.esproj",
+              "RelativeToolTip": "ClientService\\clientservice.esproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-04-26T10:58:14.87Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
