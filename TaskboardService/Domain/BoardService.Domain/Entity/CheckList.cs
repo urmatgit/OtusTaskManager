@@ -26,5 +26,15 @@ namespace BoardService.Domain.Entity
         /// Элементы чек-листа
         /// </summary>
         public IEnumerable<CheckItem>? CheckItems { get; set; }
+
+        /// <summary>
+        /// Идентификатор задачи
+        /// </summary>
+        public Guid TaskId { get; set; }
+
+        /// <summary>
+        /// Задача
+        /// </summary>
+        public required TaskItem Task { get; set; }
     }
 }

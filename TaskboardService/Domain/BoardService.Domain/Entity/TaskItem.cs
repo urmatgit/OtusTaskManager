@@ -50,6 +50,16 @@ namespace BoardService.Domain.Entity
         public TaskPriority Priority { get; set; }
 
         /// <summary>
+        /// Идентификатор колонки доски задач
+        /// </summary>
+        public Guid BoardColumnId { get; set; }
+
+        /// <summary>
+        /// Колонка доски задач
+        /// </summary>
+        public required BoardColumn BoardColumn { get; set; }
+
+        /// <summary>
         /// Список исполнителей задачи
         /// </summary>
         public IEnumerable<IExecutor>? Executors { get; set; }

@@ -4,10 +4,7 @@ using Repository.Abstractions;
 
 namespace Repository.Implementation
 {
-    class TaskBoardRepository : Repository<TaskBoard, Guid>, ITaskBoardRepository
+    public class TaskBoardRepository(DbContext context) : Repository<TaskBoard, Guid>(context), ITaskBoardRepository
     {
-        public TaskBoardRepository(DbContext context) : base(context)
-        {
-        }
     }
 }

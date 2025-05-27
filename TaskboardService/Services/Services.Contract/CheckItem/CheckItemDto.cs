@@ -1,16 +1,9 @@
-﻿using BoardService.Domain.Abstraction;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BoardService.Domain.Entity
+﻿namespace Services.Contract.CheckItem
 {
     /// <summary>
     /// Элемент чек-листа
     /// </summary>
-    public class CheckItem : IEntity<Guid>
+    public class CheckItem
     {
         /// <summary>
         /// Идентифифкатор элемента чек-листа
@@ -27,15 +20,5 @@ namespace BoardService.Domain.Entity
         /// </summary>        
         // TODO: Что такое флаг, для чего нужен?
         public bool Flag { get; set; }
-
-        /// <summary>
-        /// Идентификатор чек-листа
-        /// </summary>
-        public Guid CheckListId { get; set; }
-
-        /// <summary>
-        /// Чек-лист
-        /// </summary>
-        public CheckList CheckList { get; set; }
     }
 }

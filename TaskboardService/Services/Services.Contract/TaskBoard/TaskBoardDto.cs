@@ -1,12 +1,9 @@
-﻿using BoardService.Domain.Abstraction;
-using BoardService.Domain.Enums;
-
-namespace BoardService.Domain.Entity
+﻿namespace Services.Contract.TaskBoard
 {
     /// <summary>
     /// Доска задач
     /// </summary>
-    public class TaskBoard : IEntity<Guid>
+    public class TaskBoardDto
     {
         /// <summary>
         /// Идентифифкатор доски задач
@@ -26,11 +23,6 @@ namespace BoardService.Domain.Entity
         /// <summary>
         /// Статус
         /// </summary>
-        public BoartStatus Status { get; set; }
-
-        /// <summary>
-        /// Список колонок доски
-        /// </summary>
-        public IEnumerable<BoardColumn>? Columns { get; set; }
+        public int Status { get; set; }        
     }
 }

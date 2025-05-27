@@ -1,6 +1,7 @@
 ﻿using BoardService.Domain.Abstraction;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,16 @@ namespace BoardService.Domain.Entity
         /// Текст комментария
         /// </summary>
         public string? Text { get; set; }
+
+        /// <summary>
+        /// Идентификатор задачи
+        /// </summary>
+        public Guid TaskId { get; set; }
+
+        /// <summary>
+        /// Задача
+        /// </summary>
+        public required TaskItem Task { get; set; }
 
     }
 }

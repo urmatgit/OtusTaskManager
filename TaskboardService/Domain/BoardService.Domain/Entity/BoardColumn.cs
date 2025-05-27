@@ -1,10 +1,5 @@
 ﻿using BoardService.Domain.Abstraction;
 using BoardService.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BoardService.Domain.Entity
 {
@@ -35,6 +30,16 @@ namespace BoardService.Domain.Entity
         /// </summary>
         public int VipLimit { get; set; }
         // TODO Что такое вип-лимит?
+
+        /// <summary>
+        /// Идентификатор доски задач
+        /// </summary>
+        public Guid TaskBoardId { get; set; }
+
+        /// <summary>
+        /// Доска задач
+        /// </summary>
+        public required TaskBoard TaskBoard { get; set; }
 
         /// <summary>
         /// Список задач

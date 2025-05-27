@@ -19,11 +19,11 @@ namespace BoardService.Domain.Enums
         /// <summary>
         /// В работе
         /// </summary>
-        AtWork,
+        AtWork = 1,
 
         /// <summary>
         /// Выполнено
         /// </summary>
-        Completed
+        Completed = 2
     }
 }
