@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Mapster.Utils;
 using MediatR;
 using Moq;
 using System;
@@ -53,11 +54,11 @@ namespace UserService.Business.xUnitTests.Auth
             _userRepositoryMock.Setup(x => x.FindByUserNameAsync(userRequest.Username)).Returns(Task.FromResult(default(User)));
             _userRepositoryMock.Setup(x => x.AddAsync(It.IsAny<User>()));
             _userRepositoryMock.Setup(x => x.SaveChangesAsync(CancellationToken.None));
-            _passwordHasher.Setup(x => x.Hash(It.IsAny<string>())).Returns(It.IsAny<string>());
+            _passwordHasher.Setup(x => x.Hash(It.IsAny<string>())).Returns("aldsjfa;ldfja;ldfjaldjflasd");
             _passwordHasher.Setup(x => x.Verify(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
 
             //Act
-            var userresponse = await _userAuthService.RegisterAsync(userRequest);
+            var userresponse = await _userAuthService.RegisterAsync(userRequest,"");
 
             //assert
             userresponse.Should().NotBeNull();
@@ -115,15 +116,9 @@ namespace UserService.Business.xUnitTests.Auth
         {
             //arrage
             var userRequest = new LoginRequest("testuser", "test@user!");
-            var user = new User
-            {
-                Id = Guid.NewGuid(),
-                UserName=userRequest.Username,
-                Email="test@user.com",
-                Phone="8888888888",
-                Role=DataAccess.Enums.ProjectRole.Admin,
-
-            };
+            
+            var user = new User(userRequest.Username, $"TestUser_", $"TestUser_", "test@user.com", $"8888888888", DataAccess.Enums.ProjectRole.Admin, $"dafadfadfa");
+             
             _userRepositoryMock.Setup(x => x.FindByUserNameAsync(userRequest.Username)).Returns(Task.FromResult(user));
             _passwordHasher.Setup(x => x.Hash(It.IsAny<string>())).Returns(It.IsAny<string>());
             _passwordHasher.Setup(x => x.Verify(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
@@ -140,15 +135,7 @@ namespace UserService.Business.xUnitTests.Auth
             //arrage
             var errors = Errors.InvalidCredentials;
             var userRequest = new LoginRequest("testuser", "test@user!");
-            var user = new User
-            {
-                Id = Guid.NewGuid(),
-                UserName = userRequest.Username,
-                Email = "test@user.com",
-                Phone = "8888888888",
-                Role = DataAccess.Enums.ProjectRole.Admin,
-
-            };
+            var user = new User(userRequest.Username, $"TestUser_", $"TestUser_", "test@user.com", $"8888888888", DataAccess.Enums.ProjectRole.Admin, $"dafadfadfa");
             _userRepositoryMock.Setup(x => x.FindByUserNameAsync(userRequest.Username)).Returns(Task.FromResult(default(User)));
             _passwordHasher.Setup(x => x.Hash(It.IsAny<string>())).Returns(It.IsAny<string>());
             _passwordHasher.Setup(x => x.Verify(It.IsAny<string>(), It.IsAny<string>())).Returns(true);

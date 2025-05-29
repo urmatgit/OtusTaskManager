@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UserService.Business.Application.Events;
+
 using UserService.Business.Services.Auth;
 using UserService.DataAccess.Common;
 using UserService.DataAccess.Entities;
@@ -29,16 +30,12 @@ namespace UserService.Business.Application.Projects.Commands.CreateProject
         }
         public async Task<Result<ProjectResponse>> Handle(CreateProjectRequest request, CancellationToken cancellationToken)
         {
-            var project=new Project()
-            {
-                Id=Guid.NewGuid(),
-                Name=request.name,
-                CreatorId = _curentUser.GetUserId(),
-                Created=DateTime.UtcNow,
-            };
+            var project = new Project(request.name, _curentUser.GetUserId());
+            
             await _projectRepository.AddAsync(project);
             await _projectRepository.SaveChangesAsync();
-            await _publisher.Publish(new EntityEvent<Guid>(project, $"Create project"));
+            
+            //await _publisher.Publish(new EntityEvent<Guid>(project, $"Create project"));
             return  Result<ProjectResponse>.Success(_mapper.Map<ProjectResponse>(project));  // new ProjectResponse(project.Id,project.Name,project.Created,project.UserId);
         } 
     }

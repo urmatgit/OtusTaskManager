@@ -159,5 +159,15 @@ namespace UserService.DataAccess.Persistence.Repositories.Auth
         {
             throw new NotImplementedException();
         }
+
+        public DbSet<User> GetUsersSet()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> ConfirmEmailAsync(User user, string code)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

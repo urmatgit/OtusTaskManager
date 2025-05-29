@@ -8,6 +8,8 @@ using UserService.DataAccess.Persistence.Repositories.Auth;
 using UserService.DataAccess.Persistence;
 using UserService.DataAccess.Persistence.Repositories;
 using UserService.DataAccess.Persistence.Repositories.Entities;
+using MediatR;
+using Moq;
 
 namespace UserService.DataAccess.xUnitTests
 {
@@ -29,8 +31,10 @@ namespace UserService.DataAccess.xUnitTests
             DbContextOptions<TaskboardDbContext> options;
             var builder = new DbContextOptionsBuilder<TaskboardDbContext>();
             builder.UseInMemoryDatabase("Taskboard");
+            
             _dbContextOptions = builder.Options;
-            _context = new TaskboardDbContext(_dbContextOptions);
+            var mediator = new Mock<IPublisher>();
+            _context = new TaskboardDbContext(_dbContextOptions,mediator.Object);
             _context.Database.EnsureDeleted();
             _context.Database.EnsureCreated();
 

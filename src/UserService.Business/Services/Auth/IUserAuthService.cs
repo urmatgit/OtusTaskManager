@@ -10,8 +10,9 @@ namespace UserService.Business.Services.Auth
 {
     public interface IUserAuthService
     {
-        Task<Result<AuthResponse>> RegisterAsync(RegisterRequest request);
+        Task<Result<AuthResponse>> RegisterAsync(RegisterRequest request, string origin="");
         Task<Result<AuthResponse>> LoginAsync(LoginRequest request);
+        Task<string> ConfirmEmailAsync(Guid userId, string code);
         Task LogoutAsync(string username);
     }
 }

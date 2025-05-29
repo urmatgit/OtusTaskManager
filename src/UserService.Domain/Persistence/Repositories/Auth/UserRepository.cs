@@ -80,5 +80,22 @@ namespace UserService.DataAccess.Persistence.Repositories.Auth
             return user;
         }
 
+        public DbSet<User> GetUsersSet()
+        {
+            return _users;
+        }
+
+        public async Task<bool> ConfirmEmailAsync(User user, string code)
+        {
+            if (user == null )
+            {
+                user.ConfirmEmail(code);
+                if (user.EmailConfirmed){
+                    await SaveChangesAsync();
+                }
+                
+            }
+            return user.EmailConfirmed;
+        }
     }
 }

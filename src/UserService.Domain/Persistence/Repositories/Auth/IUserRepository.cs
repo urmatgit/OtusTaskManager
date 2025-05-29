@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,8 +18,10 @@ namespace UserService.DataAccess.Persistence.Repositories.Auth
         Task<bool> ExistsAsync(string email);
         Task<User> AddProjectToUser(User user, Guid projectId);
         Task<User> GetUserWithProjects(Guid userId);
+        DbSet<User> GetUsersSet();
+        Task<bool> ConfirmEmailAsync(User user, string code);
 
 
-     
+
     }
 }

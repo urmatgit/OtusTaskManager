@@ -1,5 +1,7 @@
 ﻿using FluentAssertions;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using Shouldly;
 using System;
 using System.Collections.Generic;
@@ -24,8 +26,8 @@ namespace UserService.DataAccess.xUnitTests
             _dbContextOptions = new DbContextOptionsBuilder<TaskboardDbContext>()
            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
            .Options;
-
-            _context = new TaskboardDbContext(_dbContextOptions);
+            var mediator = new Mock<IPublisher>();
+            _context = new TaskboardDbContext(_dbContextOptions,mediator.Object);
             _repository = new ProjectRepository(_context);
         }
         public void Dispose()
@@ -42,12 +44,12 @@ namespace UserService.DataAccess.xUnitTests
         {
             // Arrange
             var Id = Guid.NewGuid();
-            var expectedEntity = new Project { Id =Id, Name = "Test" };
+            var expectedEntity = new Project( "Test", Id);
             await _repository.AddAsync(expectedEntity);
             await _repository.SaveChangesAsync();
 
             // Act
-            var result = await _repository.GetAsync(Id, CancellationToken.None);
+            var result = await _repository.GetAsync(expectedEntity.Id, CancellationToken.None);
 
             // Assert
             result.Should().NotBeNull();
@@ -75,7 +77,7 @@ namespace UserService.DataAccess.xUnitTests
         public async Task Add_InsertsEntity_WhenEntityIsValid()
         {
             // Arrange
-            var newEntity = new Project {Id=Guid.NewGuid(),  Name = "New Entity" };
+            var newEntity = new Project("New Entity",Guid.NewGuid());
 
             // Act
             var result = await _repository.AddAsync(newEntity);
@@ -95,18 +97,18 @@ namespace UserService.DataAccess.xUnitTests
         {
             // Arrange
             var id=Guid.NewGuid();
-            var originalEntity = new Project { Id = id, Name = "Original" };
+            var originalEntity = new Project("Original",id);
             await _repository.AddAsync(originalEntity);
             await _repository.SaveChangesAsync();
 
-            var updatedEntity = new Project { Id =id, Name = "Updated" };
-            originalEntity.Name = "Updated";
+            //var updatedEntity = new Project("Updated",id);
+            originalEntity.Update("Updated");
             // Act
             _repository.Update(originalEntity);
             await _context.SaveChangesAsync();
 
             // Assert
-            var entityInDb = await _context.Projects.FindAsync(id);
+            var entityInDb = await _context.Projects.FindAsync(originalEntity.Id);
             entityInDb.Name.Should().Be("Updated");
         }
         /// <summary>
@@ -118,7 +120,7 @@ namespace UserService.DataAccess.xUnitTests
         {
             // Arrange
             var id = Guid.NewGuid();
-            var entityToDelete = new Project { Id = id, Name = "To Delete" };
+            var entityToDelete = new Project("To Delete",id);
             await _repository.AddAsync(entityToDelete);
             await _repository.SaveChangesAsync();
 
@@ -127,7 +129,7 @@ namespace UserService.DataAccess.xUnitTests
             await _repository.SaveChangesAsync();
 
             // Assert
-            var entityInDb = await _repository.GetAsync(id);
+            var entityInDb = await _repository.GetAsync(entityToDelete.Id);
             entityInDb.Should().BeNull();
         }
         [Fact]
@@ -137,7 +139,7 @@ namespace UserService.DataAccess.xUnitTests
             for (int i = 0; i < 10; i++)
             {
                 var id = Guid.NewGuid();
-                var entityToDelete = new Project { Id = id, Name = $"Project {i}" };
+                var entityToDelete = new Project($"Project {i}",id);
                 await _repository.AddAsync(entityToDelete);
             }
             await _repository.SaveChangesAsync();

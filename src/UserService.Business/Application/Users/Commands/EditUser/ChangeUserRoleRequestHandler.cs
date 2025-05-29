@@ -25,7 +25,7 @@ namespace UserService.Business.Application.Users.Commands.EditUser
             if (user == null) {
                 return Result<UserResponse>.Failure($"User not found. {request.userid}");
             }
-            user.Role = request.Role;
+            user.Update(role:request.Role);
              _userRepository.Update(user);
             await _userRepository.SaveChangesAsync();
 

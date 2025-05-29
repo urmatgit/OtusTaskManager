@@ -34,7 +34,8 @@ namespace UserService.Api.Controllers
             var validationResult = await _registerValidator.ValidateAsync(request);
             if (!validationResult.IsValid)
                 return BadRequest(validationResult.ToDictionary());
-            var response = await _userService.RegisterAsync(request);
+            var origin = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.Value}{HttpContext.Request.PathBase.Value}";
+            var response = await _userService.RegisterAsync(request,origin);
             if (response.IsFailure) {
                 return BadRequest(response.Error);
             }
@@ -70,6 +71,12 @@ namespace UserService.Api.Controllers
             
             return Ok();
         }
-
+        [HttpGet("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail(string userId,string code)
+        {
+            var userGuid=new Guid(userId);
+            var cofirmed=await _userService.ConfirmEmailAsync(userGuid, code);
+            return Ok(cofirmed);
+        }
     }
 }

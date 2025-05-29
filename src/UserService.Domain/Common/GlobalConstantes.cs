@@ -9,5 +9,9 @@ namespace UserService.DataAccess.Common
     public static class GlobalConstantes 
     {
         public const string AdminName = "Admin";
+
+        // for fonfirm email
+        public const string Code = "code";
+        public const string UserId = "userId";
     }
 }

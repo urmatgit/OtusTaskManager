@@ -34,19 +34,11 @@ namespace UserService.DataAccess.xUnitTests
         {
             //Arrange
             var email = $"test1@gmail.com";
-            var newUser = new User()
-            {
-                Id = Guid.NewGuid(),
-                //UserName = $"TestUser",
-                FirstName = $"Testuser",
-                LastName = $"TestUserov",
-                Email = email,
-                DateReg = DateTime.Now,
-                Phone = $"777 777777",
-                PasswordHash = $"dafadfadfa"
+            int number = 1;
+            var newUser = new User($"TestUser_", $"TestUser_{number}", $"TestUser_{number}", email, $"777 777777{number}", Enums.ProjectRole.User, $"dafadfadfa{number}");
 
 
-            };
+          
             //Act
             try
             {
@@ -70,19 +62,8 @@ namespace UserService.DataAccess.xUnitTests
         {
             //Arrange
 
-            var newUser = new User()
-            {
-                Id = Guid.NewGuid(),
-                UserName = $"TestUser_{number}",
-                FirstName = $"Testuser_{number}",
-                LastName = $"TestUserov_{number}",
-                Email = $"test{number}@gmail.com",
-                DateReg = DateTime.Now,
-                Phone=$"777 777777{number}",
-                PasswordHash=$"dafadfadfa{number}"
-
-
-            };
+            var newUser = new User($"TestUser_{number}", $"TestUser_{number}", $"TestUser_{number}", $"test{number}@gmail.com", $"777 777777{number}", Enums.ProjectRole.User, $"dafadfadfa{number}");
+            
             //Act
             await _userRepository.AddAsync(newUser);
             await _userRepository.SaveChangesAsync();
@@ -143,26 +124,11 @@ namespace UserService.DataAccess.xUnitTests
         [Fact]
         public async Task Add_ProjectToUser_ProjectInUserList()
         {
+            int number = 1;
+            var newUser = new User($"TestUser_", $"TestUser_{number}", $"TestUser_{number}", $"test{number}@gmail.com", $"777 777777{number}", Enums.ProjectRole.User, $"dafadfadfa{number}");
 
-            var newUser = new User()
-            {
-                Id = Guid.NewGuid(),
-                UserName = $"UserWithProject",
-                FirstName = $"UserWithProject",
-                LastName = $"UserWithProjectov",
-                Email = $"UserWithProject@gmail.com",
-                DateReg = DateTime.Now,
-                Phone = $"777 7777779",
-                PasswordHash = $"dafadfadfaUserWithProject"
-
-
-            };
-            var project = new Project()
-            {
-                Id = Guid.NewGuid(),
-                Name="project for add to user"
-
-            };
+            var project = new Project("project for add to user", Guid.NewGuid());
+            
             //Act
             await _userRepository.AddAsync(newUser);
             await _userRepository.SaveChangesAsync();
