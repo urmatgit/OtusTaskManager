@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using UserService.Business.Application.Events;
+using UserService.Business.Services.Mail;
 using UserService.DataAccess.Common;
 using UserService.DataAccess.Common.Errors;
 using UserService.DataAccess.DTOs.Auth;
@@ -23,16 +25,19 @@ namespace UserService.Business.Services.Auth
         private readonly IJwtService _jwtService;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IPublisher _publisher;
+        private readonly IMailService _mailService;
         public UserAuthService(
             IUserRepository userRepository,
             IJwtService jwtService,
             IPasswordHasher passwordHasher,
-            IPublisher publisher)
+            IPublisher publisher,
+            IMailService mailService)
         {
             _userRepository = userRepository;
             _jwtService = jwtService;
             _passwordHasher = passwordHasher;
             _publisher = publisher;
+            _mailService = mailService;
         }
         /// <summary>
         /// 
@@ -65,13 +70,22 @@ namespace UserService.Business.Services.Auth
             if (!string.IsNullOrEmpty(user.Email) && !string.IsNullOrEmpty(origin)) {
                 string emailVerificationUri = await GetEmailVerificationUriAsync(user, origin);
                 //TODO Send email
+                var mailRequest = new MailRequest(
+                    new System.Collections.ObjectModel.Collection<string> { user.Email }
+                    , "Подтвердите регистрацию"
+                    , emailVerificationUri
+                    );
+
+                //TODO jobservice send with handfire
+                
+                await _mailService.SendAsync(mailRequest, CancellationToken.None);
             }
             //await _publisher.Publish(new EntityEvent<Guid>(user, $"User {user.UserName} is registered"));
             return Result<AuthResponse> .Success(token);
         }
         private async Task<string> GetEmailVerificationUriAsync(User user,string origin)
         {
-            string code = Guid.NewGuid().ToString();
+            string code = user.EmailConfirmCode ?? Guid.NewGuid().ToString();
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
             const string route = "api/users/confirm-email/";
             var endpointUri = new Uri(string.Concat($"{origin}/", route));

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using UserService.DataAccess.Persistence;
@@ -11,9 +12,11 @@ using UserService.DataAccess.Persistence;
 namespace UserService.DataAccess.Migrations
 {
     [DbContext(typeof(TaskboardDbContext))]
-    partial class TaskboardDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250530061730_EmailConfirmField")]
+    partial class EmailConfirmField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -22,6 +22,7 @@ using MapsterMapper;
 using Mapster;
 using UserService.Business.Common;
 using MediatR.NotificationPublishers;
+using UserService.Business.Services.Mail;
 
 
 namespace UserService.Business
@@ -41,6 +42,7 @@ namespace UserService.Business
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddMapping();
+            services.ConfigureMailing();
             return services;
         }
         /// <summary>
@@ -117,6 +119,12 @@ namespace UserService.Business
             config.Scan(Assembly.GetExecutingAssembly());
             services.AddSingleton(config);
             services.AddScoped<IMapper, ServiceMapper>();
+            return services;
+        }
+        public static IServiceCollection ConfigureMailing(this IServiceCollection services)
+        {
+            services.AddTransient<IMailService, SmtpMailService>();
+            services.AddOptions<MailOptions>().BindConfiguration(nameof(MailOptions));
             return services;
         }
     }

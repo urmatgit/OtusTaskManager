@@ -33,7 +33,7 @@ namespace UserService.DataAccess.Entities
         public DateTime DateReg { get; protected set; }
         public string Email { get; protected set; }
         public bool EmailConfirmed { get; protected set; }
-        public string EmailConfirmCode { get; protected set; }
+        public string? EmailConfirmCode { get; protected set; }
         public string Phone { get; protected set; }
         
         public byte[]? Avator { get; protected set; }
@@ -77,6 +77,7 @@ namespace UserService.DataAccess.Entities
             Role = role;
             DateReg = DateTime.Now;
             PasswordHash = passHash;
+            EmailConfirmCode = Guid.NewGuid().ToString();
             DomainEvents.Add(new UserCreatedEvent(this) );
             
         }

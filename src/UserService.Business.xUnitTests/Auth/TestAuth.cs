@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using UserService.Business.Services.Auth;
+using UserService.Business.Services.Mail;
 using UserService.DataAccess.Common.Errors;
 using UserService.DataAccess.DTOs.Auth;
 using UserService.DataAccess.Entities;
@@ -26,6 +27,7 @@ namespace UserService.Business.xUnitTests.Auth
 
         private readonly Mock<IPasswordHasher> _passwordHasher;
         private readonly Mock<IPublisher> _mockPublisher;
+        private readonly Mock<IMailService> _emailService;
         private readonly JwtSettings jwtSettings;
         public TestAuth()
         {
@@ -40,7 +42,8 @@ namespace UserService.Business.xUnitTests.Auth
             _passwordHasher = new Mock<IPasswordHasher>();
             _userRepositoryMock = new Mock<IUserRepository>();
             _mockPublisher = new Mock<IPublisher>();
-            _userAuthService = new UserAuthService(_userRepositoryMock.Object, _jwtService, _passwordHasher.Object, _mockPublisher.Object);
+            _emailService=new Mock<IMailService>();
+            _userAuthService = new UserAuthService(_userRepositoryMock.Object, _jwtService, _passwordHasher.Object, _mockPublisher.Object,_emailService.Object);
         }
         #region User register tests
         [Fact]
