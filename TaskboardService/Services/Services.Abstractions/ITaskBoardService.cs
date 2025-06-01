@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Services.Contract.TaskBoard;
 
-namespace Services.Abstraction
+namespace Services.Abstractions
 {
+    /// <summary>
+    /// Интерфейс доски задач
+    /// </summary>
     public interface ITaskBoardService
     {
+        /// <summary>
+        /// Получить доску задач
+        /// </summary>
+        /// <param name="id">Идентификатор</param>
+        /// <returns></returns>
+        Task<TaskBoardDto?> GetByIdAsync(Guid id);
     }
 }

@@ -3,7 +3,7 @@
     /// <summary>
     /// Элемент чек-листа
     /// </summary>
-    public class CheckItem
+    public class CheckItemDto
     {
         /// <summary>
         /// Идентифифкатор элемента чек-листа

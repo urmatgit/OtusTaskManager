@@ -10,12 +10,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.11">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\..\Domain\BoardService.Domain\BoardService.Domain.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Infrastructure.EntityFramework\Infrastructure.EntityFramework.csproj" />
+    <ProjectReference Include="..\..\Repository\Repository.Abstractions\Repository.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Repository\Repository.Implementation\Repository.Implementation.csproj" />
+    <ProjectReference Include="..\..\Services\Services.Abstractions\Services.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Services\Services.Contract\Services.Contract.csproj" />
+    <ProjectReference Include="..\..\Services\Services.Implementation\Services.Implementation.csproj" />
   </ItemGroup>
 
 </Project>

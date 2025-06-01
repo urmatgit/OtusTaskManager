@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Services.Contract.TaskComment;
 
 namespace Services.Abstractions
 {
+    /// <summary>
+    /// Интерфейс сервиса Комментарий задачи
+    /// </summary>
     public interface ITaskCommentService
     {
+        /// <summary>
+        /// Получить Комментарий задачи
+        /// </summary>
+        /// <param name="id">Идентификатор</param>
+        /// <returns></returns>
+        Task<TaskCommentDto?> GetByIdAsync(Guid id);
     }
 }

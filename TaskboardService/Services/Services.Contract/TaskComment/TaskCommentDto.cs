@@ -1,6 +1,4 @@
-﻿using BoardService.Domain.Entity;
-
-namespace Services.Contract.TaskComment
+﻿namespace Services.Contract.TaskComment
 {
     /// <summary>
     /// Комментарий задачи
