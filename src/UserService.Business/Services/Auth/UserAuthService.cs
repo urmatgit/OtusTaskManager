@@ -15,6 +15,7 @@ using UserService.DataAccess.Common;
 using UserService.DataAccess.Common.Errors;
 using UserService.DataAccess.DTOs.Auth;
 using UserService.DataAccess.Entities;
+using UserService.DataAccess.Entities.Events;
 using UserService.DataAccess.Persistence.Repositories.Auth;
 
 namespace UserService.Business.Services.Auth
@@ -102,8 +103,8 @@ namespace UserService.Business.Services.Auth
 
             if (!_passwordHasher.Verify( request.Password,user.PasswordHash))
                 return Result<AuthResponse>.Failure(Errors.InvalidCredentials);
-
-           // await _publisher.Publish(new EntityEvent<Guid>(user, $"User {user.UserName},{user.Email} is login"));
+            //user.AddDomainEvent(new UserLoginEvent(user));
+            await _publisher.Publish(new UserLoginEvent(user));
             return Result<AuthResponse>.Success(_jwtService.GenerateAuthResponse(user));
         }
 
@@ -115,9 +116,12 @@ namespace UserService.Business.Services.Auth
                 //user.RefreshToken = "";
                 //user.RefreshTokenExpiry = null;
                 _userRepository.Update(user);
+                //user.AddDomainEvent(new UserLogoutEvent(user));
                 await _userRepository.SaveChangesAsync();
+                
             }
-           // await _publisher.Publish(new EntityEvent<Guid>(user, $"User {user.UserName},{user.Email} is logout"));
+            await _publisher.Publish(new UserLogoutEvent(user));
+            // await _publisher.Publish(new EntityEvent<Guid>(user, $"User {user.UserName},{user.Email} is logout"));
         }
 
         public async Task<string> ConfirmEmailAsync(Guid userId, string code)
