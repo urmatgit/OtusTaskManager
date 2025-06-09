@@ -8,5 +8,5 @@ using UserService.DataAccess.Entities.Events;
 
 namespace UserService.DataAccess.Entities.Events
 {
-    public sealed record ProjectCreatedEvent(Project? Project) : DomainEvent;
+    public sealed record ProjectCreatedEvent(Project Project) : DomainEvent;
 }

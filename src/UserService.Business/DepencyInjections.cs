@@ -23,6 +23,9 @@ using Mapster;
 using UserService.Business.Common;
 using MediatR.NotificationPublishers;
 using UserService.Business.Services.Mail;
+using RabbitMQ.Connector;
+using RabbitMq.Connector.Publisher;
+using UserService.Business.Services.RabbitMQ;
 
 
 namespace UserService.Business
@@ -42,7 +45,7 @@ namespace UserService.Business
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddMapping();
-            services.ConfigureMailing();
+            services.AddConfigureMailing();
             return services;
         }
         /// <summary>
@@ -121,10 +124,22 @@ namespace UserService.Business
             services.AddScoped<IMapper, ServiceMapper>();
             return services;
         }
-        public static IServiceCollection ConfigureMailing(this IServiceCollection services)
+        public static IServiceCollection AddConfigureMailing(this IServiceCollection services)
         {
             services.AddTransient<IMailService, SmtpMailService>();
             services.AddOptions<MailOptions>().BindConfiguration(nameof(MailOptions));
+            return services;
+        }
+
+        public static IServiceCollection AddRabbitMQ(this IServiceCollection services, Microsoft.Extensions.Configuration.ConfigurationManager configuration)
+        {
+            var rabbitMQConnectionString = configuration.GetConnectionString("RabbitMQ") ?? "amqp://localhost";
+            services.AddSingleton<IRabbitConnectionFactory>(provider =>
+            {
+                return new RabbitConnectionFactory(rabbitMQConnectionString);
+            });
+            services.AddSingleton<IBrokerPublisher<Project>, ProjectRabbitMqPublisher>();
+            services.AddSingleton<IBrokerPublisher<User>, UserRabbitMqPublisher>();
             return services;
         }
     }

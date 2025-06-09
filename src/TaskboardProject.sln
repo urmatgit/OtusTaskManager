@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.DataAccess.xUni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Business.xUnitTests", "UserService.Business.xUnitTests\UserService.Business.xUnitTests.csproj", "{6091F4E1-1FA2-4512-857C-867605548D6F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitMQ.Connector", "..\Common\RabbitMQ.Connector\RabbitMQ.Connector.csproj", "{3F0DC7F4-2863-BDCF-425A-A10CEA0337D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{6091F4E1-1FA2-4512-857C-867605548D6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6091F4E1-1FA2-4512-857C-867605548D6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6091F4E1-1FA2-4512-857C-867605548D6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F0DC7F4-2863-BDCF-425A-A10CEA0337D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F0DC7F4-2863-BDCF-425A-A10CEA0337D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F0DC7F4-2863-BDCF-425A-A10CEA0337D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F0DC7F4-2863-BDCF-425A-A10CEA0337D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
