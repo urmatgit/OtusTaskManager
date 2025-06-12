@@ -1,1 +1,0 @@
-C:\Users\vvereshchagin\source\repos\taskboardproject\Fronted\ClientService\ClientService\obj\Debug\clientservice.esproj.CoreCompileInputs.cache
