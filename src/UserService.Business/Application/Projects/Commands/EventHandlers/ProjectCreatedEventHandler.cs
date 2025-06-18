@@ -8,16 +8,19 @@ using System.Text;
 using System.Threading.Tasks;
 using UserService.DataAccess.Entities;
 using UserService.DataAccess.Entities.Events;
+using UserService.DataAccess.Enums;
 
 namespace UserService.Business.Application.Projects.Commands.EventHandlers
 {
-    public class ProjectCreatedEventHandler(ILogger<ProjectCreatedEventHandler> logger, IBrokerPublisher<Project> brokerPublisher) : INotificationHandler<ProjectCreatedEvent>
+    public class ProjectCreatedEventHandler(ILogger<ProjectCreatedEventHandler> logger, IBrokerPublisher<PublishMassage<Project>> brokerPublisher) : INotificationHandler<ProjectCreatedEvent>
     {
         
         public async Task Handle(ProjectCreatedEvent notification,  CancellationToken cancellationToken)
         {
             logger.LogInformation("handling project created domain event..");
-             brokerPublisher.Publish(notification.Project);
+            PublishMassage<Project> publishMassage = new DataAccess.Entities.PublishMassage<Project>(notification.Project, notification.RaisedOn, MessageAction.Created);
+            brokerPublisher.Publish(publishMassage);
+
             //await Task.FromResult(notification);
             logger.LogInformation("finished handling project created domain event..");
         }

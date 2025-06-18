@@ -8,17 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using UserService.DataAccess.Entities;
 using UserService.DataAccess.Entities.Events;
+using UserService.DataAccess.Enums;
 
 namespace UserService.Business.Application.Projects.Commands.EventHandlers
 {
-    internal class UserCreatedEventHandler(ILogger<UserCreatedEventHandler> logger, IBrokerPublisher<User> brokerPublisher) : INotificationHandler<UserCreatedEvent>
+    internal class UserCreatedEventHandler(ILogger<UserCreatedEventHandler> logger, IBrokerPublisher<PublishMassage<User>> brokerPublisher) : INotificationHandler<UserCreatedEvent>
     {
         public async Task Handle(UserCreatedEvent notification, CancellationToken cancellationToken)
         {
 
             logger.LogInformation("handling user created domain event..");
-            brokerPublisher.Publish(notification.user);
-            await Task.FromResult(notification);
+            PublishMassage<User> publishMassage = new DataAccess.Entities.PublishMassage<User>(notification.user, notification.RaisedOn, MessageAction.Created);
+            brokerPublisher.Publish(publishMassage);
             logger.LogInformation("finished handling user created domain event..");
         }
     }

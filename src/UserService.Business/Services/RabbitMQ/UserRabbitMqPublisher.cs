@@ -10,9 +10,9 @@ using UserService.DataAccess.Entities;
 
 namespace UserService.Business.Services.RabbitMQ
 {
-    public class UserRabbitMqPublisher : RabbitMqPublisher<User>
+    public class UserRabbitMqPublisher : RabbitMqPublisher<PublishMassage<User>>
     {
-        public UserRabbitMqPublisher(ILogger<RabbitMqPublisher<User>> logger, IRabbitConnectionFactory connectionFactory,  string? exchangeType = null) 
+        public UserRabbitMqPublisher(ILogger<RabbitMqPublisher<PublishMassage<User>>> logger, IRabbitConnectionFactory connectionFactory,  string? exchangeType = null) 
             : base(logger, connectionFactory, "user-queue", "user-events", exchangeType)
         {
         }

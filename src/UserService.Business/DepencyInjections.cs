@@ -138,8 +138,8 @@ namespace UserService.Business
             {
                 return new RabbitConnectionFactory(rabbitMQConnectionString);
             });
-            services.AddSingleton<IBrokerPublisher<Project>, ProjectRabbitMqPublisher>();
-            services.AddSingleton<IBrokerPublisher<User>, UserRabbitMqPublisher>();
+            services.AddSingleton<IBrokerPublisher<PublishMassage<Project>>, ProjectRabbitMqPublisher>();
+            services.AddSingleton<IBrokerPublisher<PublishMassage<User>>, UserRabbitMqPublisher>();
             return services;
         }
     }
