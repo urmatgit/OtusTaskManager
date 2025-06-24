@@ -12,8 +12,8 @@ namespace UserService.Business.Services.RabbitMQ
 {
     public class UserRabbitMqPublisher : RabbitMqPublisher<PublishMassage<User>>
     {
-        public UserRabbitMqPublisher(ILogger<RabbitMqPublisher<PublishMassage<User>>> logger, IRabbitConnectionFactory connectionFactory,  string? exchangeType = null) 
-            : base(logger, connectionFactory, "user-queue", "user-events", exchangeType)
+        public UserRabbitMqPublisher( IRabbitConnectionFactory connectionFactory, ILogger<RabbitMqPublisher<PublishMassage<User>>> logger) 
+            : base(logger, connectionFactory,  "user-queue", "user-events")
         {
         }
     }

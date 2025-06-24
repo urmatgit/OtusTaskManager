@@ -50,6 +50,7 @@ namespace UserService.Api
                     c.IncludeXmlComments(xmlPath);
                 });
                 builder.Services.AddHttpContextAccessor();
+                builder.Services.AddRabbitMQ(builder.Configuration);
                 builder.Services.AddPersistance(builder.Configuration);
 
                 builder.Services.AddApi(builder.Configuration);

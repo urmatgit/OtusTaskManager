@@ -19,7 +19,9 @@ namespace UserService.Business.Application.Projects.Commands.EventHandlers
 
             logger.LogInformation("handling user logout domain event..");
             PublishMassage<User> publishMassage = new DataAccess.Entities.PublishMassage<User>(notification.user, notification.RaisedOn, MessageAction.Logout);
-            brokerPublisher.Publish(publishMassage);
+            await Task.Run(() => {
+                brokerPublisher.Publish(publishMassage);
+            });
             logger.LogInformation("finished handling user logout domain event..");
         }
     }

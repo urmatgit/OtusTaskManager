@@ -12,14 +12,16 @@ using UserService.DataAccess.Enums;
 
 namespace UserService.Business.Application.Projects.Commands.EventHandlers
 {
-    internal class UserCreatedEventHandler(ILogger<UserCreatedEventHandler> logger, IBrokerPublisher<PublishMassage<User>> brokerPublisher) : INotificationHandler<UserCreatedEvent>
+    internal class UserCreatedEventHandler( IBrokerPublisher<PublishMassage<User>> brokerPublisher, ILogger<UserCreatedEventHandler> logger) : INotificationHandler<UserCreatedEvent>
     {
         public async Task Handle(UserCreatedEvent notification, CancellationToken cancellationToken)
         {
 
             logger.LogInformation("handling user created domain event..");
             PublishMassage<User> publishMassage = new DataAccess.Entities.PublishMassage<User>(notification.user, notification.RaisedOn, MessageAction.Created);
-            brokerPublisher.Publish(publishMassage);
+            await Task.Run(() => {
+                brokerPublisher.Publish(publishMassage);
+            });
             logger.LogInformation("finished handling user created domain event..");
         }
     }

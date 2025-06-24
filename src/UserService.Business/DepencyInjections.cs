@@ -45,6 +45,7 @@ namespace UserService.Business
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddMapping();
+            
             services.AddConfigureMailing();
             return services;
         }
@@ -126,7 +127,10 @@ namespace UserService.Business
         }
         public static IServiceCollection AddConfigureMailing(this IServiceCollection services)
         {
-            services.AddTransient<IMailService, SmtpMailService>();
+
+            
+            services.AddTransient<IMailService, SendMailThroughRabbtiMQService>(); //send mail confirm to rabbitMQ
+          //  services.AddTransient<IMailService, SmtpMailService>();
             services.AddOptions<MailOptions>().BindConfiguration(nameof(MailOptions));
             return services;
         }
@@ -140,6 +144,7 @@ namespace UserService.Business
             });
             services.AddSingleton<IBrokerPublisher<PublishMassage<Project>>, ProjectRabbitMqPublisher>();
             services.AddSingleton<IBrokerPublisher<PublishMassage<User>>, UserRabbitMqPublisher>();
+            services.AddSingleton(typeof(IBrokerPublisher<>), typeof(SendMessageService<>));
             return services;
         }
     }

@@ -13,6 +13,7 @@ namespace UserService.DataAccess.Enums
         Updated,
         Deleted,
         Login,
-        Logout
+        Logout,
+        ConfirmEmail
     }
 }
