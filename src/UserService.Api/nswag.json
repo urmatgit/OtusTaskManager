@@ -24,7 +24,7 @@
       "moduleName": "",
       "namespace": "",
       "typeScriptVersion": 2.7,
-      "template": "Axois",
+      "template": "Axios",
       "promiseType": "Promise",
       "httpClass": "HttpClient",
       "withCredentials": false,

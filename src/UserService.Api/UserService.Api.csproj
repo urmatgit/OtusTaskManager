@@ -50,5 +50,7 @@
     <Folder Include="Logs\" />
     <Folder Include="Services\" />
   </ItemGroup>
-
+	<!--<Target Name="NSwag" AfterTargets="Build">
+		<Exec Command="$(NSwagExe_Net80) run nswag.json /variables:Configuration=$(Configuration)" />
+	</Target>-->
 </Project>
