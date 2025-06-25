@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
 using UserService.Business.Services.Auth;
 using UserService.DataAccess.Common.Errors;
 using UserService.DataAccess.DTOs.Auth;
@@ -36,8 +37,18 @@ namespace UserService.Api.Controllers
                 return BadRequest(validationResult.ToDictionary());
             var origin = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.Value}{HttpContext.Request.PathBase.Value}";
             var response = await _userService.RegisterAsync(request,origin);
-            if (response.IsFailure) {
-                return BadRequest(response.Error);
+            if (response.IsFailure)
+            {
+                {
+                    var problemDetails = new ProblemDetails
+                    {
+                        Instance = HttpContext.Request.Path,
+                        Detail= response.Error,
+                        Title="Registration error"
+                    };
+                    return BadRequest(problemDetails);
+                }
+                
             }
             _logger.LogInformation($"Register new user {response.Value.Username}");
             return Ok(response.Value);
@@ -52,7 +63,15 @@ namespace UserService.Api.Controllers
             var response = await _userService.LoginAsync(request);
             if (response.IsFailure)
             {
-                return BadRequest(response.Error);
+
+                var problemDetails = new ProblemDetails
+                {
+                    Instance = HttpContext.Request.Path,
+                    Detail = response.Error,
+                    Title = "Login error"
+                };
+                return BadRequest(problemDetails);
+                
             }
             return Ok(response.Value);
         }

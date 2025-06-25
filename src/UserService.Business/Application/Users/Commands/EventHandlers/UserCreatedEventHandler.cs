@@ -20,7 +20,7 @@ namespace UserService.Business.Application.Projects.Commands.EventHandlers
             logger.LogInformation("handling user created domain event..");
             PublishMassage<User> publishMassage = new DataAccess.Entities.PublishMassage<User>(notification.user, notification.RaisedOn, MessageAction.Created);
             await Task.Run(() => {
-                brokerPublisher.Publish(publishMassage);
+                brokerPublisher?.Publish(publishMassage);
             });
             logger.LogInformation("finished handling user created domain event..");
         }

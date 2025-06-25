@@ -9,6 +9,7 @@ namespace RabbitMQ.Connector
 
         public IConnection CreateConnection()
         {
+            
             var factory = new ConnectionFactory
             {
                 Uri = new Uri(_connectionString),

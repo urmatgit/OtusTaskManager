@@ -138,9 +138,10 @@ namespace UserService.Business
         public static IServiceCollection AddRabbitMQ(this IServiceCollection services, Microsoft.Extensions.Configuration.ConfigurationManager configuration)
         {
             var rabbitMQConnectionString = configuration.GetConnectionString("RabbitMQ") ?? "amqp://localhost";
+            ///временно 
             services.AddSingleton<IRabbitConnectionFactory>(provider =>
             {
-                return new RabbitConnectionFactory(rabbitMQConnectionString);
+                return new RabbitConnectionFactoryFake(rabbitMQConnectionString);// RabbitConnectionFactory(rabbitMQConnectionString);
             });
             services.AddSingleton<IBrokerPublisher<PublishMassage<Project>>, ProjectRabbitMqPublisher>();
             services.AddSingleton<IBrokerPublisher<PublishMassage<User>>, UserRabbitMqPublisher>();

@@ -11,9 +11,8 @@ namespace UserService.DataAccess.Enums
     /// </summary>
     public enum  ProjectRole
     {
+        User=1,
         Admin,
-        User,
-        
         Owner,
         Editor
     }

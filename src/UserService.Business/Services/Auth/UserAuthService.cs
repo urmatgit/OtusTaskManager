@@ -59,7 +59,7 @@ namespace UserService.Business.Services.Auth
                 return Result<AuthResponse>.Failure(Errors.UsernameAlreadyExists);
                 
             }
-            var user = new User(request.Username, request.FirstNama, request.LastNama, request.Email, request.Phone, request.Role, _passwordHasher.Hash(request.Password));
+            var user = new User(request.Username, request.FirstName, request.LastName, request.Email, request.Phone, request.Role, _passwordHasher.Hash(request.Password));
             
             var token = _jwtService.GenerateAuthResponse(user);
             //user.RefreshToken = token.Token;

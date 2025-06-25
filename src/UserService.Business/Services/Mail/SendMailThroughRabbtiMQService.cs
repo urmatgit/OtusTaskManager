@@ -21,7 +21,7 @@ namespace UserService.Business.Services.Mail
             var message = new PublishMassage<MailRequest>(request,DateTime.Now,MessageAction.ConfirmEmail);
             await Task.Run(() =>
             {
-                _brokerPublisher.Publish(message);
+                _brokerPublisher?.Publish(message);
             });
             
              

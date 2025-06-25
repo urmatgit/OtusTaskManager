@@ -24,11 +24,14 @@ public class RabbitMqPublisher<T> : IDisposable, IBrokerPublisher<T> where T : c
     public RabbitMqPublisher(ILogger<RabbitMqPublisher<T>> logger, IRabbitConnectionFactory connectionFactory,
         string queue, string? exchange = null, string? exchangeType = null)
     {
+        if (connectionFactory == null) return;
         _queue = queue ?? throw new ArgumentNullException(nameof(queue));
         _logger = logger;
         exchange ??= string.Empty;
 
         _connection = connectionFactory.CreateConnection();
+        if (_connection == null) return;
+
         _channel = _connection.CreateModel();
 
         _logger.LogInformation("RabbitMq connection '{connectionUrl}' created", connectionFactory.ConnectionString);
@@ -49,6 +52,8 @@ public class RabbitMqPublisher<T> : IDisposable, IBrokerPublisher<T> where T : c
 
     public void Publish(T entity)
     {
+        if (_channel == null) return;
+
         ArgumentNullException.ThrowIfNull(entity);
 
         string message = JsonConvert.SerializeObject(entity, JsonSerializerHelper.GetTypeNameHandlingNoneSettings());

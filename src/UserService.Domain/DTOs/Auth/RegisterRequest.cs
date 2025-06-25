@@ -9,8 +9,8 @@ using UserService.DataAccess.Enums;
 namespace UserService.DataAccess.DTOs.Auth
 {
     public record RegisterRequest(
-    string FirstNama,
-    string LastNama,
+    string FirstName,
+    string LastName,
     string Username,
     string Email,
     string Phone,
