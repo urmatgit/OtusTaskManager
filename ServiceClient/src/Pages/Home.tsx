@@ -3,15 +3,14 @@ import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { notification } from "antd";
 import { login, getCurrentUser } from "../Services/authService";
-
+import { isAuthenticated } from "../PrivateRoute";
 const Home: React.FC = () => {
   const navigate = useNavigate();
   const [api, contextHolder] = notification.useNotification();
 
   // Проверка авторизации при загрузке
   useEffect(() => {
-    const user = getCurrentUser();
-    if (user == null) {
+    if (!isAuthenticated()) {
       navigate("/login");
       api.info({
         message: "Вы еще не уже авторизованы",

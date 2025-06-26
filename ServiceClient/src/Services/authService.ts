@@ -150,6 +150,7 @@ export const logout = (): void => {
 // Получение текущего пользователя
 export const getCurrentUser = (): UserData | null => {
   const userStr = localStorage.getItem('user');
+
   return userStr ? JSON.parse(userStr) : null;
 };
 

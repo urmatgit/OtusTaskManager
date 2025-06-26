@@ -95,9 +95,34 @@ namespace UserService.Business.Services.Auth
             
             return verificationUri;
         }
+        bool IsValidEmail(string email)
+        {
+            var trimmedEmail = email.Trim();
+
+            if (trimmedEmail.EndsWith("."))
+            {
+                return false; // suggested by @TK-421
+            }
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == trimmedEmail;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         public async Task<Result<AuthResponse>> LoginAsync(LoginRequest request)
         {
-            var user = await _userRepository.FindByUserNameAsync(request.Username);
+            User user = null; 
+            //Авторизация с почтой или логином
+            if (IsValidEmail(request.Username))
+            {
+                user = await _userRepository.FindByUserEmailAsync(request.Username);
+            }
+            else 
+                user = await _userRepository.FindByUserNameAsync(request.Username);
              if(user is null)
                return  Result<AuthResponse>.Failure(Errors.InvalidCredentials);
 

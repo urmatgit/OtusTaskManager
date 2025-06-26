@@ -1,35 +1,58 @@
-import { Button, Card, Form, Input, Typography } from "antd";
+import {
+  Button,
+  Card,
+  Form,
+  Input,
+  Typography,
+  message,
+  notification,
+} from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { login, getCurrentUser } from "../Services/authService";
 import { useEffect } from "react";
-import { Notification } from "../Components/Notification"; // Ваш компонент уведомлений
+import { useOutletContext } from "react-router-dom";
+import { isAuthenticated } from "../PrivateRoute";
 
 const { Text, Title } = Typography;
-
+type OutletContext = {
+  handleLogin: () => void;
+};
 const LoginPage = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
+  const [notificationApi, contextHolder] = notification.useNotification();
+  const { handleLogin } = useOutletContext<OutletContext>();
 
   // Проверка авторизации при загрузке
   useEffect(() => {
-    const user = getCurrentUser();
-    if (user) {
+    //const user = getCurrentUser();
+    if (isAuthenticated()) {
       navigate("/dashboard");
-      Notification.info(
-        "Вы уже авторизованы",
-        "Перенаправляем в личный кабинет"
-      );
+      notificationApi.info({
+        message: "Вы уже авторизованы",
+        description: "Перенаправляем в личный кабинет",
+        placement: "topRight",
+      });
     }
   }, [navigate]);
 
   const onFinish = async (values: { username: string; password: string }) => {
     try {
       await login(values);
+      handleLogin();
       navigate("/dashboard");
-      Notification.success("Вход выполнен", "Добро пожаловать!");
+      notificationApi.success({
+        message: "Вход выполнен",
+        description: "Добро пожаловать!",
+        placement: "topRight",
+      });
     } catch (error) {
       console.log(error);
-      Notification.error("Ошибка входа", "Неверные учетные данные");
+      notificationApi.error({
+        message: "Ошибка входа",
+        description: error.message,
+        placement: "topRight",
+      });
     }
   };
 
@@ -43,6 +66,7 @@ const LoginPage = () => {
         padding: "20px",
       }}
     >
+      {contextHolder}
       <div>
         <Card
           bordered={false}
