@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { notification } from 'antd';
+
 
 const API_URL = 'https://localhost:7024/api/auth/';
 
@@ -45,13 +45,7 @@ export const register = async (data: RegisterData): Promise<UserData> => {
     
     if (response.data.token) {
       // Успешная регистрация
-      notification.success({
-        message: 'Регистрация успешна',
-        description: 'Аккаунт успешно создан!',
-        placement: 'topRight',
-        duration: 4.5
-      });
-
+      
       const userData: UserData = {
         ...response.data.user,
         token: response.data.token,
@@ -80,12 +74,7 @@ export const register = async (data: RegisterData): Promise<UserData> => {
       }
     }
     
-    notification.error({
-      message: 'Ошибка регистрации',
-      description: errorMessage,
-      placement: 'topRight',
-      duration: 5
-    });
+    
     
     throw new Error(errorMessage);
   }
@@ -98,12 +87,7 @@ export const login = async (data: LoginData): Promise<UserData> => {
 
     if (response.data.token) {
       // Успешный вход
-      notification.success({
-        message: 'Вход выполнен',
-        description: 'Вы успешно авторизовались!',
-        placement: 'topRight',
-        duration: 4.5
-      });
+       
 
       const userData: UserData = {
         ...response.data.user,
@@ -126,32 +110,43 @@ export const login = async (data: LoginData): Promise<UserData> => {
       }
     }
     
-    notification.error({
-      message: 'Ошибка авторизации',
-      description: errorMessage,
-      placement: 'topRight',
-      duration: 5
-    });
+    
     
     throw new Error(errorMessage);
+  }
+};
+//Проверка токена истекший
+ const isTokenExpired = (token: string | null): boolean => {
+  if (!token) return true;
+  
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const exp = payload.exp;
+    const now = Date.now() / 1000;
+    
+    return exp < now;
+  } catch (error) {
+    console.error('Error decoding token:', error);
+    return true;
   }
 };
 
 // Выход из системы
 export const logout = (): void => {
   localStorage.removeItem('user');
-  notification.info({
-    message: 'Выход выполнен',
-    description: 'Вы успешно вышли из системы',
-    placement: 'topRight'
-  });
+   
 };
 
 // Получение текущего пользователя
 export const getCurrentUser = (): UserData | null => {
   const userStr = localStorage.getItem('user');
-
-  return userStr ? JSON.parse(userStr) : null;
+  if (userStr===null) return null;
+  const userData=JSON.parse(userStr) ;
+  if (isTokenExpired(userData.token)) {
+    localStorage.removeItem('user');
+    return null;
+  }
+  return userData;
 };
 
 // Заголовок авторизации для запросов
