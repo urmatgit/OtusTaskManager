@@ -1,18 +1,10 @@
-import {
-  Button,
-  Card,
-  Form,
-  Input,
-  Typography,
-  message,
-  notification,
-} from "antd";
+import { Button, Card, Form, Input, message, Typography } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { login, getCurrentUser } from "../Services/authService";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useOutletContext } from "react-router-dom";
-import { isAuthenticated } from "../PrivateRoute";
-
+import { isAuthenticated } from "../ProtectedRoute";
+import { useNotification } from "../Components/NotificationContext";
 const { Text, Title } = Typography;
 type OutletContext = {
   handleLogin: () => void;
@@ -20,38 +12,41 @@ type OutletContext = {
 const LoginPage = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const [notificationApi, contextHolder] = notification.useNotification();
-  const { handleLogin } = useOutletContext<OutletContext>();
+  const notification = useNotification();
+  const { handleLogin } = useOutletContext<OutletContext>() || {};
 
   // Проверка авторизации при загрузке
+  const prevAuth = useRef(isAuthenticated);
   useEffect(() => {
     //const user = getCurrentUser();
+
     if (isAuthenticated()) {
+      if (prevAuth.current !== isAuthenticated)
+        notification.info({
+          message: "Вы уже авторизованы",
+          description: "Перенаправляем в личный кабинет",
+        });
+
       navigate("/dashboard");
-      notificationApi.info({
-        message: "Вы уже авторизованы",
-        description: "Перенаправляем в личный кабинет",
-        placement: "topRight",
-      });
     }
   }, [navigate]);
 
   const onFinish = async (values: { username: string; password: string }) => {
     try {
       await login(values);
-      handleLogin();
-      navigate("/dashboard");
-      notificationApi.success({
+      if (handleLogin !== null) handleLogin();
+
+      notification.success({
         message: "Вход выполнен",
         description: "Добро пожаловать!",
-        placement: "topRight",
       });
+
+      //navigate("/dashboard");
     } catch (error) {
       console.log(error);
-      notificationApi.error({
+      notification.error({
         message: "Ошибка входа",
         description: error.message,
-        placement: "topRight",
       });
     }
   };
@@ -66,7 +61,6 @@ const LoginPage = () => {
         padding: "20px",
       }}
     >
-      {contextHolder}
       <div>
         <Card
           bordered={false}

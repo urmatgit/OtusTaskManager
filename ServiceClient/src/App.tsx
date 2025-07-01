@@ -9,6 +9,7 @@ import { getCurrentUser, logout } from "./Services/authService";
 
 import { useEffect, useState } from "react";
 import { LogoutButton } from "./Components/Logout";
+
 import "./styles/authorize.css";
 const { Header, Content, Footer } = Layout;
 const { Text } = Typography;

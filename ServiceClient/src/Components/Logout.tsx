@@ -6,22 +6,20 @@ import {
   Dropdown,
   type MenuProps,
   Modal,
-  notification,
 } from "antd";
 import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 
 import { useNavigate } from "react-router-dom";
 import { getCurrentUser, logout } from "../Services/authService";
 import { useState } from "react";
-
+import { useNotification } from "../Components/NotificationContext";
 const { Text } = Typography;
 export const LogoutButton = ({ onLogout }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [currentUser] = useState(getCurrentUser());
-  const [modal, contextHolder] = Modal.useModal();
-  const [notificationApi, contextHolderNotification] =
-    notification.useNotification();
+  const [modal, contextHolderModal] = Modal.useModal();
+  const notificationApi = useNotification();
   const handleLogout = async () => {
     setLoading(true);
     try {
@@ -78,7 +76,6 @@ export const LogoutButton = ({ onLogout }) => {
 
   return (
     <>
-      {contextHolderNotification}
       <Dropdown menu={{ items }} trigger={["click"]} placement="bottomRight">
         <Space style={{ cursor: "pointer" }}>
           <Avatar
@@ -89,7 +86,7 @@ export const LogoutButton = ({ onLogout }) => {
           <Text>{currentUser?.username}</Text>
         </Space>
       </Dropdown>
-      <div>{contextHolder}</div>
+      <div>{contextHolderModal}</div>
     </>
   );
 };

@@ -1,13 +1,27 @@
-import { Button, Card, Form, Input, Select, notification } from "antd";
-import { useNavigate } from "react-router-dom";
-import { register, ProjectRole } from "../Services/authService";
+import { Button, Card, Form, Input, Select } from "antd";
+import { useEffect } from "react";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
+import { register, ProjectRole } from "../Services/authService";
+import { useNotification } from "../Components/NotificationContext";
+import { isAuthenticated } from "../ProtectedRoute";
 const { Option } = Select;
+type OutletContext = {
+  handleLogin: () => void;
+};
 
 const Register = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const [notificationApi, contextHolder] = notification.useNotification();
+  const notificationApi = useNotification();
+  const { handleLogin } = useOutletContext<OutletContext>() || {};
+  useEffect(() => {
+    //const user = getCurrentUser();
+
+    if (isAuthenticated()) {
+      navigate("/dashboard");
+    }
+  }, [navigate]);
 
   const onFinish = async (values: {
     firstName: string;
@@ -28,16 +42,16 @@ const Register = () => {
         Password: values.password,
         Role: values.role,
       });
-
+      if (handleLogin !== null) handleLogin();
       // Уведомление об успешной регистрации
       notificationApi.success({
         message: "Регистрация прошла успешно",
         description: "Ваш аккаунт был успешно создан!",
         placement: "topRight",
-        duration: 4.5,
+        duration: 4,
       });
 
-      navigate("/login");
+      navigate("/dashboard");
     } catch (error) {
       // Ошибки обрабатываются в authService
       console.error("Ошибка регистрации:", error);
@@ -60,9 +74,6 @@ const Register = () => {
         padding: "20px",
       }}
     >
-      {/* Контейнер для уведомлений */}
-      {contextHolder}
-
       <Card
         title="Создать аккаунт"
         style={{
