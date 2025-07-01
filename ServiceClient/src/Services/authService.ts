@@ -130,7 +130,23 @@ export const login = async (data: LoginData): Promise<UserData> => {
     return true;
   }
 };
-
+const isDateExpired = (expiration: string | null): boolean => {
+  if (!expiration) return true;
+  
+  try {
+    //server expiration UTC date
+    const utcDate=new Date(expiration);
+    //current local time as milliseconds
+    const now = Date.now();
+    //convert local time to UTC date
+    
+    
+    return utcDate.getTime() < now;
+  } catch (error) {
+    console.error('Error decoding token:', error);
+    return true;
+  }
+};
 // Выход из системы
 export const logout = (): void => {
   localStorage.removeItem('user');
@@ -142,7 +158,7 @@ export const getCurrentUser = (): UserData | null => {
   const userStr = localStorage.getItem('user');
   if (userStr===null) return null;
   const userData=JSON.parse(userStr) ;
-  if (isTokenExpired(userData.token)) {
+  if (isDateExpired(userData.tokenExpiration)) {
     localStorage.removeItem('user');
     return null;
   }
