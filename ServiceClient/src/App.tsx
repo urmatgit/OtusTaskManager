@@ -46,15 +46,18 @@ export const App = () => {
 
   useEffect(() => {
     setSelectedKeys([location.pathname]);
+    updateUserInfo();
   }, [location]);
-  // Handle logout function in App component
-  const handleLogout = async () => {
+  const updateUserInfo = async () => {
     const user = getCurrentUser();
     setCurrentUser(user);
   };
-  const handleLogin = () => {
-    const user = getCurrentUser();
-    setCurrentUser(user);
+  // Handle logout function in App component
+  const handleLogout = async () => {
+    await updateUserInfo();
+  };
+  const handleLogin = async () => {
+    await updateUserInfo();
   };
   if (!currentUser) {
     return (
