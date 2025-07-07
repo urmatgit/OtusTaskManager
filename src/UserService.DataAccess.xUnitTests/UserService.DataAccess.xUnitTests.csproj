@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\UserService.Domain\UserService.DataAccess.csproj" />
+    <ProjectReference Include="..\UserService.DataAccess\UserService.DataAccess.csproj" />
   </ItemGroup>
 
   <ItemGroup>

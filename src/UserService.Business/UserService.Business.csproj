@@ -24,8 +24,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\RabbitMQ.Connector\RabbitMQ.Connector.csproj" />
-    <ProjectReference Include="..\UserService.Domain\UserService.DataAccess.csproj" />
+    <ProjectReference Include="..\UserService.DataAccess\UserService.DataAccess.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="RabbitMQ.Connector">
+      <HintPath>..\..\ReferenceLibs\RabbitMQ.Connector.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
