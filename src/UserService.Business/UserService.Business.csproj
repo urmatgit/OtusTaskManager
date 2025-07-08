@@ -29,7 +29,8 @@
 
   <ItemGroup>
     <Reference Include="RabbitMQ.Connector">
-      <HintPath>..\..\ReferenceLibs\RabbitMQ.Connector.dll</HintPath>
+      <HintPath>..\ReferenceLibs\RabbitMQ.Connector.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
 

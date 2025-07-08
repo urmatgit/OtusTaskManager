@@ -50,6 +50,13 @@
     <Folder Include="Logs\" />
     <Folder Include="Services\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="RabbitMQ.Connector">
+      <HintPath>..\ReferenceLibs\RabbitMQ.Connector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
 	<!--<Target Name="NSwag" AfterTargets="Build">
 		<Exec Command="$(NSwagExe_Net80) run nswag.json /variables:Configuration=$(Configuration)" />
 	</Target>-->
