@@ -39,7 +39,7 @@ RUN apt-get update && \
     update-ca-certificates    
 RUN curl -v https://api.nuget.org/v3/index.json || echo "Proxy connectivity check failed"
 
-
+RUN dotnet workload uninstall --all && dotnet workload install --skip-manifest-update
 WORKDIR /src
 #COPY ["*.sln", "."]
 

@@ -1,3 +1,3 @@
 
-docker-compose -f docker-compose.yml up
+docker-compose -f keycloak.yml up
 pause

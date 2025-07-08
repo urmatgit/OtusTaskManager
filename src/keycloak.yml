@@ -1,0 +1,45 @@
+services:
+
+  postgres:
+   container_name: Database1
+   image: postgres:latest
+   hostname: postgres
+   restart: always
+   environment:
+     POSTGRES_DB: keycloak
+     POSTGRES_USER: postgres
+     POSTGRES_PASSWORD: password
+   volumes:
+     - pg-data:/var/lib/postgresql/data
+   ports:
+     - "5434:5432"
+
+  keycloak:
+    container_name: keycloak_web
+    image: quay.io/keycloak/keycloak:24.0.4
+    command: start-dev
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5434/keycloak
+      KC_DB_USERNAME: postgres
+      KC_DB_PASSWORD: password
+      PROXY_ADDRESS_FORWARDING: true
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 8080
+      KC_HOSTNAME_STRICT: false
+      KC_HOSTNAME_STRICT_HTTPS: false
+      KC_LOG_LEVEL: info
+      KC_METRICS_ENABLED: true
+      KC_HEALTH_ENABLED: true
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "6080:8080"
+volumes:
+  pg-data:  
+ 
+networks:
+  default:
+    name: myLocalNetwork # создана извне: docker network create --driver=bridge myLocalNetwork
+    external: true
+
