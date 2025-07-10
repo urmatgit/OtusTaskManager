@@ -1,129 +1,84 @@
-import { Layout, Menu, theme, Typography, Space } from "antd";
-import {
-  HomeOutlined,
-  FileTextOutlined,
-  BarChartOutlined,
-} from "@ant-design/icons";
-import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
-import { getCurrentUser, logout } from "./Services/authService";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ConfigProvider, Layout, theme } from "antd";
+import HeaderWithMenu from "./Components/HeaderWithMenu";
+import { AuthProvider } from "./Components/AuthContext";
 
-import { useEffect, useState } from "react";
-import { LogoutButton } from "./Components/Logout";
+import "./App.css";
 
-import "./styles/authorize.css";
-const { Header, Content, Footer } = Layout;
-const { Text } = Typography;
+// Pages
+import HomePage from "./Pages/Home";
+import DashboardPage from "./Pages/Dashboard";
+import KanbanBoardPage from "./Pages/KanbanBoard";
+import LoginPage1 from "./Pages/LoginPage1";
+import NotFoundPage from "./Pages/NotFoundPage";
+import ProtectedRoute from "./ProtectedRoute";
 
-// Конфигурация маршрутов
-const menuItems = [
-  {
-    key: "/",
-    icon: <HomeOutlined />,
-    label: "Главная",
-  },
-  {
-    key: "/dashboard",
-    icon: <FileTextOutlined />,
-    label: "Dashboard",
-  },
-  {
-    key: "/Board",
-    icon: <BarChartOutlined />,
-    label: "KanbanBoard",
-  },
-];
+const { Content, Footer } = Layout;
 
-export const App = () => {
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
-
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [currentUser, setCurrentUser] = useState(getCurrentUser());
-  const [selectedKeys, setSelectedKeys] = useState([location.pathname]);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setSelectedKeys([location.pathname]);
-    updateUserInfo();
-  }, [location]);
-  const updateUserInfo = async () => {
-    const user = getCurrentUser();
-    setCurrentUser(user);
-  };
-  // Handle logout function in App component
-  const handleLogout = async () => {
-    await updateUserInfo();
-  };
-  const handleLogin = async () => {
-    await updateUserInfo();
-  };
-  if (!currentUser) {
-    return (
-      <Content>
-        <Outlet context={{ handleLogin }} />
-      </Content>
-    );
-  }
-
+const App: React.FC = () => {
   return (
-    <Layout style={{ minHeight: "100vh", background: "none" }}>
-      {/* Верхняя панель */}
-      <Header
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "0 24px",
-          background: colorBgContainer,
-          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
-          position: "sticky",
-          top: 0,
-          zIndex: 1,
-        }}
-      >
-        {/* Логотип и навигация */}
-        <Space>
-          <Link to="/">
-            <Text strong style={{ fontSize: "18px" }}>
-              <HomeOutlined /> Таск менеджер
-            </Text>
-          </Link>
-
-          <Menu
-            theme="light"
-            mode="horizontal"
-            selectedKeys={selectedKeys}
-            items={menuItems}
-            onClick={({ key }) => navigate(key)}
-            style={{ minWidth: 500 }}
-          />
-        </Space>
-        {/* Блок пользователя */}
-        <div>
-          <LogoutButton onLogout={handleLogout} />
-        </div>
-      </Header>
-
-      {/* Основное содержимое */}
-      <Content style={{ padding: "8px" }}>
-        <div
-          style={{
-            padding: 24,
-            minHeight: "calc(100vh - 64px - 70px)",
-            background: colorBgContainer,
-            borderRadius: 8,
-          }}
-        >
-          <Outlet />
-        </div>
-      </Content>
-
-      {/* Подвал */}
-      <Footer style={{ textAlign: "center", padding: "0" }}>
-        Таск менеджер ©{new Date().getFullYear()}
-      </Footer>
-    </Layout>
+    <ConfigProvider
+      theme={{
+        algorithm: theme.defaultAlgorithm,
+        token: {
+          colorPrimary: "#1890ff",
+          borderRadius: 4,
+          colorBgContainer: "#ffffff",
+        },
+      }}
+    >
+      <AuthProvider>
+        <Router>
+          <Layout style={{ minHeight: "100vh" }}>
+            <HeaderWithMenu />
+            <Content style={{ padding: "24px 48px" }}>
+              <div
+                style={{
+                  minHeight: "calc(100vh - 188px)",
+                  background: "#fff",
+                  padding: 24,
+                  borderRadius: 4,
+                }}
+              >
+                <Routes>
+                  <Route path="/login" element={<LoginPage1 />} />
+                  <Route
+                    path="/"
+                    element={
+                      <ProtectedRoute>
+                        <HomePage />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/dashboard"
+                    element={
+                      <ProtectedRoute requiredRoles={["User"]}>
+                        <DashboardPage />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/kanban"
+                    element={
+                      <ProtectedRoute requiredRoles={["Admin"]}>
+                        <KanbanBoardPage />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route path="*" element={<NotFoundPage />} />
+                </Routes>
+              </div>
+            </Content>
+            <Footer style={{ textAlign: "center" }}>
+              MyApp ©{new Date().getFullYear()} Created by Your Team
+            </Footer>
+          </Layout>
+        </Router>
+      </AuthProvider>
+    </ConfigProvider>
   );
 };
+
+export default App;

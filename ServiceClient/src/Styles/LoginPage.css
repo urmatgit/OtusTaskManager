@@ -1,0 +1,10 @@
+/* LoginPage.css */
+.ant-card {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+.ant-btn-primary {
+  height: 40px;
+  font-weight: 500;
+}

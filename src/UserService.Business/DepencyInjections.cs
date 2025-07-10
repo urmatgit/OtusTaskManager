@@ -97,10 +97,12 @@ namespace UserService.Business
                 //    policy.RequireRole("Editor", "Admin"));
             });
 
-            services.AddScoped<IUserAuthService, UserAuthService>();
-            services.AddSingleton<IPasswordHasher, PasswordHasher>();
-            services.AddSingleton<IJwtService, JwtService>();
+            //services.AddScoped<IUserAuthService, UserAuthService>();
             services.AddTransient<ICurrentUser, CurrentUser>();
+
+            //services.AddSingleton<IPasswordHasher, PasswordHasher>();
+            //services.AddSingleton<IJwtService, JwtService>();
+            
             services.AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                 {

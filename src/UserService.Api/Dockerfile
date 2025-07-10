@@ -14,6 +14,14 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+COPY ["./ReferenceLibs/","ReferenceLibs/"] 
+COPY ["./UserService.DataAccess/", "UserService.DataAccess/"]
+RUN dotnet restore "UserService.DataAccess/UserService.DataAccess.csproj" 
+
+COPY ["./UserService.Business/", "UserService.Business/"]
+RUN dotnet restore "UserService.Business/UserService.Business.csproj"
+
+
 COPY ["./UserService.Api/UserService.Api.csproj", "UserService.Api/"]
 RUN dotnet restore "./UserService.Api/UserService.Api.csproj"
 COPY . .

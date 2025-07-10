@@ -2,23 +2,22 @@
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { notification } from "antd";
-import { login, getCurrentUser } from "../Services/authService";
-import { isAuthenticated } from "../PrivateRoute";
+
 const Home: React.FC = () => {
   const navigate = useNavigate();
   const [api, contextHolder] = notification.useNotification();
 
   // Проверка авторизации при загрузке
-  useEffect(() => {
-    if (!isAuthenticated()) {
-      navigate("/login");
-      api.info({
-        message: "Вы еще не уже авторизованы",
-        description: "Перенаправляем на страницу авторизации",
-        placement: "topRight",
-      });
-    }
-  }, [navigate, api]);
+  // useEffect(() => {
+  //   if (!isAuthenticated()) {
+  //     navigate("/login");
+  //     api.info({
+  //       message: "Вы еще не уже авторизованы",
+  //       description: "Перенаправляем на страницу авторизации",
+  //       placement: "topRight",
+  //     });
+  //   }
+  // }, [navigate, api]);
   return (
     <div className="auth-container">
       <h1>Домашняя страница</h1>

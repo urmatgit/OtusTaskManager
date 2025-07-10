@@ -5,6 +5,7 @@ using UserService.Api.Middlewares;
 using Serilog;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using System.Configuration;
 
 namespace UserService.Api
 {
@@ -54,7 +55,10 @@ namespace UserService.Api
                 builder.Services.AddPersistance(builder.Configuration);
 
                 builder.Services.AddApi(builder.Configuration);
-                builder.Services.AddAuth(builder.Configuration);
+                //manual authentiction
+                //builder.Services.AddAuth(builder.Configuration);
+
+                builder.Services.AddKeycloakAuthentication(builder.Configuration);
 
                 builder.Services.AddBusiness(builder.Configuration);
                 builder.Services.AddOpenApiDocument(configure =>

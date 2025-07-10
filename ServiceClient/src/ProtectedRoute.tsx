@@ -1,26 +1,59 @@
-import { getCurrentUser } from "./Services/authService";
+import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
+import { useAuth } from "./Components/AuthContext";
+import { Result, Button } from "antd";
 
-interface PrivateRouteProps {
+interface ProtectedRouteProps {
   children: React.ReactNode;
+  requiredRoles?: string[];
 }
-export const isAuthenticated = () => {
-  // Логика проверки аутентификации
-  return getCurrentUser() !== null;
-  //return sessionStorage.getItem('accessToken') !== null; // Пример
-};
 
-export const ProtectedRoute: React.FC<PrivateRouteProps> = ({
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
-}: {
-  children: React.ReactNode;
+  requiredRoles = [],
 }) => {
   const location = useLocation();
-  const user = getCurrentUser();
+  const { isAuthenticated, isLoading, isAdmin, isUser } = useAuth();
 
-  if (!user) {
+  if (isLoading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      ></div>
+    );
+  }
+
+  if (!isAuthenticated) {
     return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  // Check roles if required
+  const hasRequiredRole =
+    requiredRoles.length === 0 ||
+    (requiredRoles.includes("Admin") && isAdmin) ||
+    (requiredRoles.includes("User") && isUser);
+
+  if (!hasRequiredRole) {
+    return (
+      <Result
+        status="403"
+        title="403"
+        subTitle="Sorry, you are not authorized to access this page."
+        extra={
+          <Button type="primary" href="/">
+            Back Home
+          </Button>
+        }
+      />
+    );
   }
 
   return <>{children}</>;
 };
+
+export default ProtectedRoute;
