@@ -143,7 +143,8 @@ namespace UserService.Business
             ///временно 
             services.AddSingleton<IRabbitConnectionFactory>(provider =>
             {
-                return new RabbitConnectionFactoryFake(rabbitMQConnectionString);// RabbitConnectionFactory(rabbitMQConnectionString);
+                //return new RabbitConnectionFactoryFake(rabbitMQConnectionString);// RabbitConnectionFactory(rabbitMQConnectionString);
+                return new RabbitConnectionFactory(rabbitMQConnectionString);
             });
             services.AddSingleton<IBrokerPublisher<PublishMassage<Project>>, ProjectRabbitMqPublisher>();
             services.AddSingleton<IBrokerPublisher<PublishMassage<User>>, UserRabbitMqPublisher>();

@@ -10,7 +10,7 @@ using UserService.DataAccess.Entities;
 
 namespace UserService.Business.Services.RabbitMQ
 {
-    public class ProjectRabbitMqPublisher : RabbitMqPublisher<PublishMassage<Project>>
+    public class ProjectRabbitMqPublisher : RabbitMqPublisherFake<PublishMassage<Project>>
     {
         public ProjectRabbitMqPublisher(ILogger<RabbitMqPublisher<PublishMassage<Project>>> logger, IRabbitConnectionFactory connectionFactory) 
             : base(logger, connectionFactory,  "project-queue", "project-events", "")

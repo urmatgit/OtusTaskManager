@@ -40,13 +40,19 @@ const HeaderWithMenu: React.FC = () => {
       key: "dashboard",
       icon: <DashboardOutlined />,
       label: "Dashboard",
-      onClick: () => navigate("/"),
+      onClick: () => navigate("/dashboard"),
     },
     {
-      key: "users",
+      key: "kanban",
       icon: <TeamOutlined />,
-      label: "Users",
-      onClick: () => navigate("/users"),
+      label: "kanban",
+      onClick: () => navigate("/kanban"),
+    },
+    {
+      key: "projects",
+      icon: <SettingOutlined />,
+      label: "Projects",
+      onClick: () => navigate("/projects"),
     },
     {
       key: "settings",

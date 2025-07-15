@@ -56,6 +56,7 @@ namespace UserService.Api
                     ValidateAudience = true,
                     ValidateIssuerSigningKey = true,
                     ValidateIssuer = true,
+                    ValidAudience= configuration["Keycloak:Audience"],
                     ValidIssuer = configuration["Keycloak:Authority"],
                     ValidateLifetime = true
                 };

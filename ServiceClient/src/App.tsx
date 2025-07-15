@@ -13,7 +13,7 @@ import KanbanBoardPage from "./Pages/KanbanBoard";
 import LoginPage1 from "./Pages/LoginPage1";
 import NotFoundPage from "./Pages/NotFoundPage";
 import ProtectedRoute from "./ProtectedRoute";
-
+import ProjectsPage from "./Pages/ProjectsPage";
 const { Content, Footer } = Layout;
 
 const App: React.FC = () => {
@@ -54,7 +54,7 @@ const App: React.FC = () => {
                   <Route
                     path="/dashboard"
                     element={
-                      <ProtectedRoute requiredRoles={["User"]}>
+                      <ProtectedRoute >
                         <DashboardPage />
                       </ProtectedRoute>
                     }
@@ -64,6 +64,14 @@ const App: React.FC = () => {
                     element={
                       <ProtectedRoute requiredRoles={["Admin"]}>
                         <KanbanBoardPage />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/projects"
+                    element={
+                      <ProtectedRoute >
+                        <ProjectsPage />
                       </ProtectedRoute>
                     }
                   />

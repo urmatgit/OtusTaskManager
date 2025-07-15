@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Asn1.Ocsp;
 using System.Security.Claims;
 using UserService.Business.Application.Projects.Commands.CreateProject;
 using UserService.Business.Application.Projects.Commands.DeleteProject;
@@ -21,9 +22,10 @@ namespace UserService.Api.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpGet]
-        public async Task<IActionResult> GetProjectsAsync(GetProjectsRequest request)
+        [HttpGet()]
+        public async Task<IActionResult> GetProjectsAsync()
         {
+            var request = new GetProjectsRequest();
             var result = await Mediator.Send(request);
             return Ok(result);
         }

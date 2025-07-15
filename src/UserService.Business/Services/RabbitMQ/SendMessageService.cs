@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace UserService.Business.Services.RabbitMQ
 {
-    public class SendMessageService<T> : RabbitMqPublisher<T> where T : class
+    public class SendMessageService<T> : RabbitMqPublisherFake<T> where T : class
     {
         public SendMessageService(ILogger<RabbitMqPublisher<T>> logger, IRabbitConnectionFactory connectionFactory) : base(logger, connectionFactory, "message-queue", "message-events", null)
         {
