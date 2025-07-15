@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MailKit" Version="4.13.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="RabbitMQ.Connector">
+      <HintPath>..\..\ReferenceLibs\RabbitMQ.Connector.dll</HintPath>
+    </Reference>
+    <Reference Include="RabbitMQ.Messages">
+      <HintPath>..\..\ReferenceLibs\RabbitMQ.Messages.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
