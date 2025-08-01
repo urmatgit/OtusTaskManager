@@ -1,92 +1,25 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ConfigProvider, Layout, theme } from "antd";
-import HeaderWithMenu from "./Components/HeaderWithMenu";
-import { AuthProvider } from "./Components/AuthContext";
+import { Routes, Route } from "react-router-dom";
+import { LoginPage } from "./Pages/LoginPage1";
+import { RegisterPage } from "./Pages/RegisterPage";
+import { ProfilePage } from "./Pages/ProfilePage";
 
-import "./App.css";
-
-// Pages
-import HomePage from "./Pages/Home";
-import DashboardPage from "./Pages/Dashboard";
-import KanbanBoardPage from "./Pages/KanbanBoard";
-import LoginPage1 from "./Pages/LoginPage1";
-import NotFoundPage from "./Pages/NotFoundPage";
-import ProtectedRoute from "./ProtectedRoute";
-import ProjectsPage from "./Pages/ProjectsPage";
-const { Content, Footer } = Layout;
-
-const App: React.FC = () => {
+function App() {
   return (
-    <ConfigProvider
-      theme={{
-        algorithm: theme.defaultAlgorithm,
-        token: {
-          colorPrimary: "#1890ff",
-          borderRadius: 4,
-          colorBgContainer: "#ffffff",
-        },
+    <div
+      style={{
+        minHeight: "100vh",
+        padding: "20px",
+        backgroundColor: "#f0f2f5",
       }}
     >
-      <AuthProvider>
-        <Router>
-          <Layout style={{ minHeight: "100vh" }}>
-            <HeaderWithMenu />
-            <Content style={{ padding: "24px 48px" }}>
-              <div
-                style={{
-                  minHeight: "calc(100vh - 188px)",
-                  background: "#fff",
-                  padding: 24,
-                  borderRadius: 4,
-                }}
-              >
-                <Routes>
-                  <Route path="/login" element={<LoginPage1 />} />
-                  <Route
-                    path="/"
-                    element={
-                      <ProtectedRoute>
-                        <HomePage />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/dashboard"
-                    element={
-                      <ProtectedRoute >
-                        <DashboardPage />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/kanban"
-                    element={
-                      <ProtectedRoute requiredRoles={["Admin"]}>
-                        <KanbanBoardPage />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/projects"
-                    element={
-                      <ProtectedRoute >
-                        <ProjectsPage />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route path="*" element={<NotFoundPage />} />
-                </Routes>
-              </div>
-            </Content>
-            <Footer style={{ textAlign: "center" }}>
-              MyApp ©{new Date().getFullYear()} Created by Your Team
-            </Footer>
-          </Layout>
-        </Router>
-      </AuthProvider>
-    </ConfigProvider>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="*" element={<RegisterPage />} />
+      </Routes>
+    </div>
   );
-};
+}
 
 export default App;

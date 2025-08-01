@@ -19,6 +19,9 @@ using System.Security.Claims;
 using System.Text.Json;
 using UserService.DataAccess.Enums;
 using System.Data;
+using Keycloak.Net;
+using System.Buffers.Text;
+
 
 namespace UserService.Api
 {
@@ -42,8 +45,10 @@ namespace UserService.Api
         }
         public static IServiceCollection AddKeycloakAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddHttpClient<KeycloakUserService>();
+            services.AddScoped<KeycloakUserService>();
             services
-            .AddAuthentication()
+            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
                 options.RequireHttpsMetadata = Convert.ToBoolean($"{configuration["Keycloak:require-https"]}");
@@ -53,37 +58,38 @@ namespace UserService.Api
                 options.RequireHttpsMetadata = false; // only for development
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateAudience = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidateIssuer = true,
-                    ValidAudience= configuration["Keycloak:Audience"],
-                    ValidIssuer = configuration["Keycloak:Authority"],
-                    ValidateLifetime = true
+                    ValidateAudience = false,
+                    //ValidateIssuerSigningKey = true,
+                    //ValidateIssuer = true,
+                    //ValidAudience= configuration["Keycloak:Audience"],
+                    //ValidIssuer = configuration["Keycloak:Authority"]
+                    
+                    
                 };
-                options.Events = new JwtBearerEvents
-                {
-                    OnTokenValidated = context =>
-                    {
-                        if (context.Principal.Identity is ClaimsIdentity identity)
-                        {
-                            var realmAccess = context.Principal.FindFirst("realm_access")?.Value;
-                            if (!string.IsNullOrEmpty(realmAccess))
-                            {
-                                foreach (string role in Enum.GetNames(typeof(ProjectRole)))
-                                {
-                                    identity.AddClaim(new Claim(ClaimTypes.Role, role));
-                                }
-                                //var realmAccessObj = JsonSerializer.Deserialize<RealmAccess>(realmAccess);
+                //options.Events = new JwtBearerEvents
+                //{
+                //    OnTokenValidated = context =>
+                //    {
+                //        if (context.Principal.Identity is ClaimsIdentity identity)
+                //        {
+                //            var realmAccess = context.Principal.FindFirst("realm_access")?.Value;
+                //            if (!string.IsNullOrEmpty(realmAccess))
+                //            {
+                //                foreach (string role in Enum.GetNames(typeof(ProjectRole)))
+                //                {
+                //                    identity.AddClaim(new Claim(ClaimTypes.Role, role));
+                //                }
+                //                //var realmAccessObj = JsonSerializer.Deserialize<RealmAccess>(realmAccess);
 
-                                //foreach (var role in realmAccessObj.Roles)
-                                //{
-                                //    identity.AddClaim(new Claim(ClaimTypes.Role, role));
-                                //}
-                            }
-                        }
-                        return Task.CompletedTask;
-                    }
-                };
+                //                //foreach (var role in realmAccessObj.Roles)
+                //                //{
+                //                //    identity.AddClaim(new Claim(ClaimTypes.Role, role));
+                //                //}
+                //            }
+                //        }
+                //        return Task.CompletedTask;
+                //    }
+                //};
                 //options.TokenValidationParameters = new TokenValidationParameters
                 //{
                 //    //RoleClaimType = "groups",
@@ -93,6 +99,23 @@ namespace UserService.Api
                 //    ValidateIssuer = Convert.ToBoolean($"{configuration["Keycloak:validate-issuer"]}"),
                 //};
             });
+            // Add Keycloak admin client
+            //services.AddHttpClient("KeycloakAdmin",client =>
+            //{
+            //    client.BaseAddress = new Uri($"{configuration["Keycloak:baseUrl"]}/admin/realms/{configuration["Keycloak:Realm"]}/");
+
+            //    //keycloakOptions.AuthServerUrl = builder.Configuration["Keycloak:Authority"];
+            //    //keycloakOptions.Realm = builder.Configuration["Keycloak:Realm"];
+            //    //keycloakOptions.ClientId = builder.Configuration["Keycloak:AdminClientId"];
+            //    //keycloakOptions.ClientSecret = builder.Configuration["Keycloak:AdminClientSecret"];
+
+            //});
+            //services.AddTransient(provider =>
+            //{
+            //    var factory = provider.GetRequiredService<IHttpClientFactory>();
+            //    return new KeycloakClient(factory.CreateClient("KeycloakAdmin"),Base64Url:$"{configuration["Keycloak:baseUrl"]}")
+            //})
+
             //services.AddScoped<IUserAuthService, UserAuthService>();
             services.AddTransient<ICurrentUser, CurrentUser>();
             services.AddAuthorization(o =>

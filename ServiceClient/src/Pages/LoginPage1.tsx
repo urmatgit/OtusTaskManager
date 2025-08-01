@@ -1,43 +1,58 @@
-import React from "react";
-import { useAuth } from "../Components/AuthContext";
-import { Button, Card, Layout, Typography, Space } from "antd";
-import { LoginOutlined } from "@ant-design/icons";
-import "../Styles/LoginPage.css";
+// src/pages/LoginPage.tsx
+import { Button, Form } from "antd";
+import { useState } from "react";
+import { keycloak } from "../Services/keycloak";
 
-const { Content } = Layout;
-const { Title, Text } = Typography;
+export const LoginPage = () => {
+  const [loading, setLoading] = useState(false);
 
-const LoginPage1: React.FC = () => {
-  const { login } = useAuth();
+  const handleLogin = () => {
+    setLoading(true);
+    keycloak.login().finally(() => setLoading(false));
+  };
 
   return (
-    <Layout style={{ minHeight: "100vh", background: "#f0f2f5" }}>
-      <Content
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Card style={{ width: 420, textAlign: "center" }}>
-          <Space direction="vertical" size="large">
-            <img src="/logo.svg" alt="Logo" style={{ height: "64px" }} />
-            <Title level={3}>Welcome to MyApp</Title>
-            <Text type="secondary">Please sign in to continue</Text>
+    <div style={styles.container}>
+      <div style={styles.card}>
+        <h2>Вход в систему</h2>
+        <p style={{ color: "#888", marginBottom: "24px" }}>
+          Введите свои данные для входа
+        </p>
+
+        <Form layout="vertical" onFinish={handleLogin}>
+          <Form.Item>
             <Button
               type="primary"
-              size="large"
-              icon={<LoginOutlined />}
-              onClick={login}
+              htmlType="submit"
+              loading={loading}
               block
+              size="large"
             >
-              Sign In with Keycloak
+              Войти через Keycloak
             </Button>
-          </Space>
-        </Card>
-      </Content>
-    </Layout>
+          </Form.Item>
+        </Form>
+        <div style={{ textAlign: "center", marginTop: "16px" }}>
+          <a href="/register">Нет аккаунта? Зарегистрироваться</a>
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default LoginPage1;
+const styles = {
+  container: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    minHeight: "80vh",
+  },
+  card: {
+    backgroundColor: "white",
+    padding: "40px",
+    borderRadius: "8px",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+    width: "100%",
+    maxWidth: 480,
+  },
+};
