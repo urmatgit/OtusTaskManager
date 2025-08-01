@@ -45,31 +45,31 @@ services:
       - "9080:9080"      
     networks: 
       - taskboard-net
-  #PowerShell Генерироовать сертифиакат
+  #PowerShell Генерировать сертифиакат на локальном компьютере
 #dotnet dev-certs https -ep "$env:USERPROFILE\.aspnet\https\aspnetapp.pfx"  -p taskboardSert1
 #dotnet dev-certs https --trust
-  # dotnet-webapi: 
-  #   container_name: userService-webapi
-  #   depends_on:
-  #     - taskboard-db
-  #   build: 
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   networks: 
-  #     - taskboard-net
-  #   environment: 
-  #     - ASPNETCORE_ENVIRONMENT=Development
-  #     - ASPNETCORE_HTTP_PORTS=8080
-  #     - ASPNETCORE_HTTPS_PORTS=8081
-  #     - ASPNETCORE_Kestrel__Certificates__Default__Password=taskboardSert1
-  #     - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
-  #     - ConnectionStrings__TaskboardDb=Host=Postgrebase;Username=postgres;Password=postgres;Database=taskboardDb;Port=5433;
-  #   ports:
-  #     - "7080:8080"
-  #     - "7081:8081"
-  #   restart: always
-  #   volumes:
-  #     - ~/.aspnet/https:/https:ro
+  dotnet-webapi: 
+    container_name: userService-webapi
+    depends_on:
+      - taskboard-db
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    networks: 
+      - taskboard-net
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=taskboardSert1
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ConnectionStrings__TaskboardDb=Host=Postgrebase;Username=postgres;Password=postgres;Database=taskboardDb;Port=5433;
+    ports:
+      - "7080:8080"
+      - "7081:8081"
+    restart: always
+    volumes:
+      - ~/.aspnet/https:/https:ro
   rabbit:
     image: rabbitmq:4-management
     restart: always
