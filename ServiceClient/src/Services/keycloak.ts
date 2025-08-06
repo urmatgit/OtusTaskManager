@@ -1,6 +1,6 @@
 import Keycloak from 'keycloak-js';
 
-const _keycloakInstance  = new Keycloak({
+const _keycloak  = new Keycloak({
   url: 'http://localhost:9080',
   realm: 'TaskManagerRealm',
   clientId: 'taskmanagerID'
@@ -9,4 +9,4 @@ const _keycloakInstance  = new Keycloak({
 
 
 
-export const keycloak=_keycloakInstance ;
+export const keycloak=_keycloak ;

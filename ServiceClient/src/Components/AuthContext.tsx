@@ -1,56 +1,49 @@
-import { createContext, useContext, type ReactNode } from "react";
-import { useKeycloak } from "@react-keycloak/web";
+import React, { createContext, useState, useEffect } from 'react';
+import {keycloak} from "../Services/keycloak";
 
-interface AuthContextType {
-  isAdmin: boolean;
-  isUser: boolean;
-  isLoading: boolean;
-  isAuthenticated: boolean;
-  username: string;
-  profile: {
-    name?: string;
-    email?: string;
-  };
-  login: () => void;
-  logout: () => void;
-}
+export const AuthContext = createContext({
+  authenticated: null as boolean | null,
+  token: null as string | null,
+  login: () => {},
+  logout: () => {},
+});
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [authenticated, setAuthenticated] = useState<boolean | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+ const [kcInitialized, setKcInitialized] = useState(false);
+  useEffect(() => {
+    const init = async () => {
+      if (!kcInitialized){
+      const auth = await keycloak.init({
+        onLoad: 'check-sso',
+        silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html',
+       });
+       setAuthenticated(auth);
+      if (auth) setToken(keycloak.token);
+       setKcInitialized(true);
+      }
+      
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const { keycloak, initialized } = useKeycloak();
+      // Обновление токена
+      const interval = setInterval(() => {
+        keycloak.updateToken(60).then(refreshed => {
+          if (refreshed) setToken(keycloak.token);
+        });
+      }, 300000); // 5 минут
 
-  const isAdmin = initialized && keycloak.hasRealmRole("Admin");
-  const isUser = initialized && keycloak.hasRealmRole("User");
-  const isAuthenticated = initialized && keycloak.authenticated;
+      return () => clearInterval(interval);
+    };
 
-  const profile = {
-    name:
-      keycloak.tokenParsed?.name || keycloak.tokenParsed?.preferred_username,
-    email: keycloak.tokenParsed?.email,
-  };
+    init();
+  }, []);
 
   const login = () => keycloak.login();
-  const logout = () => keycloak.logout();
+  const logout = () => keycloak.logout({ redirectUri: window.location.origin });
 
-  const value = {
-    isAdmin,
-    isUser,
-    isLoading: !initialized,
-    isAuthenticated,
-    username: keycloak.tokenParsed?.preferred_username || "",
-    profile,
-    login,
-    logout,
-  };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-};
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
+  return (
+    <AuthContext.Provider value={{ authenticated, token, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };

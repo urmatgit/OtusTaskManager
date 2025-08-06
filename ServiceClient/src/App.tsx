@@ -1,25 +1,19 @@
-import { Routes, Route } from "react-router-dom";
-import { LoginPage } from "./Pages/LoginPage1";
-import { RegisterPage } from "./Pages/RegisterPage";
-import { ProfilePage } from "./Pages/ProfilePage";
+import { Routes, Route,useNavigate } from 'react-router-dom';
+import { LoginPage } from './Pages/LoginPage';
+import { ProfilePage } from './Pages/ProfilePage';
+import { PrivateRoute } from './Pages/PrivateRoute';
 
-function App() {
+export default function App() {
+  const navigate = useNavigate();
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        padding: "20px",
-        backgroundColor: "#f0f2f5",
-      }}
-    >
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="*" element={<RegisterPage />} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/profile" element={
+        <PrivateRoute>
+          <ProfilePage />
+        </PrivateRoute>
+      } />
+      <Route path="*" element={<LoginPage />} />
+    </Routes>
   );
 }
-
-export default App;

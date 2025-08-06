@@ -1,41 +1,39 @@
-import { useEffect, useState } from "react";
-import { keycloak } from "../Services/keycloak";
+import { Button, Typography } from 'antd';
+import { useContext,useState,useEffect } from 'react';
+import { AuthContext } from '../Components/AuthContext';
+import {api} from '../Services/client';
+
+const { Title } = Typography;
 
 export const ProfilePage = () => {
+  const { logout } = useContext(AuthContext);
   const [profile, setProfile] = useState<any>(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const res = await fetch("https://localhost:7024/api/Account", {
-        headers: { Authorization: `Bearer ${keycloak.token}` },
-      });
-      const data = await res.json();
-      setProfile(data);
+      try {
+        const res = await api.get('/profile');
+        setProfile(res.data);
+      } catch (err) {
+        console.error(err);
+      }
     };
-
-    if (keycloak.token) fetchProfile();
+    fetchProfile();
   }, []);
-
-  if (!profile) return <div>Загрузка...</div>;
 
   return (
     <div style={{ padding: 20 }}>
-      <h2>Профиль</h2>
-      <p>
-        <strong>Логин:</strong> {profile.Username}
-      </p>
-      <p>
-        <strong>Имя:</strong> {profile.FirstName}
-      </p>
-      <p>
-        <strong>Фамилия:</strong> {profile.LastName}
-      </p>
-      <p>
-        <strong>Email:</strong> {profile.Email}
-      </p>
-      <p>
-        <strong>Телефон:</strong> {profile.Phone}
-      </p>
+      <Title level={2}>Профиль</Title>
+      {profile && (
+        <div>
+          <p><strong>Логин:</strong> {profile.Username}</p>
+          <p><strong>Email:</strong> {profile.Email}</p>
+          <p><strong>Роли:</strong> {profile.Roles.join(', ')}</p>
+        </div>
+      )}
+      <Button type="default" onClick={logout} style={{ marginTop: 20 }}>
+        Выйти
+      </Button>
     </div>
   );
 };
