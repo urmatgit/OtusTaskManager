@@ -77,7 +77,7 @@ namespace UserService.Api
                 }
                 //Только при работы с базой 
                 await app.Services.InitializeDatabasesAsync();
-                app.UseHttpsRedirection();
+                //app.UseHttpsRedirection();
 
 
                 app.UseAuthentication();

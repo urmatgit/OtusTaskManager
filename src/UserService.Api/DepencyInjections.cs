@@ -55,17 +55,17 @@ namespace UserService.Api
                 //x.MetadataAddress = $"{configuration["Keycloak:server-url"]}/realms/OTUS/.well-known/openid-configuration";
                 options.Authority = configuration["Keycloak:Authority"];
                 options.Audience = configuration["Keycloak:Audience"];
-                options.RequireHttpsMetadata = false; // only for development
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateAudience = false,
-                    //ValidateIssuerSigningKey = true,
-                    //ValidateIssuer = true,
-                    //ValidAudience= configuration["Keycloak:Audience"],
-                    //ValidIssuer = configuration["Keycloak:Authority"]
+                //options.RequireHttpsMetadata = false; // only for development
+                //options.TokenValidationParameters = new TokenValidationParameters
+                //{
+                //    ValidateAudience = false,
+                //    //ValidateIssuerSigningKey = true,
+                //    //ValidateIssuer = true,
+                //    //ValidAudience= configuration["Keycloak:Audience"],
+                //    //ValidIssuer = configuration["Keycloak:Authority"]
                     
                     
-                };
+                //};
                 //options.Events = new JwtBearerEvents
                 //{
                 //    OnTokenValidated = context =>
