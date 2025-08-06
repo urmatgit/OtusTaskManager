@@ -1,9 +1,18 @@
+// src/context/AuthContext.tsx
 import React, { createContext, useState, useEffect } from 'react';
-import {keycloak} from "../Services/keycloak";
+import {keycloak} from '../Services/keycloak';
+import { setAuthHeader } from '../Services/client';
 
-export const AuthContext = createContext({
-  authenticated: null as boolean | null,
-  token: null as string | null,
+interface AuthContextType {
+  authenticated: boolean | null;
+  token: string | null;
+  login: (redirectUri?: string) => void;
+  logout: () => void;
+}
+
+export const AuthContext = createContext<AuthContextType>({
+  authenticated: null,
+  token: null,
   login: () => {},
   logout: () => {},
 });
@@ -11,35 +20,46 @@ export const AuthContext = createContext({
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [authenticated, setAuthenticated] = useState<boolean | null>(null);
   const [token, setToken] = useState<string | null>(null);
- const [kcInitialized, setKcInitialized] = useState(false);
+
+  const login = (redirectUri: string = '/profile') => {
+    sessionStorage.setItem('postLoginRedirect', redirectUri);
+    keycloak.login({
+      redirectUri: window.location.origin,
+    });
+  };
+
+  const logout = () => {
+    sessionStorage.removeItem('postLoginRedirect');
+    keycloak.logout({
+      redirectUri: window.location.origin,
+    });
+  };
+
   useEffect(() => {
-    const init = async () => {
-      if (!kcInitialized){
-      const auth = await keycloak.init({
-        onLoad: 'check-sso',
-        silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html',
-       });
-       setAuthenticated(auth);
-      if (auth) setToken(keycloak.token);
-       setKcInitialized(true);
-      }
-      
-
-      // Обновление токена
-      const interval = setInterval(() => {
-        keycloak.updateToken(60).then(refreshed => {
-          if (refreshed) setToken(keycloak.token);
+    const initKeycloak = async () => {
+      try {
+        const auth = await keycloak.init({
+          onLoad: 'check-sso',
+          silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html',
         });
-      }, 300000); // 5 минут
 
-      return () => clearInterval(interval);
+        setAuthenticated(auth);
+        if (auth) {
+          const newToken = keycloak.token;
+          setToken(newToken);
+          setAuthHeader(newToken); // ✅ Устанавливаем заголовок при входе
+        } else {
+          setAuthHeader(null); // Убираем, если не авторизован
+        }
+      } catch (error) {
+        console.error('Keycloak init failed', error);
+        setAuthenticated(false);
+        setAuthHeader(null);
+      }
     };
 
-    init();
+    initKeycloak();
   }, []);
-
-  const login = () => keycloak.login();
-  const logout = () => keycloak.logout({ redirectUri: window.location.origin });
 
   return (
     <AuthContext.Provider value={{ authenticated, token, login, logout }}>

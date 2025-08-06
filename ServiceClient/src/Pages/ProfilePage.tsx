@@ -12,7 +12,7 @@ export const ProfilePage = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await api.get('/profile');
+        const res = await api.get('/Profile');
         setProfile(res.data);
       } catch (err) {
         console.error(err);
