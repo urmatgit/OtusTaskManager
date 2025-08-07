@@ -1,26 +1,28 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using Microsoft.Extensions.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UserService.DataAccess.Persistence;
-using Microsoft.EntityFrameworkCore;
-using System.Configuration;
-using Microsoft.Extensions.Options;
-
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using FluentValidation;
-using Microsoft.AspNetCore.Authorization;
-using UserService.Business.Services.Auth;
-using System.Security.Claims;
-using System.Text.Json;
-using UserService.DataAccess.Enums;
-using System.Data;
+﻿using FluentValidation;
 using Keycloak.Net;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.JsonWebTokens;
+using Microsoft.IdentityModel.Tokens;
+using Namotion.Reflection;
+using System;
 using System.Buffers.Text;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+using UserService.Business.Services.Auth;
+using UserService.DataAccess.Enums;
+using UserService.DataAccess.Persistence;
 
 
 namespace UserService.Api
@@ -48,48 +50,61 @@ namespace UserService.Api
             services.AddHttpClient<KeycloakUserService>();
             services.AddScoped<KeycloakUserService>();
             services
-            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddAuthentication(options=>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
             .AddJwtBearer(options =>
             {
                 options.RequireHttpsMetadata = Convert.ToBoolean($"{configuration["Keycloak:require-https"]}");
                 //x.MetadataAddress = $"{configuration["Keycloak:server-url"]}/realms/OTUS/.well-known/openid-configuration";
                 options.Authority = configuration["Keycloak:Authority"];
                 options.Audience = configuration["Keycloak:Audience"];
-                //options.RequireHttpsMetadata = false; // only for development
-                //options.TokenValidationParameters = new TokenValidationParameters
-                //{
-                //    ValidateAudience = false,
-                //    //ValidateIssuerSigningKey = true,
-                //    //ValidateIssuer = true,
-                //    //ValidAudience= configuration["Keycloak:Audience"],
-                //    //ValidIssuer = configuration["Keycloak:Authority"]
-                    
-                    
-                //};
-                //options.Events = new JwtBearerEvents
-                //{
-                //    OnTokenValidated = context =>
-                //    {
-                //        if (context.Principal.Identity is ClaimsIdentity identity)
-                //        {
-                //            var realmAccess = context.Principal.FindFirst("realm_access")?.Value;
-                //            if (!string.IsNullOrEmpty(realmAccess))
-                //            {
-                //                foreach (string role in Enum.GetNames(typeof(ProjectRole)))
-                //                {
-                //                    identity.AddClaim(new Claim(ClaimTypes.Role, role));
-                //                }
-                //                //var realmAccessObj = JsonSerializer.Deserialize<RealmAccess>(realmAccess);
+                options.RequireHttpsMetadata = false; // only for development
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateAudience = false,
+                    NameClaimType = "preferred_username",  // или "sub", "email"
+                    RoleClaimType = "realm_access.roles" // ✅ Именно это решает проблему!
+                    //    //ValidateIssuerSigningKey = true,
+                    //    //ValidateIssuer = true,
+                    //  ValidAudience= configuration["Keycloak:Audience"],
+                    //    //ValidIssuer = configuration["Keycloak:Authority"]
 
-                //                //foreach (var role in realmAccessObj.Roles)
-                //                //{
-                //                //    identity.AddClaim(new Claim(ClaimTypes.Role, role));
-                //                //}
-                //            }
-                //        }
-                //        return Task.CompletedTask;
-                //    }
-                //};
+
+                };
+                options.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = context =>
+                    {
+                        var claims = context.Principal?.Claims.ToList();
+
+                        // Ищем claim с типом "realm_access" и значением в JSON
+                        var realmAccessClaim = claims?.FirstOrDefault(c => c.Type == "realm_access");
+                        if (realmAccessClaim != null)
+                        {
+                            try
+                            {
+                                using var doc = JsonDocument.Parse(realmAccessClaim.Value);
+                                var rolesElement = doc.RootElement.GetProperty("roles");
+
+                                var roleClaims = new List<Claim>();
+                                foreach (var role in rolesElement.EnumerateArray())
+                                {
+                                    roleClaims.Add(new Claim(ClaimTypes.Role, role.GetString()));
+                                }
+
+                                context.Principal?.AddIdentity(new ClaimsIdentity(roleClaims));
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("Ошибка парсинга realm_access: " + ex.Message);
+                            }
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
                 //options.TokenValidationParameters = new TokenValidationParameters
                 //{
                 //    //RoleClaimType = "groups",

@@ -11,7 +11,7 @@ export  const AdminPage=()=>{
   useEffect(() => {
     const fetchAdminInfo = async () => {
       try {
-        const res = await api.get('/profile/admin');
+        const res = await api.get('/profile/admin-data');
         setAdminInfo(res.data);
       } catch (err) {
         setAdminInfo(err);
@@ -25,7 +25,9 @@ export  const AdminPage=()=>{
         <div style={{ padding: 20 }}>
           <h2 >This is admin page</h2>
             <div>
-             <p>{adminInfo}</p>
+             
+             <p>{adminInfo ? adminInfo.message: ""}</p>
+             <p>{adminInfo ? adminInfo.data : ""}</p>
             </div>
         </div>
     );

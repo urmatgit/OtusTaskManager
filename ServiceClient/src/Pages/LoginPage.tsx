@@ -1,7 +1,7 @@
 import { Button, Form } from 'antd';
 import { useContext } from 'react';
 import { AuthContext } from '../Components/AuthContext';
-
+import {keycloak} from '../Services/keycloak';
 export const LoginPage = () => {
   const { login } = useContext(AuthContext);
 const handleLogin = () => {
@@ -18,7 +18,14 @@ const handleLogin = () => {
             Войти через Keycloak
           </Button>
         </Form>
-        
+        <div style={{ textAlign: 'center', marginTop: 16 }}>
+         <a href="#" onClick={(e) => {
+              e.preventDefault();
+              keycloak.register({ redirectUri: window.location.origin });
+            }}>Нет аккаунта? Зарегистрироваться</a>
+          
+        </div>
+         
       </div>
     </div>
   );
