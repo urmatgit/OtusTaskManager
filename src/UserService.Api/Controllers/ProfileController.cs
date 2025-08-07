@@ -11,13 +11,13 @@ public class ProfileController : ControllerBase
     {
         return Ok(new
         {
-            Username = User.Identity?.Name,
-            Email = User.FindFirst("email")?.Value,
+            Username = User.FindFirst("name")?.Value,
+            Email = User.FindFirst("preferred_username")?.Value,
             Roles = User.FindAll("realm_access").Select(c => c.Value)
         });
     }
 
-    [Authorize(Roles = "user")]
-    [HttpGet("user")]
-    public IActionResult UserOnly() => Ok("Доступ только для пользователей");
+    [Authorize(Roles = "Admin")]
+    [HttpGet("admin")]
+    public IActionResult AdminOnly() => Ok("Доступ только для админам");
 }

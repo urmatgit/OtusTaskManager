@@ -4,12 +4,16 @@ import { AuthContext } from '../Components/AuthContext';
 
 export const LoginPage = () => {
   const { login } = useContext(AuthContext);
+const handleLogin = () => {
+    // Пример: после входа — на /profile
+    login('/profile');
+  };
 
   return (
     <div style={styles.container}>
       <div style={styles.card}>
         <h2>Вход</h2>
-        <Form onFinish={login}>
+        <Form onFinish={handleLogin}>
           <Button type="primary" htmlType="submit" size="large" block>
             Войти через Keycloak
           </Button>

@@ -21,8 +21,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [authenticated, setAuthenticated] = useState<boolean | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
+  // Функция входа с указанием, куда редиректить
   const login = (redirectUri: string = '/profile') => {
+    // Сохраняем целевой URL
     sessionStorage.setItem('postLoginRedirect', redirectUri);
+    // Переходим на Keycloak
     keycloak.login({
       redirectUri: window.location.origin,
     });
@@ -48,6 +51,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           const newToken = keycloak.token;
           setToken(newToken);
           setAuthHeader(newToken); // ✅ Устанавливаем заголовок при входе
+// 🔁 Получаем URL, на который нужно перейти
+          const redirectUrl = sessionStorage.getItem('postLoginRedirect') ;
+          if (redirectUrl!==null){
+            sessionStorage.removeItem('postLoginRedirect');
+
+            // 🔁 Перенаправляем
+            window.location.href = redirectUrl;
+          }
         } else {
           setAuthHeader(null); // Убираем, если не авторизован
         }

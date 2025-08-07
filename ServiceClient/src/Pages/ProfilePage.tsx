@@ -26,9 +26,9 @@ export const ProfilePage = () => {
       <Title level={2}>Профиль</Title>
       {profile && (
         <div>
-          <p><strong>Логин:</strong> {profile.Username}</p>
-          <p><strong>Email:</strong> {profile.Email}</p>
-          <p><strong>Роли:</strong> {profile.Roles.join(', ')}</p>
+          <p><strong>Логин:</strong> {profile.username}</p>
+          <p><strong>Email:</strong> {profile.email}</p>
+          <p><strong>Роли:</strong> {profile.roles.join(', ')}</p>
         </div>
       )}
       <Button type="default" onClick={logout} style={{ marginTop: 20 }}>
