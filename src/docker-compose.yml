@@ -70,6 +70,7 @@ services:
     restart: always
     volumes:
       - ~/.aspnet/https:/https:ro
+      - ~/.nuget/packages:/packages:ro
   rabbit:
     image: rabbitmq:4-management
     restart: always
