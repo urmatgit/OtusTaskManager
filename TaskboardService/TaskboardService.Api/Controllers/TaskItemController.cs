@@ -7,10 +7,18 @@ namespace TaskboardService.Api.Controllers
     [Route("api/[controller]")]
     public class TaskItemController : ControllerBase
     {
-        [HttpGet()]
+        [HttpGet("ItemList/{taskboardId:guid}")]
         public async Task<IActionResult> GetTaskItemList(Guid taskboardId) 
         {
             return Ok();
         }
+
+        [HttpGet("ItemColumnList/{taskboardId:guid}")]
+        public async Task<IActionResult> GetTaskItemColumnList(Guid taskboardId)
+        {
+            return Ok();
+        }
+
+
     }
 }

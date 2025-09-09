@@ -1,4 +1,7 @@
-﻿using TaskboardService.DataAccess.Abstraction;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+
+using TaskboardService.DataAccess.Abstraction;
 using TaskboardService.DataAccess.Enums;
 
 namespace TaskboardService.DataAccess.Entity
@@ -8,6 +11,18 @@ namespace TaskboardService.DataAccess.Entity
     /// </summary>
     public class TaskItem : BaseEntity
     {
+        /// <summary>
+        /// Идентификатор доски задач.
+        /// </summary>
+        [BsonGuidRepresentation(GuidRepresentation.Standard)]
+        public Guid TaskboardId { get; set; }
+
+        /// <summary>
+        /// Идентификатор столбца задачи.
+        /// </summary>
+        [BsonGuidRepresentation(GuidRepresentation.Standard)]
+        public Guid TaskboardColumnId { get; set; }
+
         /// <summary>
         /// Порядок сортировки задачи в колонке.
         /// </summary>
@@ -22,11 +37,6 @@ namespace TaskboardService.DataAccess.Entity
         /// описание задачи
         /// </summary>
         public required string Description { get; set; }
-
-        /// <summary>
-        /// Дата создание задачи
-        /// </summary>
-        public required DateTime CreatedDate { get; set; }
 
         /// <summary>
         /// Срок выполнения задачи
@@ -44,6 +54,11 @@ namespace TaskboardService.DataAccess.Entity
         public TaskPriority Priority { get; set; }
 
         /// <summary>
+        /// Постановщик задачи.
+        /// </summary>
+        public TaskboardUser Author { get; set; }
+
+        /// <summary>
         /// Список исполнителей задачи
         /// </summary>
         public List<TaskboardUser> Executors { get; set; } = [];
@@ -56,7 +71,7 @@ namespace TaskboardService.DataAccess.Entity
         /// <summary>
         /// Список файлов задачи
         /// </summary>
-        public List<TaskFile> Files { get; set; } = [];
+        public List<TaskAttachment> Files { get; set; } = [];
 
         /// <summary>
         /// список чек-листов

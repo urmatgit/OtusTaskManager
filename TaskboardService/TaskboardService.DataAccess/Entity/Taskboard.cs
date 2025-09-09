@@ -1,4 +1,7 @@
-﻿using TaskboardService.DataAccess.Abstraction;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+
+using TaskboardService.DataAccess.Abstraction;
 using TaskboardService.DataAccess.Enums;
 
 namespace TaskboardService.DataAccess.Entity
@@ -9,28 +12,33 @@ namespace TaskboardService.DataAccess.Entity
     public class Taskboard : BaseEntity
     {
         /// <summary>
+        /// Идентификатор проекта, которому привязана доска задач.
+        /// </summary>
+        [BsonElement("projectId")]
+        [BsonGuidRepresentation(GuidRepresentation.Standard)]
+        public Guid ProjectId { get; set; }
+        /// <summary>
         /// Порядок сортировки досок в списке.
         /// </summary>
+        [BsonElement("sortOrder")]
         public float SortOrder { get; set; }
 
         /// <summary>
         /// Название доски
         /// </summary>
+        [BsonElement("title")]
         public string Title { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Дата создания
-        /// </summary>
-        public DateTime CreatedDate { get; set; }
 
         /// <summary>
         /// Статус
         /// </summary>
+        [BsonElement("status")]
         public TaskboardStatus Status { get; set; }
 
         /// <summary>
         /// Список колонок доски
         /// </summary>
+        [BsonElement("columns")]
         public List<TaskboardColumn> Columns { get; set; } = [];
     }
 }

@@ -13,11 +13,6 @@ namespace TaskboardService.DataAccess.Entity
         public TaskboardUser Author { get; set; }
 
         /// <summary>
-        /// Дата создания
-        /// </summary>
-        public DateTime CreatedDate { get; set; }
-
-        /// <summary>
         /// Текст комментария
         /// </summary>
         public string? Text { get; set; }
@@ -25,6 +20,6 @@ namespace TaskboardService.DataAccess.Entity
         /// <summary>
         /// Список файлов в комментарии
         /// </summary>
-        public List<TaskFile> CommentFiles { get; set; } = [];
+        public List<TaskAttachment> CommentFiles { get; set; } = [];
     }
 }

@@ -11,5 +11,13 @@ namespace TaskboardService.DataAccess.Abstraction
         /// Идентификатор
         /// </summary>
         T Id { get; set; }
+        /// <summary>
+        /// Дата/время создания сущности.
+        /// </summary>
+        DateTime CreatedDate { get; set; }
+        /// <summary>
+        /// Дата/время последнего обновления сущности.
+        /// </summary>
+        DateTime UpdatedDate { get; set; }
     }
 }

@@ -5,7 +5,7 @@ namespace TaskboardService.DataAccess.Entity
     /// <summary>
     /// Файл, прикрепляемый к задаче/комментарию.
     /// </summary>
-    public class TaskFile : BaseEntity
+    public class TaskAttachment : BaseEntity
     {
         /// <summary>
         /// Название файла.
