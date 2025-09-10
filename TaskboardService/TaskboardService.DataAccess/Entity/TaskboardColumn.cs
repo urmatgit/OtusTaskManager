@@ -26,5 +26,11 @@ namespace TaskboardService.DataAccess.Entity
         /// </summary>
         [BsonElement("vipLimit")]
         public int VipLimit { get; set; }
+
+        /// <summary>
+        /// Список задач в колонке.
+        /// </summary>
+        [BsonElement("items")]
+        public List<TaskItem> Items { get; set; } = [];
     }
 }

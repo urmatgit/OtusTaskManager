@@ -346,3 +346,5 @@ ASALocalRun/
 */*/[Oo]bj/
 */*/appsettings.*.json
 */*/Properties/launchSettings.json
+
+*.local

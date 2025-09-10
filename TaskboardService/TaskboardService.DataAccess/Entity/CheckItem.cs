@@ -1,4 +1,6 @@
-﻿using TaskboardService.DataAccess.Abstraction;
+﻿using MongoDB.Bson.Serialization.Attributes;
+
+using TaskboardService.DataAccess.Abstraction;
 
 namespace TaskboardService.DataAccess.Entity
 {
@@ -10,11 +12,13 @@ namespace TaskboardService.DataAccess.Entity
         /// <summary>
         /// Название элемента
         /// </summary>
+        [BsonElement("name")]
         public string Name { get; set; } = string.Empty;
 
         /// <summary>
         /// Флаг выбранного элемента в чек-листе.
         /// </summary>
+        [BsonElement("flag")]
         public bool Flag { get; set; }
     }
 }

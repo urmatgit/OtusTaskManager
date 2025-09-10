@@ -1,4 +1,6 @@
-﻿using TaskboardService.DataAccess.Abstraction;
+﻿using MongoDB.Bson.Serialization.Attributes;
+
+using TaskboardService.DataAccess.Abstraction;
 
 namespace TaskboardService.DataAccess.Entity
 {
@@ -10,16 +12,19 @@ namespace TaskboardService.DataAccess.Entity
         /// <summary>
         /// Автор комментария
         /// </summary>
+        [BsonElement("author")]
         public TaskboardUser Author { get; set; }
 
         /// <summary>
         /// Текст комментария
         /// </summary>
+        [BsonElement("text")]
         public string? Text { get; set; }
 
         /// <summary>
         /// Список файлов в комментарии
         /// </summary>
-        public List<TaskAttachment> CommentFiles { get; set; } = [];
+        [BsonElement("commentAttachments")]
+        public List<TaskAttachment> CommentAttachments { get; set; } = [];
     }
 }

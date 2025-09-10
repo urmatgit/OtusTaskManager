@@ -1,4 +1,6 @@
-﻿using TaskboardService.DataAccess.Abstraction;
+﻿using MongoDB.Bson.Serialization.Attributes;
+
+using TaskboardService.DataAccess.Abstraction;
 
 namespace TaskboardService.DataAccess.Entity
 {
@@ -7,6 +9,7 @@ namespace TaskboardService.DataAccess.Entity
         /// <summary>
         /// Доски текущего проекта.
         /// </summary>
+        [BsonElement("taskboards")]
         public List<Taskboard> Taskboards { get; set; } = [];
     }
 }
