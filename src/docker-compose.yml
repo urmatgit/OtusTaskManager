@@ -52,7 +52,12 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
-
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379" # Expose Redis default port
+    volumes:
+      - redis_data:/data # Persist Redis data
 networks:
   taskboard-net:
     driver: bridge  
@@ -60,3 +65,4 @@ networks:
 volumes: 
   postgres-database:
   rabbitmq_data:
+  redis_data:
