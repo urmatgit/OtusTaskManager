@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using UserService.Business.Application.Projects.Commands.DeleteProject;
 using UserService.Business.Application.Users.Commands.EditUser;
 using UserService.Business.Application.Users.Queries;
+using UserService.Business.Application.Users.Queries.GetAll;
 using UserService.Business.Application.Users.Queries.GetById;
 
 namespace UserService.Api.Controllers
@@ -12,6 +13,14 @@ namespace UserService.Api.Controllers
     [Authorize]
     public class UserController : ApiController
     {
+
+
+        [HttpGet()]
+        public async Task<IActionResult> GetUserAsync()
+        {
+            var result = Mediator.Send(new GetUsersRequest());
+            return Ok(result);
+        }
 
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> ByIdAsync(Guid id)

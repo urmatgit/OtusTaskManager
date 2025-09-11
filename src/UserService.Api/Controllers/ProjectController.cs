@@ -9,6 +9,7 @@ using UserService.Business.Application.Projects.Commands.DeleteProject;
 using UserService.Business.Application.Projects.Commands.UpdateProject;
 using UserService.Business.Application.Projects.Queries.GetAll;
 using UserService.Business.Application.Projects.Queries.GetById;
+using UserService.Business.Application.ProjectsUsers.Commands.AddUserToProject;
 
 namespace UserService.Api.Controllers
 {
@@ -64,6 +65,38 @@ namespace UserService.Api.Controllers
         {
             
             var createResponse=await Mediator.Send(request);
+            if (createResponse.IsFailure)
+            {
+                return BadRequest(createResponse.Error);
+            }
+            return Ok(createResponse.Value);
+        }
+        /// <summary>
+        /// Добавить пользователя проекта
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost("adduser")]
+        public async Task<IActionResult> AddUserProjectAsync(AddUserToProjectRequest request)
+        {
+
+            var createResponse = await Mediator.Send(request);
+            if (createResponse.IsFailure)
+            {
+                return BadRequest(createResponse.Error);
+            }
+            return Ok(createResponse.Value);
+        }
+        /// <summary>
+        /// Удалить пользователя проекта
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost("removeuser")]
+        public async Task<IActionResult> RemoveUserProjectAsync(RemoveUserFromProjectRequest request)
+        {
+
+            var createResponse = await Mediator.Send(request);
             if (createResponse.IsFailure)
             {
                 return BadRequest(createResponse.Error);

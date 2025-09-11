@@ -3,12 +3,14 @@ using Keycloak.Net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using Namotion.Reflection;
+using StackExchange.Redis;
 using System;
 using System.Buffers.Text;
 using System.Collections.Generic;
@@ -21,6 +23,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using UserService.Business.Services.Auth;
+using UserService.Business.Services.Radis;
 using UserService.DataAccess.Enums;
 using UserService.DataAccess.Persistence;
 
@@ -142,6 +145,18 @@ namespace UserService.Api
                 o.AddPolicy("AdminPolicy", policy =>
                 policy.RequireRole("Admin"));
             });
+            return services;
+        }
+        public static IServiceCollection AddRegisCaching(this IServiceCollection services, IConfiguration configuration)
+        {
+            services. AddSingleton<IConnectionMultiplexer>(sp =>
+
+             {
+                 //configuration.GetSection("CORS:Origins").Get<string[]>(
+                 var RedisOptionconfiguration = configuration.GetSection("RedisOption:Configuration").Get<string>();
+                 return ConnectionMultiplexer.Connect(RedisOptionconfiguration);
+             });
+            services.AddScoped<ICacheService, RedisCacheService>();
             return services;
         }
     }
