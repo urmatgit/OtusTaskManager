@@ -14,7 +14,7 @@ using UserService.DataAccess.Persistence.Repositories;
 namespace UserService.Business.Application.Projects.Queries.GetById
 {
     //получаем пользователей проекта
-    public class GetUsersByProjectRequestHandler : IRequestHandler<GetUsersByProjectRequest, Result<List<UserResponse>>
+    public class GetUsersByProjectRequestHandler : IRequestHandler<GetUsersByProjectRequest, Result<List<UserResponse>>>
     { 
         private readonly IProjectRepository _projectRepository;
         private readonly IMapper _mapper;

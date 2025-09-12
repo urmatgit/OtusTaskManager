@@ -66,7 +66,7 @@ namespace UserService.DataAccess.Persistence.Repositories
         /// <returns> Список сущностей. </returns>
         public async Task<List<T>> GetAllAsync(CancellationToken cancellationToken, bool asNoTracking = false)
         {
-            return await GetAll().ToListAsync(cancellationToken);
+            return await GetAll(asNoTracking).ToListAsync(cancellationToken);
         }
 
         #endregion

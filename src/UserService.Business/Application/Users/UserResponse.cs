@@ -36,7 +36,7 @@ namespace UserService.Business.Application.Users
         public string Phone { get; set; }
 
         public byte[]? Avator { get; set; }
-        public List<ProjectResponse> Projects { get; set; } = new List<ProjectResponse>();
+        public  List<ProjectResponse> Projects { get; set; } = new List<ProjectResponse>();
     }
     
 }

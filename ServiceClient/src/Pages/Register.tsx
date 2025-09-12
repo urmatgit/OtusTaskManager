@@ -121,7 +121,7 @@ const Register = () => {
           </div>
 
           <Form.Item
-            label="Имя пользователя"
+            label="Логин"
             name="username"
             rules={[
               {

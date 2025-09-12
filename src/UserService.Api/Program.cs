@@ -52,7 +52,7 @@ namespace UserService.Api
                 builder.Services.AddHttpContextAccessor();
                 builder.Services.AddRabbitMQ(builder.Configuration);
                 builder.Services.AddPersistance(builder.Configuration);
-
+                builder.Services.AddRegisCaching(builder.Configuration);
                 builder.Services.AddApi(builder.Configuration);
                 builder.Services.AddAuth(builder.Configuration);
 
@@ -73,7 +73,7 @@ namespace UserService.Api
                 }
                 //Только при работы с базой 
                 await app.Services.InitializeDatabasesAsync();
-                app.UseHttpsRedirection();
+                //app.UseHttpsRedirection();
 
 
                 app.UseAuthentication();

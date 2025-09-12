@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace UserService.Business.Application.Projects.Queries.GetById
 {
-    public class GetProjectByIdRequestValidator: AbstractValidator<GetProjectByIdRequest>
+    public class GetUsersByProjectRequesttValidator : AbstractValidator<GetUsersByProjectRequest>
     {
-        public GetProjectByIdRequestValidator()
+        public GetUsersByProjectRequesttValidator()
         {
             RuleFor(x=>x.id).NotEmpty();
         }

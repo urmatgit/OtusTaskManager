@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 
-const API_URL = 'https://localhost:7024/api/auth/';
+//const API_URL = 'https://localhost:7024/api/auth/';
+const API_URL = 'http://localhost:5191/api/auth/';
 
 // Типы данных
 export enum ProjectRole {
@@ -58,7 +59,7 @@ export const register = async (data: RegisterData): Promise<UserData> => {
     return response.data;
   } catch (error) {
     let errorMessage = 'Ошибка регистрации. Пожалуйста, попробуйте ещё раз.';
-    
+    console.error(error);
     if (axios.isAxiosError(error)) {
       if (error.response) {
         // Обработка ошибок сервера

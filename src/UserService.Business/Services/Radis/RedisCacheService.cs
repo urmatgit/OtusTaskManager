@@ -44,7 +44,7 @@ namespace UserService.Business.Services.Radis
             }
         }
 
-        public async Task SetAsync<T>(string key, T value, DistributedCacheEntryOptions options, CancellationToken cancellationToken = default) where T : class
+        public async Task SetAsync<T>(string key, T value, DistributedCacheEntryOptions options, CancellationToken cancellationToken = default) //where T : class
         {
             try
             {

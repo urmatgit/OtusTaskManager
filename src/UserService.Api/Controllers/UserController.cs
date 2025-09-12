@@ -18,14 +18,14 @@ namespace UserService.Api.Controllers
         [HttpGet()]
         public async Task<IActionResult> GetUserAsync()
         {
-            var result = Mediator.Send(new GetUsersRequest());
+            var result = await Mediator.Send(new GetUsersRequest());
             return Ok(result);
         }
 
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> ByIdAsync(Guid id)
         {
-            var result = Mediator.Send(new GetUserWithProjectsRequest(id));
+            var result =await Mediator.Send(new GetUserWithProjectsRequest(id));
             return Ok(result);
         }
         /// <summary>
