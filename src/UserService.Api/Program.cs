@@ -1,4 +1,4 @@
-
+﻿
 using UserService.DataAccess;
 using UserService.Business;
 using UserService.Api.Middlewares;
@@ -55,6 +55,43 @@ namespace UserService.Api
                 builder.Services.AddRegisCaching(builder.Configuration);
                 builder.Services.AddApi(builder.Configuration);
                 builder.Services.AddAuth(builder.Configuration);
+                builder.Services.AddSwaggerGen(options =>
+                {
+                    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                    {
+                        In = ParameterLocation.Header,
+                        Description = "Пожалуйста, введите токен",
+                        Name = "Authorization",
+                        Type = SecuritySchemeType.ApiKey,
+                        Scheme = "Bearer"
+                    });
+
+                    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            new List<string>()
+                        }
+                    });
+                });
+
+                builder.Services.AddCors(options =>
+                {
+                    options.AddPolicy("AllowAnyOrigin",
+                        builder =>
+                        {
+                            builder.AllowAnyOrigin()
+                                   .AllowAnyHeader()
+                                   .AllowAnyMethod();
+                        });
+                });
 
                 builder.Services.AddBusiness(builder.Configuration);
                 builder.Services.AddOpenApiDocument(configure =>
@@ -63,7 +100,7 @@ namespace UserService.Api
                 });
                 var app = builder.Build();
                 app.UseExceptionHandler();
-                app.UseCors("AllowOrigin");
+                app.UseCors("AllowAnyOrigin");
                 // app.UseMiddleware<ErrorHandlingMiddleware>();
                 // Configure the HTTP request pipeline.
                 if (app.Environment.IsDevelopment())
@@ -71,7 +108,7 @@ namespace UserService.Api
                     app.UseSwagger();
                     app.UseSwaggerUI();
                 }
-                //������ ��� ������ � ����� 
+                //Òîëüêî ïðè ðàáîòû ñ áàçîé 
                 await app.Services.InitializeDatabasesAsync();
                 //app.UseHttpsRedirection();
 

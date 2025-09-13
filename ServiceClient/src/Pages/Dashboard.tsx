@@ -1,84 +1,75 @@
-﻿import React, { useState } from "react";
+﻿import React, { useEffect, useState } from 'react';
+import '../styles/dashboard.css';
+import { Button } from "antd";
+import { getAllProjects } from "../Services/projectsService";
+import { createNewProject } from "../Services/projectsService";
 
-import "../styles/kanban.css";
-import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
-import useNotification from "antd/es/notification/useNotification";
-
+interface Project {
+    id: string;
+    name: string;
+    create: string;
+    owner: string;
+}
 const Dashboard: React.FC = () => {
-  const [tasks, setTasks] = useState<any[]>([]);
-  const [columns, setColumns] = useState<string[]>([
-    "To Do",
-    "In Progress",
-    "Done",
-  ]);
+    const [projects, setProjects] = useState<Project[]>([]);
+    const [newProjectName, setNewProjectName] = useState('');
+    const [showModal, setShowModal] = useState(false)
 
-  const addTask = (title: string) => {
-    setTasks((prevTasks) => [...prevTasks, { title, status: "To Do" }]);
-  };
+    useEffect(() => {
+        const fetchProjects = async () => {
+            try {
+                const projectsData = await getAllProjects();
+                setProjects(projectsData);
+            } catch (error) {
+                console.error(error);
+            }
+        };
 
-  const moveTask = (taskId: string, status: string) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) => (task.id === taskId ? { ...task, status } : task))
-    );
-  };
+        fetchProjects();
+    }, []);
+    
+    const handleCreateProject = async () => {
+        try {
+            await createNewProject(newProjectName);
+            const updatedProjectsList = await getAllProjects();
 
-  const addColumn = () => {
-    setColumns((prevColumns) => [
-      ...prevColumns,
-      `Новый этап ${prevColumns.length + 1}`,
-    ]);
-  };
-
-  const removeColumn = (columnIndex: number) => {
-    setColumns((prevColumns) =>
-      prevColumns.filter((_, idx) => idx !== columnIndex)
-    );
-  };
+            setProjects(updatedProjectsList);
+            setShowModal(false);
+            setNewProjectName('');
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
   return (
     <>
-      <div columns={columns} data={tasks}>
-        {({ column, data }) => (
-          <div>
-            <div className="ant-pro-layout-kanban-column-title">
-              {column.title}
-            </div>
-            {data.map((task, idx) => (
-              <div key={idx} className="ant-pro-layout-kanban-item">
-                <div className="ant-pro-layout-kanban-item-title">
-                  {task.title}
-                </div>
-                <div className="ant-pro-layout-kanban-item-status">
-                  {task.status}
-                </div>
-                <div className="ant-pro-layout-kanban-item-actions">
-                  <button onClick={() => moveTask(task.id, "In Progress")}>
-                    Переместить в прогресс
-                  </button>
-                  <button onClick={() => moveTask(task.id, "Done")}>
-                    Завершить
-                  </button>
-                </div>
-              </div>
-            ))}
+      <h1>Projects Dashboard</h1>
+      <button onClick={() => setShowModal(true)}>Создать новый проект</button>
+      {showModal && (
+          <div className="modal">
+              <h2>Создание нового проекта</h2>
+              <input
+                  type="text"
+                  value={newProjectName}
+                  onChange={(e) => setNewProjectName(e.target.value)}
+                  placeholder="Название проекта"
+              />
+              <button onClick={handleCreateProject}>Подтвердить</button>
+              <button onClick={() => setShowModal(false)}>Отменить</button>
           </div>
-        )}
-        <div className="ant-pro-layout-kanban-add">
-          <button onClick={addTask}>
-            <PlusOutlined /> Добавить задачу
-          </button>
+      )}
+      <Button onClick={getAllProjects}>Обновить список проектов</Button>
+        <div>
+            <div>
+                {projects.map((project) => (
+                    <div key={project.id}>
+                        <h3>{project.name}</h3>
+                        <p>Создан: {new Date(project.create).toLocaleString()}</p>
+                        <p>Владелец: {project.owner}</p>
+                    </div>
+                ))}
+            </div>
         </div>
-        <div className="ant-pro-layout-kanban-column-actions">
-          <button onClick={addColumn}>
-            <PlusOutlined /> Добавить столбец
-          </button>
-          {columns.map((column, idx) => (
-            <button key={idx} onClick={removeColumn}>
-              <DeleteOutlined /> Удалить столбец
-            </button>
-          ))}
-        </div>
-      </div>
     </>
   );
 };

@@ -5,7 +5,6 @@ import Home from "./Pages/Home.tsx";
 import Dashboard from "./Pages/Dashboard.tsx";
 import { PrivateRoute } from "./PrivateRoute.tsx";
 import KanbanBoard from "./Components/Board.tsx";
-import "./styles/authorize.css";
 import Register from "./Pages/Register.tsx";
 import LoginPage from "./Pages/loginPage.tsx";
 

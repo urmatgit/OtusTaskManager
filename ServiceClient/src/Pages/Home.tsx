@@ -2,7 +2,6 @@
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { notification } from "antd";
-import { login, getCurrentUser } from "../Services/authService";
 import { isAuthenticated } from "../PrivateRoute";
 const Home: React.FC = () => {
   const navigate = useNavigate();

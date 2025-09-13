@@ -23,9 +23,9 @@ namespace UserService.Api.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetProjectsAsync(GetProjectsRequest request)
+        public async Task<IActionResult> GetProjectsAsync()
         {
-            var result = await Mediator.Send(request);
+            var result = await Mediator.Send(new GetProjectsRequest());
             return Ok(result);
         }
 

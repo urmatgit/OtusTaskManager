@@ -2,7 +2,7 @@
 import '../styles/authorize.css';
 import { Link } from 'react-router-dom';
 
-const apiBaseUrl = 'http://localhost:5250'; // URL вашего Web API
+const apiBaseUrl = 'http://localhost:5191'; // URL вашего Web API
 
 const LoginPage: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
