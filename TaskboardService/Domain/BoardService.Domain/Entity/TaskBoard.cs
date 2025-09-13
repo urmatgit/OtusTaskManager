@@ -26,11 +26,11 @@ namespace BoardService.Domain.Entity
         /// <summary>
         /// Статус
         /// </summary>
-        public BoartStatus Status { get; set; }
+        public BoardStatus Status { get; set; }
 
         /// <summary>
         /// Список колонок доски
         /// </summary>
-        public IEnumerable<BoardColumn>? Columns { get; set; }
+        public ICollection<BoardColumn> Columns { get; set; } = [];
     }
 }

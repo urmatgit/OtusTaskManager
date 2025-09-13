@@ -1,10 +1,10 @@
 ﻿using BoardService.Domain.Entity;
-using Microsoft.EntityFrameworkCore;
+using Infrastructure.EntityFramework;
 using Repository.Abstractions;
 
 namespace Repository.Implementation
 {
-    public class CheckListRepository(DbContext context) : Repository<CheckList, Guid>(context), ICheckListRepository
+    public class CheckListRepository(DatabaseContext context) : Repository<CheckList, Guid>(context), ICheckListRepository
     {
     }
 }

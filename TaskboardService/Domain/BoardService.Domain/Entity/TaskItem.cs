@@ -1,11 +1,5 @@
 ﻿using BoardService.Domain.Abstraction;
 using BoardService.Domain.Enums;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BoardService.Domain.Entity
 {
@@ -62,21 +56,21 @@ namespace BoardService.Domain.Entity
         /// <summary>
         /// Список исполнителей задачи
         /// </summary>
-        public IEnumerable<IExecutor>? Executors { get; set; }
+        //public ICollection<Executor> Executors { get; set; } = [];
 
         /// <summary>
         /// Список комментариев задачи
         /// </summary>
-        public IEnumerable<TaskComment>? Comments { get; set; }
+        public ICollection<TaskComment> Comments { get; set; } = [];
 
         /// <summary>
         /// Список файлов задачи
         /// </summary>
-        public IEnumerable<IFile>? Files { get; set; }
+        public ICollection<BoardFile> Files { get; set; } = [];
 
         /// <summary>
         /// список чек-листов
         /// </summary>
-        public IEnumerable<CheckList>? CheckLists { get; set; }
+        public ICollection<CheckList> CheckLists { get; set; } = [];
     }
 }

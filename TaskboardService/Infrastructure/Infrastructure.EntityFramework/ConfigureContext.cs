@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Driver;
 
 namespace Infrastructure.EntityFramework
 {
@@ -10,8 +11,10 @@ namespace Infrastructure.EntityFramework
             string databaseName
             )
         {
-            services.AddDbContext<DatabaseContext>(optionsBuilder =>
-                optionsBuilder.UseMongoDB(connectionString, databaseName)
+            services.AddDbContext<DatabaseContext>(optionsBuilder => {
+                var mongoClient = new MongoClient(connectionString);
+                optionsBuilder.UseMongoDB(mongoClient, databaseName);                
+                }
             );
 
             return services;

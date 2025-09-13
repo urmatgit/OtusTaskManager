@@ -1,10 +1,10 @@
 ﻿using BoardService.Domain.Entity;
-using Microsoft.EntityFrameworkCore;
+using Infrastructure.EntityFramework;
 using Repository.Abstractions;
 
 namespace Repository.Implementation
 {
-    public class TaskBoardRepository(DbContext context) : Repository<TaskBoard, Guid>(context), ITaskBoardRepository
+    public class TaskBoardRepository(DatabaseContext context) : Repository<TaskBoard, Guid>(context), ITaskBoardRepository
     {
     }
 }

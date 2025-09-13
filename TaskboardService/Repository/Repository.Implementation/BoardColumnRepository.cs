@@ -1,10 +1,10 @@
 ﻿using BoardService.Domain.Entity;
-using Microsoft.EntityFrameworkCore;
+using Infrastructure.EntityFramework;
 using Repository.Abstractions;
 
 namespace Repository.Implementation
 {
-    public class BoardColumnRepository(DbContext context) : Repository<BoardColumn, Guid>(context), IBoardColumnRepository
+    public class BoardColumnRepository(DatabaseContext context) : Repository<BoardColumn, Guid>(context), IBoardColumnRepository
     {
     }
 }

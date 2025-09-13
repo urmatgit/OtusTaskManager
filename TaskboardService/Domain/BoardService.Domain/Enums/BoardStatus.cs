@@ -9,7 +9,7 @@ namespace BoardService.Domain.Enums
     /// <summary>
     /// Статус доски задач
     /// </summary>
-    public enum BoartStatus
+    public enum BoardStatus
     {
         /// <summary>
         /// В работе

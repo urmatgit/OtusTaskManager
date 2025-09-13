@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using BoardService.Domain.Abstraction;
 using Repository.Abstractions;
+using Infrastructure.EntityFramework;
 
 namespace Repository.Implementation
 {
@@ -12,13 +13,13 @@ namespace Repository.Implementation
     public abstract class Repository<T, TPrimaryKey> : IRepository<T, TPrimaryKey> where T 
         : class, IEntity<TPrimaryKey>
     {
-        protected readonly DbContext Context;
+        protected readonly DatabaseContext Context;
         private readonly DbSet<T> _entitySet;
 
-        protected Repository(DbContext context)
+        protected Repository(DatabaseContext context)
         {
             Context = context;
-            _entitySet = Context.Set<T>();
+            _entitySet = Context.Set<T>();            
         }
 
         #region Get

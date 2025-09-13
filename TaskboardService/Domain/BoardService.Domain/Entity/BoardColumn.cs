@@ -34,16 +34,16 @@ namespace BoardService.Domain.Entity
         /// <summary>
         /// Идентификатор доски задач
         /// </summary>
-        public Guid TaskBoardId { get; set; }
+        public Guid TaskBoardId { get; set; }        
 
         /// <summary>
         /// Доска задач
         /// </summary>
-        public required TaskBoard TaskBoard { get; set; }
+        public TaskBoard TaskBoard { get; set; } = null!;
 
         /// <summary>
         /// Список задач
         /// </summary>
-        public IEnumerable<TaskItem>? Tasks { get; set; }
+        public ICollection<TaskItem> Tasks { get; set; } = [];
     }
 }

@@ -36,6 +36,6 @@ namespace BoardService.Domain.Entity
         /// <summary>
         /// Чек-лист
         /// </summary>
-        public CheckList CheckList { get; set; }
+        public CheckList CheckList { get; set; } = null!;
     }
 }

@@ -1,9 +1,4 @@
 ﻿using BoardService.Domain.Abstraction;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BoardService.Domain.Entity
 {
@@ -25,7 +20,7 @@ namespace BoardService.Domain.Entity
         /// <summary>
         /// Элементы чек-листа
         /// </summary>
-        public IEnumerable<CheckItem>? CheckItems { get; set; }
+        public ICollection<CheckItem> CheckItems { get; set; } = [];
 
         /// <summary>
         /// Идентификатор задачи
@@ -35,6 +30,6 @@ namespace BoardService.Domain.Entity
         /// <summary>
         /// Задача
         /// </summary>
-        public required TaskItem Task { get; set; }
+        public TaskItem TaskItem { get; set; } = null!;
     }
 }

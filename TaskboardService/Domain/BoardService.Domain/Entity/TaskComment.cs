@@ -1,10 +1,4 @@
 ﻿using BoardService.Domain.Abstraction;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BoardService.Domain.Entity
 {
@@ -38,7 +32,7 @@ namespace BoardService.Domain.Entity
         /// <summary>
         /// Задача
         /// </summary>
-        public required TaskItem Task { get; set; }
+        public TaskItem Tasktem { get; set; } = null!;
 
     }
 }
