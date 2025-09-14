@@ -2,9 +2,15 @@
 
 namespace WebApi.BoardService.Model
 {
-    public record class FilteredResponse<T>
-    {
-        public T? Data { get; set; }
+    /// <summary>
+    /// Filtered Response
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public record class FilteredResponse<T> : SimpleResponse<T>
+    {   
+        /// <summary>
+        /// Filter
+        /// </summary>
         public required PageFilter Filter { get; set; }
     }
 }

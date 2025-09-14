@@ -1,9 +1,6 @@
 ﻿namespace Services.Contract.CheckList
 {
-    /// <summary>
-    /// Чек-лист
-    /// </summary>
-    public class CheckListDto
+    public class CheckListAddDto
     {
         /// <summary>
         /// Идентификатор чек-листа
@@ -14,10 +11,5 @@
         /// Название чек-листа
         /// </summary>
         public required string Name { get; set; }
-
-        /// <summary>
-        /// Идентификатор задачи
-        /// </summary>
-        public Guid TaskId { get; set; }
     }
 }
