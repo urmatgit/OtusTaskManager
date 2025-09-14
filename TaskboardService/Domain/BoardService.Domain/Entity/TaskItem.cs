@@ -36,7 +36,7 @@ namespace BoardService.Domain.Entity
         /// <summary>
         /// Фактический срок выполнения задачи
         /// </summary>
-        public DateTime FactDate { get; set; }
+        public DateTime? FactDate { get; set; }
 
         /// <summary>
         /// Приоритет задачи
@@ -51,7 +51,7 @@ namespace BoardService.Domain.Entity
         /// <summary>
         /// Колонка доски задач
         /// </summary>
-        public required BoardColumn BoardColumn { get; set; }
+        public BoardColumn BoardColumn { get; set; } = null!;
 
         /// <summary>
         /// Список исполнителей задачи

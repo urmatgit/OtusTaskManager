@@ -1,9 +1,6 @@
 ﻿namespace Services.Contract.TaskItem
 {
-    /// <summary>
-    /// Задача
-    /// </summary>
-    public class TaskItemDto
+    public class TaskItemAddDto
     {
         /// <summary>
         /// Идентификатор
@@ -18,12 +15,7 @@
         /// <summary>
         /// описание задачи
         /// </summary>
-        public required string Description { get; set; }
-
-        /// <summary>
-        /// Дата создание задачи
-        /// </summary>
-        public required DateTime CreateDate { get; set; }
+        public required string Description { get; set; }        
 
         /// <summary>
         /// Срок выполнения задачи
@@ -39,10 +31,5 @@
         /// Приоритет задачи
         /// </summary>
         public int Priority { get; set; }
-
-        /// <summary>
-        /// Идентификатор колонки доски задач
-        /// </summary>
-        public Guid BoardColumnId { get; set; }
     }
 }

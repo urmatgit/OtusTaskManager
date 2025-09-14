@@ -4,7 +4,7 @@ using Repository.Abstractions;
 namespace WebApi.BoardService.Controllers
 {
     /// <summary>
-    /// 
+    /// Контроллер
     /// </summary>
     /// <param name="checkListRepository"></param>
     public class CheckListController(
