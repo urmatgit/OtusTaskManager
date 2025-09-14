@@ -21,7 +21,7 @@ namespace WebApi.BoardService.Controllers
         ) : ControllerBase
     {   
         /// <summary>
-        /// Вернуть все
+        /// Вернуть все джоски задач
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -46,7 +46,7 @@ namespace WebApi.BoardService.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("{id}")]
+        [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetBoard(Guid id)
         {
             var item = await taskBoardRepository.GetAsync(id, CancellationToken.None);
@@ -87,8 +87,8 @@ namespace WebApi.BoardService.Controllers
         /// <param name="id"></param>
         /// <param name="taskBoardDto"></param>
         /// <returns></returns>
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, [FromBody] TaskBoardUpdateDto taskBoardDto)
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> UpdateTaskBoard(Guid id, [FromBody] TaskBoardUpdateDto taskBoardDto)
         {
             var taskBoard = await taskBoardRepository.GetAsync(id, CancellationToken.None);
 
@@ -111,8 +111,8 @@ namespace WebApi.BoardService.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> DeleteTaskBoard(Guid id)
         {
             taskBoardRepository.Delete(id);
             await taskBoardRepository.SaveChangesAsync(CancellationToken.None);

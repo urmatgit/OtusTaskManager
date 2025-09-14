@@ -26,6 +26,11 @@
         /// Вип-лимит
         /// </summary>
         public int VipLimit { get; set; }
-        // TODO Что такое вип-лимит?        
+        // TODO Что такое вип-лимит?
+        
+        /// <summary>
+        /// Идентификатор доски задач
+        /// </summary>
+        public Guid TaskBoardId { get; set; }
     }
 }
