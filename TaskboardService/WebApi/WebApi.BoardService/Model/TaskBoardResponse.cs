@@ -1,8 +1,8 @@
-﻿using BoardService.Domain.Entity;
+﻿using Services.Contract.TaskBoard;
 
 namespace WebApi.BoardService.Model
 {
-    public record class TaskBoardResponse: FilteredResponse<List<TaskBoard>>
+    public record class TaskBoardResponse: FilteredResponse<List<TaskBoardDto>>
     {
     }
 }

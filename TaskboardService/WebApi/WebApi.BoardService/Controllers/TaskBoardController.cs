@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Repository.Abstractions;
 using Services.Contract.TaskBoard;
 using WebApi.BoardService.Model;
-
+using WebApi.BoardService.Mapper;
 
 
 namespace WebApi.BoardService.Controllers
@@ -33,13 +33,16 @@ namespace WebApi.BoardService.Controllers
             {
                 Filter = PageFilter.Default(page, count)
             };
-            res.Data = await taskBoardRepository.GetFilteredAsync(res.Filter);
+            res.Data = [.. (
+                from x in await taskBoardRepository.GetFilteredAsync(res.Filter)
+                select TaskBoardMapper.MapFromModel(x)
+                )];                
 
             return Ok(res);
         }
 
         /// <summary>
-        /// Вернуть по ИД
+        /// Вернуть доску задач по ИД
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -53,7 +56,7 @@ namespace WebApi.BoardService.Controllers
                 return BadRequest("Доска задач не найдена");
             }
 
-            return Ok(item);
+            return Ok(TaskBoardMapper.MapFromModel(item));
         }
 
         /// <summary>
@@ -62,20 +65,20 @@ namespace WebApi.BoardService.Controllers
         /// <param name="taskBoardDto"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]TaskBoardDto taskBoardDto)
+        public async Task<IActionResult> Post([FromBody]TaskBoardAddDto taskBoardDto)
         {
             var taskBoard = new TaskBoard
             {
                 Id = taskBoardDto.Id,
                 Name = taskBoardDto.Name,
-                Status = (BoardStatus)taskBoardDto.Status,
+                Status = BoardStatus.AtWork,
                 CreateDate = DateTime.Now,
             };
 
             taskBoardRepository.Add(taskBoard);
             await taskBoardRepository.SaveChangesAsync();
 
-            return Ok(taskBoardDto);
+            return Ok(TaskBoardMapper.MapFromModel(taskBoard));
         }
 
         /// <summary>
@@ -85,7 +88,7 @@ namespace WebApi.BoardService.Controllers
         /// <param name="taskBoardDto"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, [FromBody] TaskBoardDto taskBoardDto)
+        public async Task<IActionResult> Put(Guid id, [FromBody] TaskBoardUpdateDto taskBoardDto)
         {
             var taskBoard = await taskBoardRepository.GetAsync(id, CancellationToken.None);
 
@@ -93,13 +96,14 @@ namespace WebApi.BoardService.Controllers
             {
                 return BadRequest();
             }
-            taskBoard.Name = taskBoardDto.Name;
-            taskBoard.Status = (BoardStatus) taskBoardDto.Status;
+            taskBoard.Name = taskBoardDto.Name ?? taskBoard.Name;
+            if (taskBoardDto.Status != null)
+                taskBoard.Status = (BoardStatus)taskBoardDto.Status;
             
             taskBoardRepository.Update(taskBoard);
             await taskBoardRepository.SaveChangesAsync(CancellationToken.None);
 
-            return Ok(taskBoard);
+            return Ok(TaskBoardMapper.MapFromModel(taskBoard));
         }
 
         /// <summary>
