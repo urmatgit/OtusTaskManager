@@ -2,7 +2,10 @@
 
 namespace WebApi.BoardService.Model
 {
-    public record class TaskBoardResponse: FilteredResponse<List<TaskBoardDto>>
+    /// <summary>
+    /// TaskBoard Response
+    /// </summary>
+    public record class TaskBoardResponse : FilteredResponse<List<TaskBoardDto>>
     {
     }
 }

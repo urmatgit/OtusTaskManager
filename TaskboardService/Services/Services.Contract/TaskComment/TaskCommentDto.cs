@@ -20,6 +20,11 @@
         /// <summary>
         /// Текст комментария
         /// </summary>
-        public string? Text { get; set; }        
+        public string? Text { get; set; }
+
+        /// <summary>
+        /// Идентификатор задачи
+        /// </summary>
+        public Guid TaskId { get; set; }
     }
 }
