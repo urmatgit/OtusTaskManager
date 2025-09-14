@@ -1,8 +1,10 @@
 ﻿using BoardService.Domain.Entity;
 using BoardService.Domain.Enums;
+using BoardService.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Abstractions;
 using Services.Contract.TaskBoard;
+using WebApi.BoardService.Model;
 
 
 
@@ -12,7 +14,7 @@ namespace WebApi.BoardService.Controllers
     /// Контроллер Доска задач
     /// </summary>
     /// <param name="taskBoardRepository"></param>
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class TaskBoardController(
         ITaskBoardRepository taskBoardRepository
@@ -23,10 +25,17 @@ namespace WebApi.BoardService.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetBoards()
+        [HttpGet("{page:int:min(1)}")]
+        [HttpGet("{page:int:min(1)}/{count:int:min(1)}")]
+        public async Task<IActionResult> GetBoards(int? page, int? count)
         {
-            var items = await taskBoardRepository.GetAllAsync(CancellationToken.None);
-            return Ok(items);
+            var res = new TaskBoardResponse
+            {
+                Filter = PageFilter.Default(page, count)
+            };
+            res.Data = await taskBoardRepository.GetFilteredAsync(res.Filter);
+
+            return Ok(res);
         }
 
         /// <summary>
@@ -35,9 +44,16 @@ namespace WebApi.BoardService.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public string GetBoard(Guid id)
+        public async Task<IActionResult> GetBoard(Guid id)
         {
-            return "value";
+            var item = await taskBoardRepository.GetAsync(id, CancellationToken.None);
+
+            if (item == null)
+            {
+                return BadRequest("Доска задач не найдена");
+            }
+
+            return Ok(item);
         }
 
         /// <summary>

@@ -202,5 +202,10 @@ namespace Repository.Implementation
         }
 
         #endregion
+
+        public async Task<List<P>> GetQueryAsync<P>(IQueryable<P> query)
+        {
+            return await query.ToListAsync();
+        }
     }
 }
