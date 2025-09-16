@@ -8,6 +8,6 @@ using UserService.Business.Common.Interfaces;
 
 namespace UserService.Business.Application.Projects
 {
-    public record ProjectResponse(Guid id,string name,DateTime create,Guid owner): IDto;
+    public record ProjectResponse(Guid id,string name,DateTime Created, Guid owner): IDto;
     
 }

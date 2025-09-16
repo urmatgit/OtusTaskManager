@@ -27,6 +27,7 @@ namespace UserService.DataAccess.Entities
             this.Name = name;
             CreatorId = creatorId;
             Id = Guid.NewGuid();
+            Created = DateTime.Now;
             DomainEvents.Add(new ProjectCreatedEvent(this));
         }
         public void Update(string? name,Guid? userid=null)
