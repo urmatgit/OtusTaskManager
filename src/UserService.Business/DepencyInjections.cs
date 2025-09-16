@@ -77,11 +77,11 @@ namespace UserService.Business
                 {
                     if (role == GlobalConstantes .AdminName)
                     {
-                        options.AddPolicy($"{role}Role", policy =>
+                        options.AddPolicy($"{role}", policy =>
                             policy.RequireRole($"{role}"));
                     }else
                     {
-                        options.AddPolicy($"{role}Role", policy =>
+                        options.AddPolicy($"{role}", policy =>
                         policy.RequireRole($"{role}", GlobalConstantes.AdminName));
                     }
                 }
