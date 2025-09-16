@@ -4,6 +4,7 @@ import LoginPage from "./Pages/loginPage";
 import Register from "./Pages/Register";
 import Home from "./Pages/Home";
 import Dashboard from "./Pages/Dashboard";
+import ProjectList from "./Pages/ProjectList";
 import KanbanBoard from "./Pages/KanbanBoard";
 // import { Profile } from "./pages/Profile";
 import { ProtectedRoute } from "./ProtectedRoute";
@@ -26,6 +27,14 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "ProjectList",
+        element: (
+          <ProtectedRoute>
+            <ProjectList />
           </ProtectedRoute>
         ),
       },

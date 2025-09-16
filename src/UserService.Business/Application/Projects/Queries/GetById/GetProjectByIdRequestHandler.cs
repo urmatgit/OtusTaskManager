@@ -26,7 +26,7 @@ namespace UserService.Business.Application.Projects.Queries.GetById
             if (project == null) {
                 return Result<ProjectResponse>.Failure($"Project Not found. ({request.id}) ");
             }
-            return Result < ProjectResponse >.Success( new ProjectResponse(project.Id, project.Name, project.Created, project.CreatorId));
+            return Result < ProjectResponse >.Success( new ProjectResponse(project.Id, project.Name, project.Created, project.CreatorId, project.Users));
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using UserService.DataAccess.Common;
@@ -23,11 +24,18 @@ namespace UserService.DataAccess.Persistence.Repositories.Entities
         {
             var project = await dbSet.FindAsync(id);
             var user = await Context.Set<User>().FindAsync(UserId);
-            if (project != null && user != null)
+
+            try
             {
-                project.Users.Add(user);
-                await SaveChangesAsync();
+                if (project != null && user != null)
+                {
+                    project.Users ??= new List<User>();
+                    project.Users.Add(user);
+                    await SaveChangesAsync();
+                }
             }
+            catch{ }
+
             return project;
         }
 
