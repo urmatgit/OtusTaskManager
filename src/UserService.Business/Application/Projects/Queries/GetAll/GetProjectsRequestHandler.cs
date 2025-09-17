@@ -22,7 +22,7 @@ namespace UserService.Business.Application.Projects.Queries.GetAll
         public async Task<List<ProjectResponse>> Handle(GetProjectsRequest request, CancellationToken cancellationToken)
         {
 
-            var result = await _projectRepository.GetAllAsync(cancellationToken);
+            var result = await _projectRepository.GetWithUsersAllAsync(cancellationToken);
 
             var projects = _mapper.Map<List<ProjectResponse>>(result);
 

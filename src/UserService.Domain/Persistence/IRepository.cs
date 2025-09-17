@@ -33,9 +33,10 @@ namespace UserService.DataAccess.Persistence
             /// <param name="asNoTracking"> Вызвать с AsNoTracking. </param>
             /// <returns> Список сущностей. </returns>
             Task<List<T>> GetAllAsync(CancellationToken cancellationToken, bool asNoTracking = false);
+        
 
-            Task<PaginationResponse<T>> GetAllAsync(int pageIndex, int pageSize);
-
+        Task<PaginationResponse<T>> GetAllAsync(int pageIndex, int pageSize);
+           
             /// <summary>
             /// Получить сущность по Id.
             /// </summary>

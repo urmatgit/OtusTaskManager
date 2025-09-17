@@ -32,6 +32,13 @@ namespace UserService.DataAccess.Persistence.Repositories.Entities
             return project;
         }
 
+        public async Task<Project> FindByName(string name)
+        {
+            var project = await dbSet.SingleOrDefaultAsync (x => x.Name == name);
+            return project;
+            
+        }
+
         public async Task<PaginationResponse<Project>> GetAllAsync(int pageIndex, int pageSize, Guid? userId)
         {
         
@@ -55,6 +62,14 @@ namespace UserService.DataAccess.Persistence.Repositories.Entities
                 .Include(x => x.Users)
                 .SingleOrDefaultAsync(x => x.Id == id);
             return quary;
+        }
+
+        public Task<List<Project>> GetWithUsersAllAsync(CancellationToken cancellationToken)
+        {
+            var quary = dbSet
+                .AsNoTracking()
+                .Include(x => x.Users);
+            return quary.ToListAsync(cancellationToken);     
         }
 
         public async Task<Project> RemoveUserFromProjectAsync(Guid id, Guid UserId)

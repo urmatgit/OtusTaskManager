@@ -16,6 +16,7 @@ namespace UserService.Business.Common.Mapping
         public void Register(TypeAdapterConfig config)
         {
             config.NewConfig<Project,ProjectResponse>()
+                .MaxDepth(2)
                 .Map(dest=>dest.owner,src=>src.CreatorId);
             config.NewConfig<UpdateProjectRequest, Project>()
                 .Map(dest => dest.Name, src => src.name)
@@ -23,6 +24,7 @@ namespace UserService.Business.Common.Mapping
                 .Map(dest => dest.Id, src => src.id);
 
             config.NewConfig<Project, ProjectWithUsersResponse>()
+                .MaxDepth(2)
                 .Map(d=>d.Users,s=>s.Users)
                 .Map(dest => dest.owner, src => src.CreatorId);
                 

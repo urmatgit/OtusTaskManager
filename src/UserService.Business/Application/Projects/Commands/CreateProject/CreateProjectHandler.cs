@@ -30,6 +30,9 @@ namespace UserService.Business.Application.Projects.Commands.CreateProject
         }
         public async Task<Result<ProjectResponse>> Handle(CreateProjectRequest request, CancellationToken cancellationToken)
         {
+            var existProject = _projectRepository.FindByName(request.name);
+            if (existProject != null)
+                return Result<ProjectResponse>.Failure("Проект с таким названием уже существует!");
             var project = new Project(request.name, _curentUser.GetUserId());
             
             await _projectRepository.AddAsync(project);

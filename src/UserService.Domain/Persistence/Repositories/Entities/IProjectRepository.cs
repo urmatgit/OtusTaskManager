@@ -11,8 +11,10 @@ namespace UserService.DataAccess.Persistence.Repositories
     public interface IProjectRepository : IRepository<Project,Guid> 
     {
         public Task<PaginationResponse<Project>> GetAllAsync(int pageIndex, int pageSize, Guid? userId);
+        public Task<List<Project>> GetWithUsersAllAsync( CancellationToken cancellationToken);
         public Task<Project> GetByIdWithUsersAsync(Guid id);
         public Task<Project> AddUserToProjectAsync(Guid id,Guid UserId);
         public Task<Project> RemoveUserFromProjectAsync(Guid id, Guid UserId);
+        public Task<Project> FindByName(string name);
     }
 }
