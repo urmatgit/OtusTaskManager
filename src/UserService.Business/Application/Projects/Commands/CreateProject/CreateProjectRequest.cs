@@ -9,6 +9,6 @@ using UserService.DataAccess.Entities;
 
 namespace UserService.Business.Application.Projects.Commands.CreateProject
 {
-    public record CreateProjectRequest(  string name): IRequest<Result<ProjectResponse>>;
+    public record CreateProjectRequest(string name): IRequest<Result<ProjectResponse>>;
  
 }

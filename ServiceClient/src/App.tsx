@@ -27,6 +27,11 @@ const menuItems = [
     label: "Dashboard",
   },
   {
+    key: "/ProjectList",
+    icon: <BarChartOutlined />,
+    label: "ProjectList",
+  },
+  {
     key: "/Board",
     icon: <BarChartOutlined />,
     label: "KanbanBoard",

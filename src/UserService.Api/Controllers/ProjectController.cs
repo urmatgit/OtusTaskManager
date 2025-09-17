@@ -18,7 +18,7 @@ namespace UserService.Api.Controllers
     {
 
         /// <summary>
-        /// Получаем все проектек, кроме удаленных
+        /// Получаем все проекты, кроме удаленных
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -31,7 +31,7 @@ namespace UserService.Api.Controllers
         }
 
         /// <summary>
-        /// Получаем все проектек, кроме удаленных, через номера старицы и userid
+        /// Получаем все проекты, кроме удаленных, через номера старицы и userid
         /// </summary>
         /// <returns></returns>
         [HttpGet("bypage")]

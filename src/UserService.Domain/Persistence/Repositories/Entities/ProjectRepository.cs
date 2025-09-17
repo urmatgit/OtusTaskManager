@@ -25,7 +25,7 @@ namespace UserService.DataAccess.Persistence.Repositories.Entities
             var user = await Context.Set<User>().FindAsync(UserId);
             if (project != null && user != null)
             {
-                
+                project.Users ??= new List<User>();
                 project.Users.Add(user);
                 await SaveChangesAsync();
             }

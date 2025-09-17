@@ -23,6 +23,11 @@ class ApiService {
       headers,
     });
 
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            } else {
+                console.log('Ошибка получения данных:', response.status);
     if (!response.ok) {
       if (response.status === 401) {
         logout();
@@ -53,6 +58,9 @@ class ApiService {
       method: 'DELETE',
     });
   }
+        } catch (error) {
+            console.error('Ошибка:', error);
 }
+    };
 
 export const apiService = new ApiService();

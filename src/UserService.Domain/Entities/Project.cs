@@ -14,22 +14,29 @@ namespace UserService.DataAccess.Entities
     public class Project: BaseEntity<Guid>
     {
         public string Name {  get;protected   set; }
+
         public DateTime Created { get; protected set; }
         
         public Guid CreatorId { get; protected set; }
+
+        public virtual ICollection<User> Users { get; set; }
+
         //Owner or creator
         [NotMapped]
         public virtual User Creator { get; protected set; }
-        public virtual ICollection<User> Users { get; protected set; }
+
         public Project() { }
+
         public Project(string name, Guid creatorId)
         {
             this.Name = name;
             CreatorId = creatorId;
             Id = Guid.NewGuid();
             Created = DateTime.Now;
+            Users = new List<User>();
             DomainEvents.Add(new ProjectCreatedEvent(this));
         }
+
         public void Update(string? name,Guid? userid=null)
         {
             bool isUpdated = false;
@@ -46,6 +53,7 @@ namespace UserService.DataAccess.Entities
             if (isUpdated) 
                 DomainEvents.Add(new ProjectUpdatedEvent { Project = this });
         }
+
         public static  Project Create( string name,Guid creatorId)
         {
             return new Project(name, creatorId);

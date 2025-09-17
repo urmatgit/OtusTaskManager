@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Button, Modal, Form, Input, Typography, Row, Col, Menu, Dropdown } from 'antd';
 import { PlusCircleOutlined, DeleteOutlined, EditOutlined, MoreOutlined, UserAddOutlined } from '@ant-design/icons';
 import { getAllProjects, createNewProject, deleteNewProject, updateProject } from '../Services/projectsService';
