@@ -13,6 +13,8 @@ namespace UserService.Business.Application.Users
 {
     public class UserResponse : IDto
     {
+        public Guid Id { get; set; }
+             
         public string UserName { get; set; }
         
 

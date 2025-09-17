@@ -1,4 +1,5 @@
-﻿using MapsterMapper;
+﻿using Mapster;
+using MapsterMapper;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,9 @@ namespace UserService.Business.Application.Users.Queries.GetAll
             
             var result = await _userRepository.GetAllAsync(cancellationToken,asNoTracking: true);
 
-            var users = _mapper.Map<List<UserResponse>>(result);
+            var users = new List<UserResponse>();
+            foreach (var user in result)
+                users.Add(user.Adapt<UserResponse>());
 
             // Сохранение в кэш с настройками
             var cacheOptions = CacheProfiles.ShortLived.ToDistributedCacheEntryOptions();

@@ -1,16 +1,9 @@
 import axios from 'axios';
-
+import  {UserRole} from '../Models/user';
 
 //const API_URL = 'https://localhost:7024/api/auth/';
 const API_URL = 'http://localhost:5191/api/auth/';
 
-// Типы данных
-export enum ProjectRole {
-  User = 1,
-  Admin, 
-  Owner ,
-  Editor
-}
 
 export type RegisterData = {
   FirstName: string;
@@ -19,7 +12,7 @@ export type RegisterData = {
   Email: string;
   Phone: string;
   Password: string;
-  Role: ProjectRole;
+  Role: UserRole;
 };
 
 export type LoginData = {
@@ -34,7 +27,7 @@ export type UserData = {
   Username: string;
   Email: string;
   Phone: string;
-  Role: ProjectRole;
+  Role: UserRole;
   token: string;
   tokenExpiration: string;
 };
@@ -50,7 +43,8 @@ export const register = async (data: RegisterData): Promise<UserData> => {
       const userData: UserData = {
         ...response.data.user,
         token: response.data.token,
-        tokenExpiration: response.data.expiration
+        tokenExpiration: response.data.expiration,
+        Role:response.data.role
       };
       
       localStorage.setItem('user', JSON.stringify(userData));
@@ -93,7 +87,8 @@ export const login = async (data: LoginData): Promise<UserData> => {
       const userData: UserData = {
         ...response.data.user,
         token: response.data.token,
-        tokenExpiration: response.data.expiration
+        tokenExpiration: response.data.expiration,
+        
       };
       
       localStorage.setItem('user', JSON.stringify(userData));
@@ -176,7 +171,7 @@ export const authHeader = (): { Authorization: string } | null => {
 };
 
 // Проверка роли пользователя
-export const hasRole = (role: ProjectRole): boolean => {
+export const hasRole = (role: UserRole): boolean => {
   const user = getCurrentUser();
-  return user?.role === role;
+  return user?.role === role || user?.role == UserRole[role];
 };

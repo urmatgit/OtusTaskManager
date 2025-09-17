@@ -10,6 +10,6 @@ using UserService.DataAccess.Enums;
 
 namespace UserService.Business.Application.Users.Commands.EditUser
 {
-    public record ChangeUserRoleRequest(Guid userid,ProjectRole Role):IRequest<Result<UserResponse>>;
+    public record ChangeUserRoleRequest(Guid userid,ProjectRole newRole):IRequest<Result<UserResponse>>;
     
 }
