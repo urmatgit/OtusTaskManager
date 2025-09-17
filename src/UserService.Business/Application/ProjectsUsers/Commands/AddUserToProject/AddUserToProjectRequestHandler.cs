@@ -30,8 +30,8 @@ namespace UserService.Business.Application.ProjectsUsers.Commands.AddUserToProje
             }
             if (!project.Users.Any(x => x.Id == request.userid))
             {
-                
-                await _projectRepository.AddUserToProjectAsync(request.id, request.userid);
+
+                project= await _projectRepository.AddUserToProjectAsync(request.id, request.userid);
             }
                 return Result<ProjectWithUsersResponse>.Success(_mapper.Map<ProjectWithUsersResponse>(project));
         }

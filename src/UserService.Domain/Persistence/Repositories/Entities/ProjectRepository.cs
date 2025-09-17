@@ -21,10 +21,11 @@ namespace UserService.DataAccess.Persistence.Repositories.Entities
 
         public async Task<Project> AddUserToProjectAsync(Guid id, Guid UserId)
         {
-            var project = await dbSet.FindAsync(id);
+            var project = await dbSet.Include(x=>x.Users).SingleOrDefaultAsync( x=>x.Id==id);
             var user = await Context.Set<User>().FindAsync(UserId);
             if (project != null && user != null)
             {
+                
                 project.Users.Add(user);
                 await SaveChangesAsync();
             }
@@ -53,15 +54,15 @@ namespace UserService.DataAccess.Persistence.Repositories.Entities
                 .AsNoTracking()
                 .Include(x => x.Users)
                 .Where(x => x.Id == id)
-                .SingleAsync();
+                .SingleOrDefaultAsync();
             return quary;
         }
 
         public async Task<Project> RemoveUserFromProjectAsync(Guid id, Guid UserId)
         {
-            var project =await  dbSet.FindAsync(id);
+            var project = await dbSet.Include(x => x.Users).SingleOrDefaultAsync(x => x.Id == id);
             var user = await Context.Set<User>().FindAsync(UserId);
-            if (project!=null && user != null)
+            if (project!=null && user != null && project.Users!=null)
             {
                 project.Users.Remove(user);
                 await SaveChangesAsync();
