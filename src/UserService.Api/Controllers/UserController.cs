@@ -33,7 +33,8 @@ namespace UserService.Api.Controllers
         /// </summary>
         /// <param name="userRoleRequest"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("changerole")]
+        [Authorize("Admin")]
         public async Task<IActionResult> ChangeRoleAsync(ChangeUserRoleRequest userRoleRequest)
         {
             var result = await Mediator.Send(userRoleRequest);
@@ -44,6 +45,7 @@ namespace UserService.Api.Controllers
             return Ok(result.Value);
         }
         [HttpDelete("{id:guid}")]
+        [Authorize("Admin")]
         public async Task<IActionResult> DeleteUserAsync(Guid id)
         {
             var result = await Mediator.Send(new DeleteUserRequest(id));

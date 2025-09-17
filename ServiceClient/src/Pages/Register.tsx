@@ -2,9 +2,10 @@ import { Button, Card, Form, Input, Select } from "antd";
 import { useEffect } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 
-import { register, ProjectRole } from "../Services/authService";
+import { register } from "../Services/authService";
 import { useNotification } from "../Components/NotificationContext";
 import { isAuthenticated } from "../ProtectedRoute";
+import { UserRole } from "../Models/user";
 const { Option } = Select;
 type OutletContext = {
   handleLogin: () => void;
@@ -30,7 +31,7 @@ const Register = () => {
     email: string;
     phone: string;
     password: string;
-    role: ProjectRole;
+    role: UserRole;
   }) => {
     try {
       await register({
@@ -85,7 +86,7 @@ const Register = () => {
         <Form
           form={form}
           name="register"
-          initialValues={{ role: ProjectRole.User }}
+          initialValues={{ role: "User" }}
           onFinish={onFinish}
           autoComplete="off"
           layout="vertical"
@@ -209,10 +210,10 @@ const Register = () => {
             rules={[{ required: true, message: "Пожалуйста, выберите роль!" }]}
           >
             <Select size="large">
-              <Option value={ProjectRole.User}>Пользователь</Option>
-              <Option value={ProjectRole.Admin}>Администратор</Option>
-              <Option value={ProjectRole.Owner}>Владелец</Option>
-              <Option value={ProjectRole.Editor}>Редактор</Option>
+              <Option value={UserRole.User}>Пользователь</Option>
+              {/* <Option value={UserRole.Admin}>Администратор</Option>
+              <Option value={UserRole.Owner}>Владелец</Option>
+              <Option value={UserRole.Editor}>Редактор</Option> */}
             </Select>
           </Form.Item>
 

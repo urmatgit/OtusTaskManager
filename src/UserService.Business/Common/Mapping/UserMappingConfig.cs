@@ -15,11 +15,16 @@ namespace UserService.Business.Common.Mapping
     {
         public void Register(TypeAdapterConfig config)
         {
+            config.NewConfig<BaseEntity<Guid>, UserResponse>()
+                .Map(d => d.Id, s => s.Id);
+            
             config.NewConfig<User, UserResponse>()
                 .Map(dest=>dest.Projects,src=> src.Projects);
 
-                
             
+            
+
+
 
         }
     }

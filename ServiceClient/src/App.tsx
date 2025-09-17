@@ -36,6 +36,11 @@ const menuItems = [
     icon: <BarChartOutlined />,
     label: "KanbanBoard",
   },
+  {
+    key: "/adminpage",
+    icon: <BarChartOutlined />,
+    label: "Пользователи",
+  },
 ];
 
 export const App = () => {

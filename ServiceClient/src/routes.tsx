@@ -8,6 +8,7 @@ import ProjectList from "./Pages/ProjectList";
 import KanbanBoard from "./Pages/KanbanBoard";
 // import { Profile } from "./pages/Profile";
 import { ProtectedRoute } from "./ProtectedRoute";
+import { AdminPage } from "./Pages/AdminPage";
 
 export const router = createBrowserRouter([
   {
@@ -61,6 +62,14 @@ export const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+      },
+      {
+        path: "adminpage",
+        element: (
+          <ProtectedRoute>
+            <AdminPage />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
