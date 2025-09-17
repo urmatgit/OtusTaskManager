@@ -19,6 +19,7 @@ namespace UserService.Business.Common.Mapping
                 .Map(d => d.Id, s => s.Id);
             
             config.NewConfig<User, UserResponse>()
+                .MaxDepth(1)
                 .Map(dest=>dest.Projects,src=> src.Projects);
 
             

@@ -38,14 +38,15 @@ class ApiService {
 
     return response.json();
   }
+}
 
   // User management methods
-  async getUsers(): Promise<User[]> {
+   async getUsers(): Promise<User[]> {
     const response = await this.request<User[]>('/api/user');
     return response;
   }
 
-  async changeUserRole(request: ChangeRoleRequest): Promise<User> {
+   async changeUserRole(request: ChangeRoleRequest): Promise<User> {
     const response = await this.request<User>('/api/user/changerole', {
       method: 'POST',
       body: JSON.stringify(request),
@@ -53,14 +54,10 @@ class ApiService {
     return response;
   }
 
-  async deleteUser(userId: string): Promise<void> {
+   async deleteUser(userId: string): Promise<void> {
     await this.request(`/api/user/${userId}`, {
       method: 'DELETE',
     });
   }
-        } catch (error) {
-            console.error('Ошибка:', error);
 }
-    };
-
 export const apiService = new ApiService();

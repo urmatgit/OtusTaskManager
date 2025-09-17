@@ -44,7 +44,7 @@ export const register = async (data: RegisterData): Promise<UserData> => {
         ...response.data.user,
         token: response.data.token,
         tokenExpiration: response.data.expiration,
-        Role:response.data.role
+        role:response.data.role
       };
       
       localStorage.setItem('user', JSON.stringify(userData));
@@ -88,7 +88,7 @@ export const login = async (data: LoginData): Promise<UserData> => {
         ...response.data.user,
         token: response.data.token,
         tokenExpiration: response.data.expiration,
-        
+        role: response.data.role
       };
       
       localStorage.setItem('user', JSON.stringify(userData));

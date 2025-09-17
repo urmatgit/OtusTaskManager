@@ -23,6 +23,7 @@ namespace UserService.Business.Common.Mapping
                 .Map(dest => dest.Id, src => src.id);
 
             config.NewConfig<Project, ProjectWithUsersResponse>()
+                .Map(d=>d.Users,s=>s.Users)
                 .Map(dest => dest.owner, src => src.CreatorId);
                 
 
