@@ -682,7 +682,7 @@ export enum ProjectRole {
     Admin = 0,
     User = 1,
     Owner = 2,
-    Editor = 3,
+    Moderator = 3,
 }
 
 export class LoginRequest implements ILoginRequest {

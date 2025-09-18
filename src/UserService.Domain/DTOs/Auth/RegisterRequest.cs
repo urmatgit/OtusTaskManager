@@ -15,5 +15,5 @@ namespace UserService.DataAccess.DTOs.Auth
     string Email,
     string Phone,
     string Password,
-    ProjectRole Role = ProjectRole.User);
+    UserRole Role = UserRole.User);
 }

@@ -46,7 +46,7 @@ const LoginPage = () => {
       console.log(error);
       notification.error({
         message: "Ошибка входа",
-        description: error.message,
+        description: "Неверный логин или пароль!",
       });
     }
   };

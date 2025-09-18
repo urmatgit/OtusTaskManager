@@ -22,7 +22,7 @@ namespace UserService.DataAccess.Entities
         /// <summary>
         /// владелец проекта, администратор проекта, пользователь проекта, редактор проекта
         /// </summary>
-        public ProjectRole Role { get; protected set; } = ProjectRole.User;
+        public UserRole Role { get; protected set; } = UserRole.User;
         /// <summary>
         /// активен, отключён
         /// </summary>
@@ -66,7 +66,7 @@ namespace UserService.DataAccess.Entities
             return this;
         }
         public User() { }
-        public User( string username,string firstname,string lastname,string email,string phone,ProjectRole role,string passHash)
+        public User( string username,string firstname,string lastname,string email,string phone,UserRole role,string passHash)
         {
             Id = Guid.NewGuid();
             UserName = username;
@@ -90,11 +90,11 @@ namespace UserService.DataAccess.Entities
             }
             return this;
         }
-        public static User Create(string username, string firstname, string lastname, string email, string phone, ProjectRole role,string passHash)
+        public static User Create(string username, string firstname, string lastname, string email, string phone, UserRole role,string passHash)
         {
             return new User(username, firstname, lastname, email, phone, role,passHash);
         }
-        public User Update(string? username=null, string? firstname = null, string? lastname = null, string? email = null, string? phone = null, ProjectRole? role = null, string? passHash = null)
+        public User Update(string? username=null, string? firstname = null, string? lastname = null, string? email = null, string? phone = null, UserRole? role = null, string? passHash = null)
         {
             bool isUpdated = false;
             if (!string.IsNullOrWhiteSpace(username) && !string.Equals(UserName, username, StringComparison.OrdinalIgnoreCase))

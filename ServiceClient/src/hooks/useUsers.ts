@@ -16,8 +16,8 @@ export const useUsers = () => {
       const userList = await apiService.getUsers();
       setUsers(userList);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch users');
-      message.error('Failed to load users');
+      setError(err instanceof Error ? err.message : 'Не удалось найти пользователей');
+      message.error('Не удалось найти пользователей');
     } finally {
       setLoading(false);
     }
@@ -29,10 +29,10 @@ export const useUsers = () => {
       setUsers(prev => prev.map(user => 
         user.id === userId ? updatedUser : user
       ));
-      message.success('Role updated successfully');
+      message.success('оль успешно обновлена');
       return true;
     } catch (err) {
-      message.error('Failed to update role');
+      message.error('Не удалось обновить роль');
       return false;
     }
   };
@@ -41,9 +41,9 @@ export const useUsers = () => {
     try {
       await apiService.deleteUser(userId);
       setUsers(prev => prev.filter(user => user.id !== userId));
-      message.success('User deleted successfully');
+      message.success('Пользователь успешно удален');
     } catch (err) {
-      message.error('Failed to delete user');
+      message.error('Не удалось удалить пользователя');
     }
   };
 

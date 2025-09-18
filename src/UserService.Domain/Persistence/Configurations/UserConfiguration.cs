@@ -24,7 +24,7 @@ namespace UserService.DataAccess.Persistence.Configurations
             builder.Property(x => x.Role)
                 .HasConversion<string>(
                     r=>r.ToString(),
-                    r=>(ProjectRole)Enum.Parse(typeof(ProjectRole), r))
+                    r=>(UserRole)Enum.Parse(typeof(UserRole), r))
                 .IsRequired();
             builder.Property(x=>x.Status)
                 .HasConversion<string>(

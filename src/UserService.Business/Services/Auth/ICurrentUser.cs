@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserService.DataAccess.Enums;
 
 namespace UserService.Business.Services.Auth
 {
@@ -10,5 +11,6 @@ namespace UserService.Business.Services.Auth
     public interface ICurrentUser
     {
         Guid GetUserId();
+        UserRole GetUserRole();
     }
 }

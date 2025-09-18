@@ -212,8 +212,7 @@ const Register = () => {
             <Select size="large">
               <Option value={UserRole.User}>Пользователь</Option>
               {/* <Option value={UserRole.Admin}>Администратор</Option>
-              <Option value={UserRole.Owner}>Владелец</Option>
-              <Option value={UserRole.Editor}>Редактор</Option> */}
+              <Option value={UserRole.Moderator}>Редактор</Option> */}
             </Select>
           </Form.Item>
 

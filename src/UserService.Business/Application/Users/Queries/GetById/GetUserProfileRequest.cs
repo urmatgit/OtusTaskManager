@@ -6,10 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UserService.DataAccess.Common;
 using UserService.DataAccess.Entities;
-using UserService.DataAccess.Enums;
 
-namespace UserService.Business.Application.Users.Commands.EditUser
+namespace UserService.Business.Application.Users.Queries.GetById
 {
-    public record ChangeUserRoleRequest(Guid userid,UserRole newRole):IRequest<Result<UserResponse>>;
+    public record GetUserProfileRequest(Guid? userId): IRequest<Result<UserResponse>>;
     
 }

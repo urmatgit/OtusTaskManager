@@ -51,7 +51,7 @@ namespace UserService.Business.xUnitTests.Auth
         {
             //Arrage
             var errors = Errors.EmailAlreadyExists;
-            var userRequest = new RegisterRequest("Testuser", "Testuserov", "testuser", "test@user.com", "+77778888999", "test@user!", DataAccess.Enums.ProjectRole.User);
+            var userRequest = new RegisterRequest("Testuser", "Testuserov", "testuser", "test@user.com", "+77778888999", "test@user!", DataAccess.Enums.UserRole.User);
             _mockPublisher.Setup(x => x.Publish(It.IsAny<RegisterRequest>(), CancellationToken.None));
             _userRepositoryMock.Setup(x => x.ExistsAsync(userRequest.Email)).Returns(Task.FromResult(false));
             _userRepositoryMock.Setup(x => x.FindByUserNameAsync(userRequest.Username)).Returns(Task.FromResult(default(User)));
@@ -75,7 +75,7 @@ namespace UserService.Business.xUnitTests.Auth
         {
             //Arrage
             var errors = Errors.EmailAlreadyExists;
-            var userRequest = new RegisterRequest("Testuser", "Testuserov", "testuser", "test@user.com", "+77778888999", "test@user!", DataAccess.Enums.ProjectRole.User);
+            var userRequest = new RegisterRequest("Testuser", "Testuserov", "testuser", "test@user.com", "+77778888999", "test@user!", DataAccess.Enums.UserRole.User);
             _mockPublisher.Setup(x => x.Publish(It.IsAny<RegisterRequest>(), CancellationToken.None));
             _userRepositoryMock.Setup(x => x.ExistsAsync(userRequest.Email)).Returns(Task.FromResult(true));
             _userRepositoryMock.Setup(x => x.FindByUserNameAsync(userRequest.Username)).Returns(Task.FromResult(default(User)));
@@ -96,7 +96,7 @@ namespace UserService.Business.xUnitTests.Auth
         {
             //Arrage
             var errors = Errors.UsernameAlreadyExists;
-            var userRequest = new RegisterRequest("Testuser", "Testuserov", "testuser", "test@user.com", "+77778888999", "test@user!", DataAccess.Enums.ProjectRole.User);
+            var userRequest = new RegisterRequest("Testuser", "Testuserov", "testuser", "test@user.com", "+77778888999", "test@user!", DataAccess.Enums.UserRole.User);
             _mockPublisher.Setup(x => x.Publish(It.IsAny<RegisterRequest>(), CancellationToken.None));
             _userRepositoryMock.Setup(x => x.ExistsAsync(userRequest.Email)).Returns(Task.FromResult(false));
             _userRepositoryMock.Setup(x => x.FindByUserNameAsync(userRequest.Username)).Returns(Task.FromResult(new User()));
@@ -120,7 +120,7 @@ namespace UserService.Business.xUnitTests.Auth
             //arrage
             var userRequest = new LoginRequest("testuser", "test@user!");
             
-            var user = new User(userRequest.Username, $"TestUser_", $"TestUser_", "test@user.com", $"8888888888", DataAccess.Enums.ProjectRole.Admin, $"dafadfadfa");
+            var user = new User(userRequest.Username, $"TestUser_", $"TestUser_", "test@user.com", $"8888888888", DataAccess.Enums.UserRole.Admin, $"dafadfadfa");
              
             _userRepositoryMock.Setup(x => x.FindByUserNameAsync(userRequest.Username)).Returns(Task.FromResult(user));
             _passwordHasher.Setup(x => x.Hash(It.IsAny<string>())).Returns(It.IsAny<string>());
@@ -138,7 +138,7 @@ namespace UserService.Business.xUnitTests.Auth
             //arrage
             var errors = Errors.InvalidCredentials;
             var userRequest = new LoginRequest("testuser", "test@user!");
-            var user = new User(userRequest.Username, $"TestUser_", $"TestUser_", "test@user.com", $"8888888888", DataAccess.Enums.ProjectRole.Admin, $"dafadfadfa");
+            var user = new User(userRequest.Username, $"TestUser_", $"TestUser_", "test@user.com", $"8888888888", DataAccess.Enums.UserRole.Admin, $"dafadfadfa");
             _userRepositoryMock.Setup(x => x.FindByUserNameAsync(userRequest.Username)).Returns(Task.FromResult(default(User)));
             _passwordHasher.Setup(x => x.Hash(It.IsAny<string>())).Returns(It.IsAny<string>());
             _passwordHasher.Setup(x => x.Verify(It.IsAny<string>(), It.IsAny<string>())).Returns(true);

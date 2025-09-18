@@ -41,7 +41,7 @@ namespace UserService.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Projects");
+                    b.ToTable("Projects", (string)null);
                 });
 
             modelBuilder.Entity("UserService.DataAccess.Entities.User", b =>
@@ -105,7 +105,7 @@ namespace UserService.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("UserService.DataAccess.Entities.UserProject", b =>
@@ -123,7 +123,7 @@ namespace UserService.DataAccess.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("UserProject");
+                    b.ToTable("UserProject", (string)null);
                 });
 
             modelBuilder.Entity("UserService.DataAccess.Entities.UserProject", b =>

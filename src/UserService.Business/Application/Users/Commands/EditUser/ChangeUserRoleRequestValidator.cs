@@ -14,7 +14,7 @@ namespace UserService.Business.Application.Users.Commands.EditUser
         {
             RuleFor(x=>x.userid).NotEmpty();
             RuleFor(x => x.newRole).NotEmpty()
-                .Must(r => Enum.IsDefined(typeof(ProjectRole), r))
+                .Must(r => Enum.IsDefined(typeof(UserRole), r))
                 .IsInEnum();
         }
     }

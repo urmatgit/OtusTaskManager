@@ -101,8 +101,7 @@ export const ChangeRoleModal: React.FC<ChangeRoleModalProps> = ({
           <Select placeholder="Select new role">
             <Option value={UserRole.User}>User</Option>
             <Option value={UserRole.Admin}>Admin</Option>
-            <Option value={UserRole.Owner}>Owner</Option>
-            <Option value={UserRole.Editor}>Editor</Option>
+            <Option value={UserRole.Moderator}>Editor</Option>
           </Select>
         </Form.Item>
       </Form>

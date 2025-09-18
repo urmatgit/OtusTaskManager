@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Validations;
 using UserService.Business.Application.Projects.Commands.DeleteProject;
 using UserService.Business.Application.Users.Commands.EditUser;
 using UserService.Business.Application.Users.Queries;
 using UserService.Business.Application.Users.Queries.GetAll;
 using UserService.Business.Application.Users.Queries.GetById;
+using UserService.DataAccess.Common;
 
 namespace UserService.Api.Controllers
 {
@@ -21,7 +24,15 @@ namespace UserService.Api.Controllers
             var result = await Mediator.Send(new GetUsersRequest());
             return Ok(result);
         }
-
+        [HttpGet("profile")]
+        public async Task<IActionResult> GetProfile(Guid? id)
+        {
+            
+           var result = await Mediator.Send(new GetUserProfileRequest(id));
+            if (result.IsFailure)
+                return BadRequest(result.Error);
+            return Ok(result.Value);
+        }
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> ByIdAsync(Guid id)
         {

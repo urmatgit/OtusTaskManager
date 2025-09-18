@@ -1,8 +1,9 @@
 import axios from 'axios';
 import  {UserRole} from '../Models/user';
-
+import type { UserProfile } from "../Models/user";
 //const API_URL = 'https://localhost:7024/api/auth/';
-const API_URL = 'http://localhost:5191/api/auth/';
+const API_URL = 'http://localhost:5191/api/';
+
 
 
 export type RegisterData = {
@@ -35,7 +36,7 @@ export type UserData = {
 // Регистрация пользователя
 export const register = async (data: RegisterData): Promise<UserData> => {
   try {
-    const response = await axios.post(`${API_URL}register`, data);
+    const response = await axios.post(`${API_URL}auth/register`, data);
     
     if (response.data.token) {
       // Успешная регистрация
@@ -74,11 +75,39 @@ export const register = async (data: RegisterData): Promise<UserData> => {
     throw new Error(errorMessage);
   }
 };
-
+export const getProfile=async (): Promise<UserProfile>=>{
+      
+  const config = {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type':'application/json',
+            'Authorization': `Bearer ${getCurrentUser()?.token}` // Assuming a Bearer token
+          }
+        }
+  try {
+    const response = await axios.get<UserProfile>(`${API_URL}User/profile`,config);
+    const resData =response.data;
+    return resData;
+  } catch (error) {
+    let errorMessage = 'Ошибка входа. Проверьте правильность данных.';
+    
+    if (axios.isAxiosError(error)) {
+      if (error.response) {
+        errorMessage = error.response.data.message || errorMessage;
+      } else if (error.request) {
+        errorMessage = 'Ошибка сети - не удалось подключиться к серверу';
+      }
+    }
+    
+    
+    
+    throw new Error(errorMessage);
+  }
+}
 // Авторизация пользователя
 export const login = async (data: LoginData): Promise<UserData> => {
   try {
-    const response = await axios.post(`${API_URL}login`, data);
+    const response = await axios.post(`${API_URL}auth/login`, data);
 
     if (response.data.token) {
       // Успешный вход

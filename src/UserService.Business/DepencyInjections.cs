@@ -73,7 +73,7 @@ namespace UserService.Business
         //}
         services.AddAuthorization(options =>
             {
-                foreach(var role in  Enum.GetNames(typeof(ProjectRole)))
+                foreach(var role in  Enum.GetNames(typeof(UserRole)))
                 {
                     if (role == GlobalConstantes .AdminName)
                     {

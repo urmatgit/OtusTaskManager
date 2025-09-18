@@ -25,7 +25,7 @@ namespace UserService.Business.Application.Users
         /// <summary>
         /// владелец проекта, администратор проекта, пользователь проекта, редактор проекта
         /// </summary>
-        public ProjectRole Role { get; set; } = ProjectRole.User;
+        public UserRole Role { get; set; } = UserRole.User;
         /// <summary>
         /// активен, отключён
         /// </summary>

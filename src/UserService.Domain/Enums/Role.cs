@@ -9,11 +9,10 @@ namespace UserService.DataAccess.Enums
     /// <summary>
     /// владелец проекта, администратор проекта, пользователь проекта, редактор проекта
     /// </summary>
-    public enum  ProjectRole
+    public enum  UserRole
     {
         User=1,
         Admin,
-        Owner,
-        Editor
+        Moderator
     }
 }

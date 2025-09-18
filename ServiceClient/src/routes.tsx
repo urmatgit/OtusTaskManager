@@ -9,6 +9,7 @@ import KanbanBoard from "./Pages/KanbanBoard";
 // import { Profile } from "./pages/Profile";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { AdminPage } from "./Pages/AdminPage";
+import UserProfilePage from "./Pages/UserProfilePage";
 
 export const router = createBrowserRouter([
   {
@@ -47,14 +48,14 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-      //   {
-      //     path: "profile",
-      //     element: (
-      //       <ProtectedRoute>
-      //         <Profile />
-      //       </ProtectedRoute>
-      //     ),
-      //   },
+      {
+        path: "profile",
+        element: (
+          <ProtectedRoute>
+            <UserProfilePage />
+          </ProtectedRoute>
+        ),
+      },
       {
         path: "login",
         element: <LoginPage />,
