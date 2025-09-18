@@ -1,7 +1,7 @@
 ﻿import React, { useEffect, useState } from 'react';
 import { Card, Button, Modal, Form, Input, Typography, Row, Col, Menu, Dropdown } from 'antd';
 import { PlusCircleOutlined, DeleteOutlined, EditOutlined, MoreOutlined, UserAddOutlined } from '@ant-design/icons';
-import { getAllProjects, createNewProject, deleteNewProject, updateProject } from '../Services/projectsService';
+import { getAllProjects, createNewProject, deleteNewProject, updateProject, addUserToProject, deleteUserFromProject, getUsers } from '../Services/projectsService';
 
 // Интерфейс описания проекта
 interface Project {
@@ -9,11 +9,15 @@ interface Project {
   name: string;
   created: string;
   owner: string;
-  participants?: string[];
+  users?: User[];
 }
 
-interface User{
-
+interface User {
+  id: string;
+  userName: string;
+  firstName: string;
+  lastName: string;
+  email: string;
 }
 
 // Основной компонент панели проектов
@@ -25,45 +29,69 @@ const Dashboard: React.FunctionComponent = () => {
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [newOwner, setNewOwner] = useState<string>('');
 
-  // Загрузка всех проектов при монтировании компонента
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const projectsData = await getAllProjects();
-        setProjects(projectsData);
-      } catch (error) {
-        console.error('Ошибка загрузки проектов:', error);
-      }
-    };
+  // Новое состояние для отслеживания всех пользователей
+  const [allUsers, setAllUsers] = useState<User[]>([]);
 
-    fetchProjects();
-  }, []);
+  // Состояния для отображения модальных окон
+  const [selectUserModalOpen, setSelectUserModalOpen] = useState(false);
+  const [manageParticipantsOpen, setManageParticipantsOpen] = useState(false);
 
   // Подтверждение удаления
   const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false);
   const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
 
-  // Новый хук для хранения открытого проекта для управления участниками
-  const [manageParticipantsOpen, setManageParticipantsOpen] = useState(false);
+  // Текущий проект для управления участниками
   const [currentProjectForParticipants, setCurrentProjectForParticipants] = useState<Project | null>(null);
 
+  // Загрузка всех проектов и пользователей при монтировании компонента
+  useEffect(() => {
+    const fetchProjectsAndUsers = async () => {
+      try {
+        const projectsData = await getAllProjects();
+        const usersData = await getUsers(); // Получаем всех пользователей
+        setProjects(projectsData);
+        setAllUsers(usersData); // Устанавливаем пользователей в состоянии
+      } catch (error) {
+        console.error('Ошибка загрузки данных:', error);
+      }
+    };
+
+    fetchProjectsAndUsers();
+  }, []);
+
+  // Обработчик открытия модального окна выбора пользователей
+  const openSelectUserModal = () => {
+    setSelectUserModalOpen(true);
+  };
+
+  // Фильтрация пользователей, которые ещё не состоят в проекте
+  const filteredUsers = allUsers.filter(user => {
+    return !currentProjectForParticipants?.users.some(p => p.id === user.id);
+  });
+
+  // Функция закрытия модального окна
+  const closeSelectUserModal = () => {
+    setSelectUserModalOpen(false);
+  };
+
   // Функционал для обработки добавления и удаления участников
-  const handleRemoveParticipant = (participant: string) => {
+  const handleRemoveParticipant = async (participant: string) => {
     if (currentProjectForParticipants) {
-      // const updatedParticipants = currentProjectForParticipants.participants!.filter((p) => p !== participant);
-      // Отправьте запрос на сервер для обновления участников проекта
-      // Примечание: Необходимо реализовать метод updatedParticipants
-      alert("Участник удалён");
+      deleteUserFromProject(currentProjectForParticipants.id, participant);
+      setManageParticipantsOpen(false);
+      const updatedProjectsList = await getAllProjects();
+      setProjects(updatedProjectsList);
     }
   };
 
   // Генерируем список участников с кнопками удаления
   const renderParticipantsList = () => {
-    if (currentProjectForParticipants && currentProjectForParticipants.participants) {
-      return currentProjectForParticipants.participants.map((participant, index) => (
+    if (currentProjectForParticipants && currentProjectForParticipants.users) {
+      return currentProjectForParticipants.users.map((participant, index) => (
         <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
-          <span style={{ flexGrow: 1 }}>{participant}</span>
-          <Button type="link" danger onClick={() => handleRemoveParticipant(participant)}>
+          <span style={{ flexGrow: 3 }}>{participant.firstName} {participant.lastName}</span>
+          <span style={{ flexGrow: 1 }}>{participant.userName}</span>
+          <Button type="link" danger onClick={() => handleRemoveParticipant(participant.id)}>
             <DeleteOutlined />
           </Button>
         </div>
@@ -137,7 +165,9 @@ const Dashboard: React.FunctionComponent = () => {
   };
 
   // Управление составом участников
-  const manageParticipants = (project: Project) => {
+  const manageParticipants = async (project: Project) => {
+    const updatedProjectsList = await getAllProjects();
+    setProjects(updatedProjectsList);
     setCurrentProjectForParticipants(project);
     setManageParticipantsOpen(true);
   };
@@ -146,6 +176,19 @@ const Dashboard: React.FunctionComponent = () => {
   const showDeleteConfirmation = (project: Project) => {
     setProjectToDelete(project);
     setConfirmDeleteVisible(true);
+  };
+
+  // Обновляем проекты и закрываем модал после добавления пользователя
+  const addUserToProjectHandler = async (projectId: string, userId: string) => {
+    try {
+      await addUserToProject(projectId, userId);
+      const updatedProjectsList = await getAllProjects();
+      setProjects(updatedProjectsList);
+      closeSelectUserModal(); // Закрываем модальное окно
+      setManageParticipantsOpen(false);
+    } catch (error) {
+      console.error('Ошибка добавления пользователя:', error);
+    }
   };
 
   return (
@@ -235,10 +278,31 @@ const Dashboard: React.FunctionComponent = () => {
           footer={null}
         >
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <Button type="primary" /*block onClick={() => addNewParticipant()}*/>
+            <Button type="primary" onClick={openSelectUserModal}>
               <UserAddOutlined /> Добавить участника
             </Button>
             {renderParticipantsList()}
+          </div>
+        </Modal>
+      )}
+
+      {/* Модальное окно выбора пользователей для добавления в проект */}
+      {selectUserModalOpen && filteredUsers && (
+        <Modal
+          title="Добавление участников в проект"
+          visible={selectUserModalOpen}
+          onCancel={closeSelectUserModal}
+          footer={null}
+        >
+          <div style={{ maxHeight: '400px', overflowY: 'scroll' }}>
+            {filteredUsers.map((user) => (
+              <div key={user.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+                <span style={{ flexGrow: 1 }}>{user.userName}: {user.email}</span>
+                <Button type="link" onClick={() => addUserToProjectHandler(currentProjectForParticipants!.id, user.id)}>
+                  <PlusCircleOutlined />
+                </Button>
+              </div>
+            ))}
           </div>
         </Modal>
       )}
