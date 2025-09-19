@@ -14,14 +14,21 @@ namespace RabbitMQ.Connector
             {
                 Uri = new Uri(_connectionString),
                 AutomaticRecoveryEnabled = true,
-                RequestedConnectionTimeout = TimeSpan.FromSeconds(60),
+                RequestedConnectionTimeout = TimeSpan.FromSeconds(60*5),
 #if DEBUG
                 // Отключение Heartbeat при дебаге
                 RequestedHeartbeat = TimeSpan.Zero
 #endif
             };
-
-            return factory.CreateConnection();
+            try
+            {
+                var connection = factory.CreateConnection();
+                return connection;
+            }catch (Exception er)
+            {
+                throw er;
+            }
+            return null;
         }
 
         public string ConnectionString => _connectionString;

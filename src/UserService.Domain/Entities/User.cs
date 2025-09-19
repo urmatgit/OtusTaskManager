@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,12 @@ namespace UserService.DataAccess.Entities
         public string LastName { get; protected set; }
         //Отчество
         public string? Patronymic { get; protected set; }
+        [NotMapped]
+        public string FIO { get
+            {
+                return $"{FirstName} {LastName} {Patronymic}";
+            } 
+        }
         /// <summary>
         /// владелец проекта, администратор проекта, пользователь проекта, редактор проекта
         /// </summary>

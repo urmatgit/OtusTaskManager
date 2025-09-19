@@ -1,6 +1,8 @@
 ﻿using Mapster;
 using MapsterMapper;
 using MediatR;
+using Microsoft.Extensions.Logging;
+using RabbitMq.Connector.Publisher;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,8 @@ using UserService.Business.Application.Projects;
 using UserService.Business.Application.Projects.Commands.UpdateProject;
 using UserService.Business.Application.Users;
 using UserService.DataAccess.Common;
+using UserService.DataAccess.Entities;
+using UserService.DataAccess.Enums;
 using UserService.DataAccess.Persistence.Repositories;
 
 namespace UserService.Business.Application.ProjectsUsers.Commands.AddUserToProject
@@ -18,10 +22,12 @@ namespace UserService.Business.Application.ProjectsUsers.Commands.AddUserToProje
     {
         private readonly IProjectRepository _projectRepository;
         private readonly IMapper _mapper;
-        public AddUserToProjectRequestHandler(IProjectRepository projectRepository, IMapper mapper)
+        private readonly IBrokerPublisher<PublishMassage<User>> _brokerPublisher;
+        public AddUserToProjectRequestHandler(IProjectRepository projectRepository, IMapper mapper, IBrokerPublisher<PublishMassage<User>> brokerPublisher)
         {
             _projectRepository = projectRepository;
             _mapper = mapper;
+            _brokerPublisher = brokerPublisher;
         }
         public async Task<Result<List<UserResponse>>> Handle(AddUserToProjectRequest request, CancellationToken cancellationToken)
         {
@@ -34,6 +40,18 @@ namespace UserService.Business.Application.ProjectsUsers.Commands.AddUserToProje
             {
 
                 project= await _projectRepository.AddUserToProjectAsync(request.id, request.userid);
+                var user = project.Users.SingleOrDefault(x => x.Id == request.userid);
+                if (user != null)
+                {
+                    PublishMassage<User> publishMassage = new DataAccess.Entities.PublishMassage<User>(user, DateTime.Now, MessageAction.Updated,$"User {user.FIO} ({user.Email}) added to project {project.Name}");
+                    await Task.Run(() =>
+                    {
+                        _brokerPublisher?.Publish(publishMassage);
+                    });
+                }
+
+                
+                
             }
             try
             {

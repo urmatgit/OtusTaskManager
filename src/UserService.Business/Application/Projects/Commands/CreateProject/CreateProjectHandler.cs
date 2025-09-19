@@ -38,7 +38,7 @@ namespace UserService.Business.Application.Projects.Commands.CreateProject
             await _projectRepository.AddAsync(project);
             await _projectRepository.SaveChangesAsync();
             
-            await _publisher.Publish(new EntityEvent<Guid>(project, $"Create project"));
+            //await _publisher.Publish(new EntityEvent<Guid>(project, $"Create project"));
             return  Result<ProjectResponse>.Success(_mapper.Map<ProjectResponse>(project));  // new ProjectResponse(project.Id,project.Name,project.Created,project.UserId);
         } 
     }

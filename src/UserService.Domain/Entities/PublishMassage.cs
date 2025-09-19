@@ -25,10 +25,13 @@ namespace UserService.DataAccess.Entities
         /// Действие 
         /// </summary>
         public MessageAction Action { get; set; } = MessageAction.UnKnown;
-        public PublishMassage(T enitity,DateTime raiseon,MessageAction messageAction) { 
+
+        public string Message { get; set; }
+        public PublishMassage(T enitity,DateTime raiseon,MessageAction messageAction,string message="") { 
             Entity = enitity;
             Action = messageAction;
             RaisedOn = raiseon;
+            Message = message;
         }
     }
 }

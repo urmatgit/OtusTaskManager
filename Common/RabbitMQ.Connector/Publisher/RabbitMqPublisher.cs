@@ -55,16 +55,27 @@ public class RabbitMqPublisher<T> : IDisposable, IBrokerPublisher<T> where T : c
         if (_channel == null) return;
 
         ArgumentNullException.ThrowIfNull(entity);
+        try
+        {
+            var settings = JsonSerializerHelper.GetTypeNameHandlingNoneSettings();
+            settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            settings.MaxDepth = 2;
+            
 
-        string message = JsonConvert.SerializeObject(entity, JsonSerializerHelper.GetTypeNameHandlingNoneSettings());
-        byte[] body = Encoding.UTF8.GetBytes(message);
+            string message = JsonConvert.SerializeObject(entity, settings);
+            byte[] body = Encoding.UTF8.GetBytes(message);
 
-        _channel.BasicPublish(exchange: string.Empty,
-            routingKey: _queue,
-            basicProperties: null,
-            body: body);
-
-        _logger.LogDebug("Message publish to RabbitMq queue '{_queue}'.Message: '{body}'", _queue, body);
+            _channel.BasicPublish(exchange: string.Empty,
+                routingKey: _queue,
+                basicProperties: null,
+                body: body);
+            _logger.LogDebug($"Message publish to RabbitMq queue '{_queue}'.Message: '{body}'", _queue, body);
+        }
+        catch (Exception er)
+        {
+            _logger.LogError(er,$"sending message - {entity.ToString()}");
+        }
+        
     }
 
     protected virtual void Dispose(bool disposing)
