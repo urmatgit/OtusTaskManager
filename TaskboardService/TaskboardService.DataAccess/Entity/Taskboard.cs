@@ -36,6 +36,12 @@ namespace TaskboardService.DataAccess.Entity
         public TaskboardStatus Status { get; set; }
 
         /// <summary>
+        /// Флаг последней открытой доски
+        /// </summary>
+        [BsonElement("lastOpened")]
+        public bool LastOpened { get; set; }
+
+        /// <summary>
         /// Список колонок доски
         /// </summary>
         [BsonElement("columns")]

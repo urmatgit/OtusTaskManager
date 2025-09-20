@@ -16,6 +16,8 @@ namespace TaskboardService.Api.Models
         public string Title { get; set; } = string.Empty;
         [JsonProperty("status")]
         public TaskboardStatus Status { get; set; }
+        [JsonProperty("lastOpened")]
+        public bool LastOpened { get; set; }
         [JsonProperty("columns")]
         public List<TaskboardColumnDto> Columns { get; set; } = [];
     }

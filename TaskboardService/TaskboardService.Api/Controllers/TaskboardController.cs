@@ -29,7 +29,7 @@ namespace TaskboardService.Api.Controllers
             var taskboard = new Taskboard() 
             {
                 Id = Guid.NewGuid(),
-                ProjectId = taskboardDto.ProjectId
+                ProjectId = taskboardDto.ProjectId             
             };
             taskboardDto.ToEntity(taskboard);
 

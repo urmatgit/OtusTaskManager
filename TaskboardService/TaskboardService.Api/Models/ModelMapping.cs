@@ -13,6 +13,7 @@ namespace TaskboardService.Api.Models
                 Title = entity.Title,
                 Status = entity.Status,
                 SortOrder = entity.SortOrder,
+                LastOpened = entity.LastOpened,
                 Columns = entity.Columns.Select(c => new TaskboardColumnDto()
                 {
                     Id = c.Id,
@@ -28,6 +29,7 @@ namespace TaskboardService.Api.Models
             entity.Status = dto.Status;
             entity.SortOrder = dto.SortOrder;
             entity.Title = dto.Title;
+            entity.LastOpened = dto.LastOpened;
             return entity;
         }
 

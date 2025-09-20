@@ -18,7 +18,19 @@ namespace TaskboardService.Api
             builder.Services.RegisterDbContext(builder.Configuration);
             builder.Services.RegisterServices();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowReactApp", policy =>
+                {
+                    policy.AllowAnyOrigin()
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+            });
+
             var app = builder.Build();
+
+            app.UseCors("AllowReactApp");
 
             if (app.Environment.IsDevelopment())
             {
