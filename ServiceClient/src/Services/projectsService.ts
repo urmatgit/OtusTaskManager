@@ -1,6 +1,7 @@
 import { getCurrentUser } from "./authService";
 const apiBaseUrl = 'http://localhost:5191/api/project'; // URL вашего Web API
 const userPart = 'http://localhost:5191/api/user'; // URL вашего Web API
+import { signalRService } from '../services/signalRService';
 
 export const getAllProjects = async () => {
         try {

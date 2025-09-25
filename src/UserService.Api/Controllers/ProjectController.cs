@@ -2,13 +2,17 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System.Security.Claims;
+
 using UserService.Business.Application.Projects.Commands.CreateProject;
 using UserService.Business.Application.Projects.Commands.DeleteProject;
 using UserService.Business.Application.Projects.Commands.UpdateProject;
 using UserService.Business.Application.Projects.Queries.GetAll;
 using UserService.Business.Application.Projects.Queries.GetById;
 using UserService.Business.Application.ProjectsUsers.Commands.AddUserToProject;
+using UserService.Business.Application.Users;
+using UserService.DataAccess.Entities;
 
 namespace UserService.Api.Controllers
 {
@@ -16,7 +20,9 @@ namespace UserService.Api.Controllers
     [Authorize]
     public class ProjectController : ApiController
     {
+        
 
+        
         /// <summary>
         /// Получаем все проекты, кроме удаленных
         /// </summary>
@@ -68,8 +74,10 @@ namespace UserService.Api.Controllers
             {
                 return BadRequest(createResponse.Error);
             }
+            
             return Ok(createResponse.Value);
         }
+       
         /// <summary>
         /// Добавить пользователя проекта
         /// </summary>
@@ -84,6 +92,7 @@ namespace UserService.Api.Controllers
             {
                 return BadRequest(createResponse.Error);
             }
+            
             return Ok(createResponse.Value);
         }
         /// <summary>

@@ -1,10 +1,12 @@
-﻿using MediatR;
+﻿using Mapster;
+using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserService.Business.Application.Users;
 using UserService.DataAccess.Common;
 using UserService.DataAccess.Persistence.Repositories;
 
@@ -26,7 +28,7 @@ namespace UserService.Business.Application.Projects.Queries.GetById
             if (project == null) {
                 return Result<ProjectResponse>.Failure($"Project Not found. ({request.id}) ");
             }
-            return Result < ProjectResponse >.Success( new ProjectResponse(project.Id, project.Name, project.Created, project.CreatorId, project.Users));
+            return Result < ProjectResponse >.Success( new ProjectResponse(project.Id, project.Name, project.Created, project.CreatorId, project.Users.Adapt<List<UserResponse>>()));
         }
     }
 }

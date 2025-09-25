@@ -1,10 +1,12 @@
 import { Button, Card, Form, Input, message, Typography } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import { login, getCurrentUser } from "../Services/authService";
+import { login, hasRole, getCurrentUser } from "../Services/authService";
 import { useEffect, useRef } from "react";
 import { useOutletContext } from "react-router-dom";
 import { isAuthenticated } from "../ProtectedRoute";
 import { useNotification } from "../Components/NotificationContext";
+import { signalRService } from "../Services/signalRService";
+import { UserRole } from "../Models/user";
 const { Text, Title } = Typography;
 type OutletContext = {
   handleLogin: () => void;
@@ -35,7 +37,9 @@ const LoginPage = () => {
     try {
       await login(values);
       if (handleLogin !== null) handleLogin();
-
+      if (hasRole(UserRole.Admin)) {
+        signalRService.joinAsAdmin("Admin");
+      }
       notification.success({
         message: "Вход выполнен",
         description: "Добро пожаловать!",

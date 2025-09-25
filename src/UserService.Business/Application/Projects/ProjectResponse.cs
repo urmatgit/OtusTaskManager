@@ -9,6 +9,6 @@ using UserService.DataAccess.Entities;
 
 namespace UserService.Business.Application.Projects
 {
-    public record ProjectResponse(Guid id,string name,DateTime created,Guid owner, ICollection<User>? Users) : IDto;
+    public record ProjectResponse(Guid id,string name,DateTime created,Guid owner, ICollection<UserResponse>? Users) : IDto;
     
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace UserService.DataAccess.Persistence.Data
     public class TaskboardDbInitializer: IDbInitializer
     {
         private readonly TaskboardDbContext _dataContext;
+        
         
 
         public TaskboardDbInitializer(TaskboardDbContext dataContext)
@@ -28,5 +30,6 @@ namespace UserService.DataAccess.Persistence.Data
             }
         
         }
+       
     }
 }

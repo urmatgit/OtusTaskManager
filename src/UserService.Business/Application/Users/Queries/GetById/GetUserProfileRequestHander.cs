@@ -1,5 +1,6 @@
 ﻿using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace UserService.Business.Application.Users.Queries.GetById
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
+        
         public GetUserProfileRequestHander(IUserRepository userRepository,  IMapper mapper,ICurrentUser currentUser)
         {
            

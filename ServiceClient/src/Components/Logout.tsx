@@ -10,9 +10,12 @@ import {
 import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 
 import { useNavigate } from "react-router-dom";
-import { getCurrentUser, logout } from "../Services/authService";
+import { getCurrentUser, logout, hasRole } from "../Services/authService";
 import { useState } from "react";
 import { useNotification } from "../Components/NotificationContext";
+import type { UserRole } from "../Models/user";
+import { signalRService } from "../Services/signalRService";
+
 const { Text } = Typography;
 export const LogoutButton = ({ onLogout }) => {
   const navigate = useNavigate();
@@ -25,6 +28,7 @@ export const LogoutButton = ({ onLogout }) => {
     try {
       await logout();
       await onLogout();
+
       notificationApi.success({
         message: "Выход выполнен",
         description: "Вы успешно вышли из системы",

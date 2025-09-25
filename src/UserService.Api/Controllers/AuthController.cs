@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System.Net.Http;
+
 using UserService.Business.Services.Auth;
 using UserService.DataAccess.Common.Errors;
 using UserService.DataAccess.DTOs.Auth;
@@ -18,6 +20,7 @@ namespace UserService.Api.Controllers
         private readonly IValidator<RegisterRequest> _registerValidator;
         private readonly IValidator<LoginRequest> _loginValidator;
         private readonly ILogger<AuthController> _logger;
+        private readonly IHubContext<ProjectHub> _hubContext;
         public AuthController(IUserAuthService userService,
             IValidator<RegisterRequest> registerValidator,
         IValidator<LoginRequest> loginValidator
@@ -73,6 +76,7 @@ namespace UserService.Api.Controllers
                 return BadRequest(problemDetails);
                 
             }
+            
             return Ok(response.Value);
         }
         /// <summary>

@@ -1,10 +1,13 @@
 ﻿
-using UserService.DataAccess;
-using UserService.Business;
-using UserService.Api.Middlewares;
-using Serilog;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using System.Reflection;
+
+using UserService.Api.Middlewares;
+using UserService.Business;
+
+using UserService.DataAccess;
 
 namespace UserService.Api
 {
@@ -92,7 +95,12 @@ namespace UserService.Api
                                    .AllowAnyMethod();
                         });
                 });
-
+                // Add SignalR
+                builder.Services.AddSignalR();
+                builder.Services.AddResponseCompression(opts =>
+                {
+                    opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/octet-stream" });
+                });
                 builder.Services.AddBusiness(builder.Configuration);
                 builder.Services.AddOpenApiDocument(configure =>
                 {
@@ -117,7 +125,9 @@ namespace UserService.Api
                 app.UseAuthorization();
 
                 app.MapControllers();
-                
+                //signalR
+                app.MapHub<ProjectHub>("/projectHub");
+
                 app.Run();
             }
             catch (Exception ex)

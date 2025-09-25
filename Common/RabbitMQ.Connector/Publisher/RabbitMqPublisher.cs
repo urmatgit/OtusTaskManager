@@ -44,7 +44,7 @@ public class RabbitMqPublisher<T> : IDisposable, IBrokerPublisher<T> where T : c
 
         if (!string.IsNullOrEmpty(exchange))
         {
-            exchangeType ??= ExchangeType.Direct;
+             exchangeType =string.IsNullOrEmpty(exchangeType)? ExchangeType.Direct:exchangeType;
             _channel.ExchangeDeclare(exchange, exchangeType);
             _channel.QueueBind(_queue, exchange, _queue, null);
         }

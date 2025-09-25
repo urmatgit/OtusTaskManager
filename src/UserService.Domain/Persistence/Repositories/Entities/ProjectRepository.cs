@@ -60,6 +60,7 @@ namespace UserService.DataAccess.Persistence.Repositories.Entities
             var quary = await dbSet
                 .AsNoTracking()
                 .Include(x => x.Users)
+
                 .SingleOrDefaultAsync(x => x.Id == id);
             return quary;
         }

@@ -1,31 +1,31 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FluentValidation;
+using Mapster;
+using MapsterMapper;
+using MediatR;
+using MediatR.NotificationPublishers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using RabbitMq.Connector.Publisher;
+using RabbitMQ.Connector;
 using System;
 using System.Collections.Generic;
-using Microsoft.Extensions.Configuration;
+using System.Configuration;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using FluentValidation;
-using System.Configuration;
-using UserService.Business.Services.Auth;
-using UserService.DataAccess.Entities;
-using UserService.DataAccess.Persistence.Repositories;
-using Microsoft.Extensions.Options;
-using UserService.DataAccess.Enums;
-using UserService.DataAccess.Common;
-using System.Reflection;
-using MediatR;
-using MapsterMapper;
-using Mapster;
 using UserService.Business.Common;
-using MediatR.NotificationPublishers;
+using UserService.Business.Services.Auth;
 using UserService.Business.Services.Mail;
-using RabbitMQ.Connector;
-using RabbitMq.Connector.Publisher;
 using UserService.Business.Services.RabbitMQ;
+using UserService.DataAccess.Common;
+using UserService.DataAccess.Entities;
+using UserService.DataAccess.Enums;
+using UserService.DataAccess.Persistence.Data;
+using UserService.DataAccess.Persistence.Repositories;
 
 
 namespace UserService.Business
@@ -47,6 +47,7 @@ namespace UserService.Business
             services.AddMapping();
             
             services.AddConfigureMailing();
+            services.AddScoped<IDbInitializer, BusnessDataInitializer>();
             return services;
         }
         /// <summary>
