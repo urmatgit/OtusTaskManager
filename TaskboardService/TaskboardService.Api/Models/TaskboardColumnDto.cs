@@ -1,16 +1,22 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace TaskboardService.Api.Models
 {
     public class TaskboardColumnDto
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public Guid Id { get; set; }
-        [JsonProperty("sortOrder")]
+        [JsonPropertyName("taskboardId")]
+        public Guid TaskboardId { get; set; }
+        [JsonPropertyName("sortOrder")]
         public float SortOrder { get; set; }
-        [JsonProperty("title")]
+        [JsonPropertyName("title")]
         public string Title { get; set; } = string.Empty;
-        [JsonProperty("vipLimit")]
-        public int VipLimit { get; set; }
+        [JsonPropertyName("headerColor")]
+        public string Color { get; set; } = string.Empty;
+        [JsonPropertyName("wipLimit")]
+        public int WipLimit { get; set; }
+        [JsonPropertyName("tasks")]
+        public List<TaskItemDto> Tasks { get; set; } = [];
     }
 }

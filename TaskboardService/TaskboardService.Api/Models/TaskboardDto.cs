@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 using TaskboardService.DataAccess.Enums;
 
@@ -6,19 +6,19 @@ namespace TaskboardService.Api.Models
 {
     public class TaskboardDto
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public Guid Id { get; set; }
-        [JsonProperty("projectId")]
+        [JsonPropertyName("projectId")]
         public Guid ProjectId { get; set; }
-        [JsonProperty("sortOrder")]
+        [JsonPropertyName("sortOrder")]
         public float SortOrder { get; set; }
-        [JsonProperty("title")]
+        [JsonPropertyName("title")]
         public string Title { get; set; } = string.Empty;
-        [JsonProperty("status")]
+        [JsonPropertyName("status")]
         public TaskboardStatus Status { get; set; }
-        [JsonProperty("lastOpened")]
+        [JsonPropertyName("lastOpened")]
         public bool LastOpened { get; set; }
-        [JsonProperty("columns")]
+        [JsonPropertyName("columns")]
         public List<TaskboardColumnDto> Columns { get; set; } = [];
     }
 }

@@ -19,7 +19,8 @@ namespace TaskboardService.Api.Controllers
         {
             var entity = new TaskboardColumn()
             {
-                Id = Guid.NewGuid()                
+                Id = Guid.NewGuid(),
+                TaskboardId = taskboardId
             };
             columnDto.ToEntity(entity);
             await _taskboardService.AddColumnAsync(taskboardId, entity);
@@ -28,6 +29,16 @@ namespace TaskboardService.Api.Controllers
             return Ok(columnDto);
         }
 
-        
+        [HttpPut("Item/{taskboardId:guid}/{columnId:guid}")]
+        public async Task<IActionResult> UpdateColumnAsync(Guid taskboardId, Guid columnId, [FromBody()] TaskboardColumnDto columnDto)
+        {
+            return Ok();
+        }
+
+        [HttpDelete("Item/{taskboardId:guid}/{columnId:guid}")]
+        public async Task<IActionResult> DeleteColumnAsync(Guid taskboardId, Guid columnId)
+        {
+            return Ok();
+        }
     }
 }

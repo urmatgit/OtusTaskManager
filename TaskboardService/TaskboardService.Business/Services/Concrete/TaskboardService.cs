@@ -16,6 +16,9 @@ namespace TaskboardService.Business.Services.Concrete
 
         public async Task<Taskboard> AddColumnAsync(Guid taskboardId, TaskboardColumn column)
         {
+            column.CreatedDate = DateTime.UtcNow;
+            column.UpdatedDate = DateTime.UtcNow;
+
             var builder = Builders<Taskboard>.Update
                 .Push(tb => tb.Columns, column);
 
@@ -99,7 +102,7 @@ namespace TaskboardService.Business.Services.Concrete
 
             var update = Builders<Taskboard>.Update
                 .Set("columns.$.title", column.Title)
-                .Set("columns.$.vipLimit", column.VipLimit)
+                .Set("columns.$.vipLimit", column.WipLimit)
                 .Set(tb => tb.UpdatedDate, DateTime.UtcNow);
 
             var options = new FindOneAndUpdateOptions<Taskboard>() 

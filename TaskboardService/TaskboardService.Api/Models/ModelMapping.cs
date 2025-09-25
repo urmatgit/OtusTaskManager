@@ -17,9 +17,11 @@ namespace TaskboardService.Api.Models
                 Columns = entity.Columns.Select(c => new TaskboardColumnDto()
                 {
                     Id = c.Id,
+                    TaskboardId = c.TaskboardId,
                     Title = c.Title,
                     SortOrder = c.SortOrder,
-                    VipLimit = c.VipLimit,
+                    WipLimit = c.WipLimit,
+                    Color = c.Color,
                 }).OrderBy(t => t.SortOrder).ToList()
             };
         }
@@ -37,7 +39,9 @@ namespace TaskboardService.Api.Models
         {
             entity.Title = dto.Title;
             entity.SortOrder = dto.SortOrder;
-            entity.VipLimit = dto.VipLimit;
+            entity.WipLimit = dto.WipLimit;
+            entity.SortOrder = dto.SortOrder;
+            entity.Color = dto.Color;
             return entity;
         }
     }
