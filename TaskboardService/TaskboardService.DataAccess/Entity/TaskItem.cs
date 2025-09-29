@@ -35,19 +35,19 @@ namespace TaskboardService.DataAccess.Entity
         /// Наименование задачи
         /// </summary>
         [BsonElement("title")]
-        public required string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
         /// <summary>
         /// описание задачи
         /// </summary>
         [BsonElement("description")]
-        public required string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
         /// <summary>
         /// Срок выполнения задачи
         /// </summary>
         [BsonElement("executionDate")]
-        public required DateTime ExecutionDate { get; set; }
+        public DateTime? ExecutionDate { get; set; }
 
         /// <summary>
         /// Фактический срок выполнения задачи
@@ -60,6 +60,18 @@ namespace TaskboardService.DataAccess.Entity
         /// </summary>
         [BsonElement("priority")]
         public TaskPriority Priority { get; set; }
+
+        /// <summary>
+        /// Прогресс выполнения задачи.
+        /// </summary>
+        [BsonElement("progress")]
+        public int Progress { get; set; }
+
+        /// <summary>
+        /// Цвет заголовка задачи.
+        /// </summary>
+        [BsonElement("headerColor")]
+        public string HeaderColor { get; set; } = string.Empty;
 
         /// <summary>
         /// Постановщик задачи.

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 using TaskboardService.Api.Models;
 using TaskboardService.Business.Services.Abstract;
@@ -32,12 +31,21 @@ namespace TaskboardService.Api.Controllers
         [HttpPut("Item/{taskboardId:guid}/{columnId:guid}")]
         public async Task<IActionResult> UpdateColumnAsync(Guid taskboardId, Guid columnId, [FromBody()] TaskboardColumnDto columnDto)
         {
-            return Ok();
+            var entity = new TaskboardColumn()
+            {
+                Id = columnId,
+                TaskboardId = taskboardId
+            };
+            columnDto.ToEntity(entity);
+
+            await _taskboardService.UpdateColumnAsync(taskboardId, columnId, entity);
+            return Ok(columnDto);
         }
 
         [HttpDelete("Item/{taskboardId:guid}/{columnId:guid}")]
         public async Task<IActionResult> DeleteColumnAsync(Guid taskboardId, Guid columnId)
         {
+            await _taskboardService.DeleteColumnAsync(taskboardId, columnId);
             return Ok();
         }
     }

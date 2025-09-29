@@ -45,9 +45,10 @@ namespace TaskboardService.Business.Services.Abstract
         /// Обновление существующего столбца в доске задач.
         /// </summary>
         /// <param name="taskboardId"></param>
+        /// <param name="columnId"></param>
         /// <param name="column"></param>
         /// <returns></returns>
-        Task<Taskboard> UpdateColumnAsync(Guid taskboardId, TaskboardColumn column);
+        Task<Taskboard> UpdateColumnAsync(Guid taskboardId, Guid columnId, TaskboardColumn column);
         /// <summary>
         /// Удаление столбца из доски задач.
         /// </summary>
@@ -55,13 +56,5 @@ namespace TaskboardService.Business.Services.Abstract
         /// <param name="columnId"></param>
         /// <returns></returns>
         Task<Taskboard> DeleteColumnAsync(Guid taskboardId, Guid columnId);
-        /// <summary>
-        /// Изменение порядка сортировки столбца.
-        /// </summary>
-        /// <param name="taskboardId"></param>
-        /// <param name="columnId"></param>
-        /// <param name="newOrder"></param>
-        /// <returns></returns>
-        Task<Taskboard> ReorderColumnAsync(Guid taskboardId, Guid columnId, float newOrder);
     }
 }

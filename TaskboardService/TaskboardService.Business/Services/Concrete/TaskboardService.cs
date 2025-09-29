@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 using TaskboardService.Business.Services.Abstract;
@@ -73,41 +74,28 @@ namespace TaskboardService.Business.Services.Concrete
         public async Task<List<Taskboard>> GetTaskboardListAsync(Guid projectId)
         {
             return await _taskboards.Find(tb => tb.ProjectId == projectId).SortBy(t => t.SortOrder).ToListAsync();
-        }
+        }        
 
-        public async Task<Taskboard> ReorderColumnAsync(Guid taskboardId, Guid columnId, float newOrder)
+        public async Task<Taskboard> UpdateColumnAsync(Guid taskboardId, Guid columnId, TaskboardColumn column)
         {
             var filter = Builders<Taskboard>.Filter.And(
-                Builders<Taskboard>.Filter.Eq(tb => tb.Id, taskboardId),
-                Builders<Taskboard>.Filter.ElemMatch(tb => tb.Columns, col => col.Id == columnId)
+                Builders<Taskboard>.Filter.Eq(tb => tb.Id, taskboardId)
             );
 
             var update = Builders<Taskboard>.Update
-                .Set("columns.$.sortOrder", newOrder)
-                .Set(tb => tb.UpdatedDate, DateTime.UtcNow);
-
-            var options = new FindOneAndUpdateOptions<Taskboard>()
-            {
-                ReturnDocument = ReturnDocument.After
-            };
-            return await _taskboards.FindOneAndUpdateAsync(filter, update, options);
-        }
-
-        public async Task<Taskboard> UpdateColumnAsync(Guid taskboardId, TaskboardColumn column)
-        {
-            var filter = Builders<Taskboard>.Filter.And(
-                Builders<Taskboard>.Filter.Eq(tb => tb.Id, taskboardId),
-                Builders<Taskboard>.Filter.ElemMatch(tb => tb.Columns, col => col.Id == column.Id)
-            );
-
-            var update = Builders<Taskboard>.Update
-                .Set("columns.$.title", column.Title)
-                .Set("columns.$.vipLimit", column.WipLimit)
+                .Set("columns.$[col].title", column.Title)
+                .Set("columns.$[col].wipLimit", column.WipLimit)
+                .Set("columns.$[col].color", column.Color)
+                .Set("columns.$[col].sortOrder", column.SortOrder)
                 .Set(tb => tb.UpdatedDate, DateTime.UtcNow);
 
             var options = new FindOneAndUpdateOptions<Taskboard>() 
             {
-                ReturnDocument = ReturnDocument.After
+                ReturnDocument = ReturnDocument.After,
+                ArrayFilters = new ArrayFilterDefinition<Taskboard>[]
+                {
+                    new BsonDocument("col._id", new BsonBinaryData(columnId, GuidRepresentation.Standard))
+                }
             };
             return await _taskboards.FindOneAndUpdateAsync(filter, update, options);
         }

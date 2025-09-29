@@ -19,18 +19,26 @@ namespace TaskboardService.Api.Models
         public float SortOrder { get; set; }
 
         [JsonPropertyName("title")]
-        public required string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
         [JsonPropertyName("description")]
-        public required string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
         [JsonPropertyName("executionDate")]
-        public required DateTime ExecutionDate { get; set; }
+        public DateTime? ExecutionDate { get; set; }
 
         [JsonPropertyName("factExecutionDate")]
         public DateTime? FactExecutionDate { get; set; }
 
         [JsonPropertyName("priority")]
         public TaskPriority Priority { get; set; }
+        [JsonPropertyName("progress")]
+        public int Progress {  get; set; }
+        [JsonPropertyName("headerColor")]
+        public string HeaderColor { get; set; } = string.Empty;
+        [JsonPropertyName("comments")]
+        public List<TaskCommentDto> Comments { get; set; } = [];
+        [JsonPropertyName("attachments")]
+        public List<TaskAttachmentDto> Attachments { get; set; } = [];
     }
 }

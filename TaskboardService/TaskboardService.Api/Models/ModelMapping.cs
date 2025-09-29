@@ -14,15 +14,28 @@ namespace TaskboardService.Api.Models
                 Status = entity.Status,
                 SortOrder = entity.SortOrder,
                 LastOpened = entity.LastOpened,
-                Columns = entity.Columns.Select(c => new TaskboardColumnDto()
+                Columns = entity.Columns.Select(col => new TaskboardColumnDto()
                 {
-                    Id = c.Id,
-                    TaskboardId = c.TaskboardId,
-                    Title = c.Title,
-                    SortOrder = c.SortOrder,
-                    WipLimit = c.WipLimit,
-                    Color = c.Color,
-                }).OrderBy(t => t.SortOrder).ToList()
+                    Id = col.Id,
+                    TaskboardId = col.TaskboardId,
+                    Title = col.Title,
+                    SortOrder = col.SortOrder,
+                    WipLimit = col.WipLimit,
+                    Color = col.Color,
+                    Tasks = col.Tasks.Select(t => new TaskItemDto()
+                    {
+                        Id = t.Id,
+                        TaskboardId = t.TaskboardId,
+                        TaskboardColumnId = t.TaskboardColumnId,
+                        Title = t.Title,
+                        Description = t.Description,
+                        Priority = t.Priority,
+                        Progress = t.Progress,
+                        ExecutionDate = t.ExecutionDate,
+                        FactExecutionDate = t.FactExecutionDate,
+                        HeaderColor = t.HeaderColor
+                    }).OrderBy(ti => ti.SortOrder).ToList()
+                }).OrderBy(col => col.SortOrder).ToList()
             };
         }
 
@@ -42,6 +55,20 @@ namespace TaskboardService.Api.Models
             entity.WipLimit = dto.WipLimit;
             entity.SortOrder = dto.SortOrder;
             entity.Color = dto.Color;
+            return entity;
+        }
+
+        public static TaskItem ToEntity(this TaskItemDto dto, TaskItem entity) 
+        {
+            entity.Title = dto.Title;
+            entity.Description = dto.Description;
+            entity.SortOrder = dto.SortOrder;
+            entity.Priority = dto.Priority;
+            entity.ExecutionDate = dto.ExecutionDate;
+            entity.FactExecutionDate = dto.FactExecutionDate;
+            entity.Progress = dto.Progress;
+            entity.HeaderColor = dto.HeaderColor;
+
             return entity;
         }
     }
