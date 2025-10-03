@@ -6,7 +6,7 @@ using System.Reflection;
 
 using UserService.Api.Middlewares;
 using UserService.Business;
-
+using UserService.Business.Services.GRPC;
 using UserService.DataAccess;
 
 namespace UserService.Api
@@ -29,15 +29,18 @@ namespace UserService.Api
                 var builder = WebApplication.CreateBuilder(args);
                 //logger
 
-                
+
 
                 builder.Logging.AddSerilog();
-               
+
                 Log.Information("Starting up");
                 //Handling Validation Exceptions in Pipeline
                 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
                 builder.Services.AddProblemDetails();
                 // Add services to the container.
+                // Добавление gRPC
+                builder.Services.AddGrpc();
+               // builder.Services.AddGrpcReflection();
 
                 builder.Services.AddControllers();
                 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -92,7 +95,16 @@ namespace UserService.Api
                         {
                             builder.AllowAnyOrigin()
                                    .AllowAnyHeader()
-                                   .AllowAnyMethod();
+                                   .AllowAnyMethod()
+                                   .WithExposedHeaders(
+                   "Grpc-Status",
+                   "Grpc-Message",
+                   "Grpc-Encoding",
+                   "Grpc-Accept-Encoding",
+                   "X-Grpc-Web",
+                   "Content-Type"
+               );
+                            ;
                         });
                 });
                 // Add SignalR
@@ -127,7 +139,13 @@ namespace UserService.Api
                 app.MapControllers();
                 //signalR
                 app.MapHub<ProjectHub>("/projectHub");
-
+                // gRPC endpoint
+                app.MapGrpcService<GrpcUserService>()
+                    .RequireCors("AllowAll")
+                    .EnableGrpcWeb(); 
+                //app.MapGrpcReflectionService();  // Enable reflection endpoint
+                // Optional: gRPC-Web for browser clients
+                // app.MapGrpcService<GrpcUserService>().EnableGrpcWeb();
                 app.Run();
             }
             catch (Exception ex)

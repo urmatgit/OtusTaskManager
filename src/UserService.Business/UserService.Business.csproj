@@ -10,6 +10,12 @@
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="FluentValidation" Version="11.11.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.32.1" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.71.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.72.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="MailKit" Version="4.12.1" />
     <PackageReference Include="Mapster" Version="7.4.0" />
     <PackageReference Include="Mapster.DependencyInjection" Version="1.0.1" />
@@ -23,7 +29,9 @@
     <PackageReference Include="StackExchange.Redis" Version="2.9.17" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.7.0" />
   </ItemGroup>
-
+	<ItemGroup>
+		<Protobuf Include="Services\GRPC\user.proto" GrpcServices="Server" />
+	</ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\RabbitMQ.Connector\RabbitMQ.Connector.csproj" />
     <ProjectReference Include="..\UserService.Domain\UserService.DataAccess.csproj" />

@@ -19,6 +19,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UserService.Business.Common;
 using UserService.Business.Services.Auth;
+using UserService.Business.Services.GRPC;
 using UserService.Business.Services.Mail;
 using UserService.Business.Services.RabbitMQ;
 using UserService.DataAccess.Common;
@@ -26,6 +27,7 @@ using UserService.DataAccess.Entities;
 using UserService.DataAccess.Enums;
 using UserService.DataAccess.Persistence.Data;
 using UserService.DataAccess.Persistence.Repositories;
+using UserService.Business.Services.GRPC;
 
 
 namespace UserService.Business
@@ -102,6 +104,10 @@ namespace UserService.Business
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
             services.AddSingleton<IJwtService, JwtService>();
             services.AddTransient<ICurrentUser, CurrentUser>();
+            
+            
+            services.AddScoped<GrpcUserService>();
+
             services.AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                 {

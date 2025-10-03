@@ -210,7 +210,7 @@ const Register = () => {
             rules={[{ required: true, message: "Пожалуйста, выберите роль!" }]}
           >
             <Select size="large">
-              <Option value={UserRole.User}>Пользователь</Option>
+              <Option value={UserRole.User}>User</Option>
               {/* <Option value={UserRole.Admin}>Администратор</Option>
               <Option value={UserRole.Moderator}>Редактор</Option> */}
             </Select>
